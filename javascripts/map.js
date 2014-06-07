@@ -4,8 +4,14 @@ var lon;
 
 function initialize() {
 	if (navigator.geolocation) {
+		// オプション・パラメータをセット
+		var position_options = {
+			enableHighAccuracy: true,    // 高精度を要求する
+			timeout: 60000,              // 最大待ち時間（ミリ秒）
+			maximumAge: 0                // キャッシュ有効期間（ミリ秒）
+		};
 		// 現在の位置情報を取得
-		navigator.geolocation.watchPosition(successCallback,errorCallback);
+		navigator.geolocation.watchPosition(successCallback,errorCallback,position_options);
 	} else {
     window.alert("本ブラウザではGeolocationが使えません");
     }
