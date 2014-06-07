@@ -165,7 +165,7 @@ Lined Time:<input type="text" name="jsonStorageLined" id="jsonStorageLined" widt
 	});
 	// 読み込みボタンクリック
 	$('#jsonStorageGet').click(function(){
-		var k = $('#jsonStorageGet').val();
+		var k = $('#jsonStorageKeyInput').val();
 		// キーが空白でなければ読み込み
 		if(k!=''){
 			var jsonObj = JSON.parse(localStorage[k]);
