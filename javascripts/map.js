@@ -22,7 +22,7 @@ function successCallback(position) {
 	lon = Number(lon2);
 	var latlng = new google.maps.LatLng(lat2,lon2);
 	var opts = {
-			zoom: 13,
+			zoom: 16,
 			center: latlng,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			mapTypeControl: false
