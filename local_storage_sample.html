@@ -34,7 +34,7 @@
 
 <p>接続ごとに有効なStorage。もちろん"接続ごと"なので同一ページであってもタブや別ウィンドウは別セッション＝Storageの領域は共有できない。</p>
 
-<p>
+<p id="sessionStorageInputFields">
 KEY:<input type="text" name="sessionStorageKeyInput" id="sessionStorageKeyInput" width="100"/> <br/>
 VALUE:<input type="text" name="sessionStorageValueInput" id="sessionStorageValueInput" width="100"/>　
 <input type="button" name="sessionStorageAdd" id="sessionStorageAdd" value="書き込み"/>
@@ -58,12 +58,18 @@ Session Storage (自動更新):
 	$('#sessionStorageRemove').click(function(){
 		var k = $('#sessionStorageKeyInput').val();
 		// キーがあれば削除
-		if(k!='') sessionStorage.removeItem(k);
+		if(k!=''){
+			sessionStorage.removeItem(k);
+			// テキストボックスの値を空白に
+			$('#sessionStorageInputFields>:text').val('');
+		}
 	});
 	// 全削除
 	$('#sessionStorageClear').click(function(){
 		// キーがあれば削除
 		sessionStorage.clear();
+		// テキストボックスの値を空白に
+		$('#sessionStorageInputFields>:text').val('');
 	});
 	// storageのデータをtargetにDump
 	function storage_dump(storage,target) {
@@ -71,6 +77,7 @@ Session Storage (自動更新):
 		if(storage.length > 0) {
 			preField.text("");
 			$.each(storage, function(index){
+				// 全データの列挙はkeyメソッドでインデクスからキー名に変換するのね。
 				preField.html(preField.html() + storage.key(index) + ":" + storage[storage.key(index)]+"<br/>");
 			});
 		}
@@ -85,9 +92,10 @@ Session Storage (自動更新):
         <h3>
 <a name="LocalStorage-Sample" class="anchor" href="#LocalStorage-Sample"><span class="octicon octicon-link"></span></a>Local Storageサンプル</h3>
 
-<p>サイトごとに有効なStorage。ただしサイト全体で同一領域を共有するため、別ページや別ウィンドウでの操作に注意する必要あり。</p>
+<p>サイトごとに有効なStorage。ただしサイト全体で同一領域を共有するため、別ページや別ウィンドウでの操作も影響します。注意する必要あり。</p>
 
-<p>KEY:<input type="text" name="localStorageKeyInput" id="localStorageKeyInput" width="100"/> <br/>
+<p id="localStorageInputFields">
+KEY:<input type="text" name="localStorageKeyInput" id="localStorageKeyInput" width="100"/> <br/>
 VALUE:<input type="text" name="localStorageValueInput" id="localStorageValueInput" width="100"/>
 <input type="button" name="localStorageAdd" id="localStorageAdd" value="書き込み"/>
 <input type="button" name="localStorageRemove" id="localStorageRemove" value="キー削除"/>
@@ -109,12 +117,19 @@ Local Storage Values（自動更新）:
 	$('#localStorageRemove').click(function(){
 		var k = $('#localStorageKeyInput').val();
 		// キーがあれば削除
-		if(k!='') localStorage.removeItem(k);
+		if(k!=''){
+			localStorage.removeItem(k);
+			// テキストボックスの値を空白に
+			$('#localStorageInputFields>:text').val('');
+		}
 	});
 	// 全削除
-	$('#sessionStorageClear').click(function(){
-		// キーがあれば削除
+	$('#localStorageClear').click(function(){
+		// 全削除
 		localStorage.clear();
+		// テキストボックスの値を空白に
+		$('#localStorageInputFields>:text').val('');
+		$('#jsonStorageInputFields>:text').val('');
 	});
 	//500ミリ秒ごとにlocalStorageをdump
 	setInterval("storage_dump(localStorage, 'localStorageValueField')",500);
@@ -122,7 +137,55 @@ Local Storage Values（自動更新）:
 
         <h3>
 <a name="StoreJSON-Sample" class="anchor" href="#StoreJSON-Sample"><span class="octicon octicon-link"></span></a>JSON オブジェクトサンプル</h3>
-<p>JSON使って"オブジェクト"を保存するサンプル(準備中)</p>
+<p>JSON使って"オブジェクト"を保存するサンプル。データはLocalStorageに保存してます。</p>
+<p id="jsonStorageInputFields">
+KEY:<input type="text" name="jsonStorageKeyInput" id="jsonStorageKeyInput" width="100"/> <br/>
+User Name:<input type="text" name="jsonStorageUserName" id="jsonStorageUserName" width="100"/> <br/>
+Comment:<input type="text" name="jsonStorageComment" id="jsonStorageComment" width="100"/> <br/>
+Today's Target:<input type="text" name="jsonStorageTarget" id="jsonStorageTarget" width="100"/> <br/>
+Lined Time:<input type="text" name="jsonStorageLined" id="jsonStorageLined" width="100"/> <br/>
+<input type="button" name="jsonStorageAdd" id="jsonStorageAdd" value="書き込み"/>
+<input type="button" name="jsonStorageGet" id="jsonStorageGet" value="読み込み"/>
+<input type="button" name="jsonStorageRemove" id="jsonStorageRemove" value="キー削除"/>
+</p>
+<script type="text/javascript">
+	// 書き込みボタンクリック
+	$('#jsonStorageAdd').click(function(){
+		var k = $('#jsonStorageKeyInput').val();
+		// キーが空白でなければ書き込み
+		if(k!='') {
+			var jsonObj = {
+				name : $('#jsonStorageUserName').val(),
+				comment : $('#jsonStorageComment').val(),
+				target : $('#jsonStorageTarget').val(),
+				lined : $('#jsonStorageLined').val()
+			};
+			localStorage.setItem(k, JSON.stringify(jsonObj));
+		}
+	});
+	// 読み込みボタンクリック
+	$('#jsonStorageGet').click(function(){
+		var k = $('#jsonStorageGet').val();
+		// キーが空白でなければ読み込み
+		if(k!=''){
+			var jsonObj = JSON.parse(localStorage[k]);
+			
+			if(jsonObj["name"]) $('#jsonStorageUserName').val(jsonObj.name);
+			if(jsonObj["comment"]) $('#jsonStorageComment').val(jsonObj.comment);
+			if(jsonObj["target"]) $('#jsonStorageTarget').val(jsonObj.target);
+			if(jsonObj["lined"]) $('#jsonStorageLined').val(jsonObj.lined);
+		}
+	});
+	// 削除ボタンクリック
+	$('#jsonStorageRemove').click(function(){
+		var k = $('#jsonStorageKeyInput').val();
+		// キーがあれば削除
+		if(k!=''){
+			localStorage.removeItem(k);
+			$('#jsonStorageInputFields>:text').val('');
+		}
+	});
+</script>
         <h3>
 <a name="MultiLine-Sample" class="anchor" href="#MultiLine-Sample"><span class="octicon octicon-link"></span></a>複数行サンプル</h3>
 <p>JSONの配列を利用して複数レコードを保存するサンプル(準備中)</p>
