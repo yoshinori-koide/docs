@@ -116,8 +116,8 @@ Local Storage Values（自動更新）:
 		// キーがあれば削除
 		localStorage.clear();
 	});
-	// 1000ミリ秒ごとにsessionStorageをdump
-	//setInterval("storage_dump(localStorage, 'localStorageValueField')",1000);
+	//500ミリ秒ごとにlocalStorageをdump
+	setInterval("storage_dump(localStorage, 'localStorageValueField')",500);
 </script>
 
         <h3>
