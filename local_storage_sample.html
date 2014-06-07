@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>WebStorage Sample</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>HTML5 WebStorage API のSample</h1>
+      </header>
+
+    <div class="wrapper">
+      <nav>
+        <ul><a href="#SessionStorage-Sample">Session Storageサンプル</a></ul>
+        <ul><a href="#LocalStorage-Sample">Local Storageサンプル</a></ul>
+        <ul><a href="#JSONStorage-Sample">JSON オブジェクトサンプル</a></ul>
+        <ul><a href="#MultiLine-Sample">複数行トサンプル</a></ul>
+        <ul><sub>headerの位置かsectionの位置を指定するcssがおかしいのでnavのリンクの飛び位置の描画位置がずれてるやん。。。</sub></ul>
+      </nav>
+      <section>
+        <h3>
+<a name="SessionStorage-Sample" class="anchor" href="#SessionStorage-Sample"><span class="octicon octicon-link"></span></a>Session Storageサンプル</h3>
+
+<p>接続ごとに有効なStorage。もちろん"接続ごと"なので同一ページであってもタブや別ウィンドウは別セッション＝Storageの領域は共有できない。</p>
+
+<p>
+KEY:<input type="text" name="sessionStorageKeyInput" id="sessionStorageKeyInput" width="100"/> <br/>
+VALUE:<input type="text" name="sessionStorageValueInput" id="sessionStorageValueInput" width="100"/>　
+<input type="button" name="sessionStorageAdd" id="sessionStorageAdd" value="書き込み"/>
+<input type="button" name="sessionStorageRemove" id="sessionStorageRemove" value="キー削除"/>
+<input type="button" name="sessionStorageClear" id="sessionStorageClear" value="全削除"/>
+</p>
+
+<div id="sessionStorageValueField">
+Session Storage (自動更新):
+<pre>no data...</pre>
+</div>
+
+<script type="text/javascript">
+	// 書き込みボタンクリック
+	$('#sessionStorageAdd').click(function(){
+		var k = $('#sessionStorageKeyInput').val();
+		// キーが空白でなければ書き込み
+		if(k!='') sessionStorage.setItem(k, $('#sessionStorageValueInput').val());
+	});
+	// 削除ボタンクリック
+	$('#sessionStorageRemove').click(function(){
+		var k = $('#sessionStorageKeyInput').val();
+		// キーがあれば削除
+		if(k!='') sessionStorage.removeItem(k);
+	});
+	// 全削除
+	$('#sessionStorageClear').click(function(){
+		// キーがあれば削除
+		sessionStorage.clear();
+	});
+	// storageのデータをtargetにDump
+	function storage_dump(storage,target) {
+		var preField = $("#"+target+">pre");
+		if(storage.length > 0) {
+			preField.text("");
+			$.each(storage, function(index){
+				preField.html(preField.html() + storage.key(index) + ":" + storage[storage.key(index)]+"<br/>");
+			});
+		}
+		else {
+			preField.text("no data...");
+		}
+	};
+	// 500ミリ秒ごとにsessionStorageをdump
+	setInterval("storage_dump(sessionStorage, 'sessionStorageValueField')",500);
+</script>
+
+        <h3>
+<a name="LocalStorage-Sample" class="anchor" href="#LocalStorage-Sample"><span class="octicon octicon-link"></span></a>Local Storageサンプル</h3>
+
+<p>サイトごとに有効なStorage。ただしサイト全体で同一領域を共有するため、別ページや別ウィンドウでの操作に注意する必要あり。</p>
+
+<p>KEY:<input type="text" name="localStorageKeyInput" width="100"/> <br/>
+VALUE:<input type="text" name="localStorageValueInput" width="100"/>
+<input type="button" name="localStorageAdd" value="書き込み"/>
+<input type="button" name="localStorageRemove" value="キー削除"/>
+<input type="button" name="localStorageClear" value="全削除"/>
+</p>
+<div id="localStorageValueField">
+Local Storage Values（自動更新）:
+<pre>no data...</pre>
+</div>
+
+<script type="text/javascript">
+	// 書き込みボタンクリック
+	$('#localStorageAdd').click(function(){
+		var k = $('#localStorageKeyInput').val();
+		// キーが空白でなければ書き込み
+		if(k!='') localStorage.setItem(k, $('#localStorageValueInput').val());
+	});
+	// 削除ボタンクリック
+	$('#localStorageRemove').click(function(){
+		var k = $('#localStorageKeyInput').val();
+		// キーがあれば削除
+		if(k!='') localStorage.removeItem(k);
+	});
+	// 全削除
+	$('#sessionStorageClear').click(function(){
+		// キーがあれば削除
+		localStorage.clear();
+	});
+	// 1000ミリ秒ごとにsessionStorageをdump
+	//setInterval("storage_dump(localStorage, 'localStorageValueField')",1000);
+</script>
+
+        <h3>
+<a name="StoreJSON-Sample" class="anchor" href="#StoreJSON-Sample"><span class="octicon octicon-link"></span></a>JSON オブジェクトサンプル</h3>
+<p>JSON使って"オブジェクト"を保存するサンプル(準備中)</p>
+        <h3>
+<a name="MultiLine-Sample" class="anchor" href="#MultiLine-Sample"><span class="octicon octicon-link"></span></a>複数行サンプル</h3>
+<p>JSONの配列を利用して複数レコードを保存するサンプル(準備中)</p>
+
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/2014Camp-pro">2014Camp-pro</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
