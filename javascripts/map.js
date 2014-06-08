@@ -18,7 +18,7 @@ function initialize() {
 	// （1）位置情報の取得に成功した場合
 function successCallback(position) {
 	count++;
-	if(count >= 1){
+	if(count = 1){
 		var lat2 = position.coords.latitude ;
 		var lon2 = position.coords.longitude ;
 		var location ="<li>"+"緯度：" + lat2 + "</li>";
