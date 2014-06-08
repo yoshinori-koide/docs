@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>2014DevCamp PRO Team Site by 2014Camp-pro</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <script src="javascripts/detemine.js"></script> 
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Google Maps APIを読み込む -->
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCcrhdnh9RPdxkAzL40AnDm9_EkqX-14vg&sensor=true">
+    </script>
+  </head>
+  <body>
+
+      <header>
+        <h1>二地点の距離計測 Sample</h1>
+      </header>
+
+    <div class="wrapper">
+      <nav>
+        <ul>
+          <li><a href="index.html">TOP</a></li>
+          <li><a href="get_position_sample.html">位置情報取得サンプル</a></li>
+          <li><a href="local_storage_sample.html">WebStorage API のサンプル</a></li>
+          <li><a href="determine_the_distance_sample.html">二地点の距離計測サンプル</a></li>
+        </ul>
+      </nav>
+      <section style="height: auto;">
+        <div>
+          <h3>二地点の緯度経度を入力して距離を計測</h3>
+          <form name="form1" id="form1">
+            <h4>地点1</h4>
+            <label for="lat1">緯度</label> <input type="text" name="lat1" id="lat1" value="" /><br />
+            <label for="lng1">経度</label> <input type="text" name="lng1" id="lng1" value="" /><br />
+            <br />
+            <h4>地点2</h4>
+            <label for="lat2">緯度</label> <input type="text" name="lat2" id="lat2" value="" /><br />
+            <label for="lng2">経度</label> <input type="text" name="lng2" id="lng2" value="" /><br />
+            <br />
+            <input type="button" value="計測" onclick="getDistance()" />
+            <input type="button" value="クリア" onclick="clearForm()" />
+          </form>
+          <br />
+          <h3>距離: <span id="result1"></span></h3>
+        </div>
+        <hr />
+        <table>
+          <tr>
+            <td>場所</td>
+            <td>緯度</td>
+            <td>経度</td>
+            <td colspan="2">地点に設定する</td>
+          </tr>
+        <tr>
+          <td>横浜駅</td>
+          <td id="inputLat1">35.466188</td>
+          <td id="inputLng1">139.622715</td>
+          <td><input type="button" onclick="setPosition(1,1)" value="地点1" /></td>
+          <td><input type="button" onclick="setPosition(2,1)" value="地点2" /></td>
+        </tr>
+        <tr>
+          <td>原宿駅</td>
+          <td id="inputLat2">35.670216</td>
+          <td id="inputLng2">139.702660</td>
+          <td><input type="button" onclick="setPosition(1,2)" value="地点1" /></td>
+          <td><input type="button" onclick="setPosition(2,2)" value="地点2" /></td>
+        </tr>
+        <tr>
+          <td>表参道駅</td>
+          <td id="inputLat3">35.665247</td>
+          <td id="inputLng3">139.712314</td>
+          <td><input type="button" onclick="setPosition(1,3)" value="地点1" /></td>
+          <td><input type="button" onclick="setPosition(2,3)" value="地点2" /></td>
+        </tr>
+        <tr>
+          <td><input type="text" value="" id="keyword" placeholder="任意の場所を指定"><input type="button" value="検索" id="mapSearch" onclick="searchMap()"></td>
+          <td id="inputLat4"></td>
+          <td id="inputLng4"></td>
+          <td><input type="button" onclick="setPosition(1,4)" value="地点1" /></td>
+          <td><input type="button" onclick="setPosition(2,4)" value="地点2" /></td>
+        </tr>
+        </table>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/2014Camp-pro">2014Camp-pro</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
