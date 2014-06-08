@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SkyWey WebRTC</title>
+<script src="http://ngw.jp/~tato/lib/jquery/jquery-1.11.0.min.js"></script>
+<script src="https://skyway.io/dist/0.3/peer.js"></script>
+<script>
+	var listurl = 'https://skyway.io/active/list/';
+	var counturl = 'https://skyway.io/active/count/';
+	var apikey = 'cc6f5bfa-ec91-11e3-8c36-09d78563cbeb';
+	var localhostapikey = '6165842a-5c0d-11e3-b514-75d3313b9d05';
+	var peer = new Peer({key: apikey});
+	
+	$(function(){
+		peer.on('open', function(id){
+			console.log('peer: ', peer);
+			
+			console.log('My peer ID is: ' + id);
+			// /active/list/のテスト
+			$.get(
+				listurl + apikey,
+				function(list){
+					console.log('/active/list/: ', list);
+					res.innerHTML 
+						+= '<hr><h4>このページに接続してるアクティブなPeerIDリスト</h4>'
+						+ '/active/list/: ' + JSON.stringify(list);
+				}
+			);
+			
+			// /active/count/のテスト
+			$.get(
+				counturl + apikey,
+				function(data){
+					console.log('/active/count/: ', data);
+					res.innerHTML 
+						 += '<hr><h4>接続数</h4>'
+						 + '/active/count/: ' + JSON.stringify(data);
+	      		}
+	      	);
+      
+  		});
+	});
+</script>
+</head>
+<body>
+<h1>RestApi</h1>
+<div id = res></div>
+</body>
+</html>
