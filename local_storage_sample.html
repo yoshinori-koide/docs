@@ -214,7 +214,7 @@ ffff,gggg,hhhh,iiiii</textarea> <br/>
 				record : []
 			};
 			// 改行＆カンマで分割してjsonObj.recordにジャグ配列を突っ込む
-			$.each($('#multiLineStorageRecords').text().split(/\r?\n/), function(index,val){
+			$.each($('#multiLineStorageRecords').val().split(/\r?\n/), function(index,val){
 				jsonObj.record[index] = val.split(/,/);
 			});
 			localStorage.setItem(k, JSON.stringify(jsonObj));
