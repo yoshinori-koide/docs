@@ -188,8 +188,64 @@ Lined Time:<input type="text" name="jsonStorageLined" id="jsonStorageLined" widt
 </script>
         <h3>
 <a name="MultiLine-Sample" class="anchor" href="#MultiLine-Sample"><span class="octicon octicon-link"></span></a>複数行サンプル</h3>
-<p>JSONの配列を利用して複数レコードを保存するサンプル(準備中)</p>
-
+<p>
+JSONの配列を利用して複数レコードを保存するサンプル。
+jsonでは配列は1次元配列の組み合わせ（ジャグ配列）なので各配列要素数が異なっても構わない。
+また、配列の値がオブジェクトでも構わない。（上記と組み合わせてOK）
+もちろん配列の値のオブジェクトが配列の値を持っていても構わない。割と、何でも入る。（値を取得するプログラムがそれだけ複雑になるのでめんどくさいだけ）
+</p>
+<p id="multiLineStorageInputFields">
+KEY:<input type="text" name="multiLineStorageKeyInput" id="multiLineStorageKeyInput" width="100" value="multiRecordSample"/> <br/>
+RECORDS : <textarea name="multiLineStorageRecords" id="multiLineStorageRecords" width="100" height="100">
+aaaa,bbbb,ccccc
+dddd,eeee
+ffff,gggg,hhhh,iiiii</textarea> <br/>
+<input type="button" name="multiLineStorageAdd" id="multiLineStorageAdd" value="書き込み"/>
+<input type="button" name="multiLineStorageGet" id="multiLineStorageGet" value="読み込み"/>
+<input type="button" name="multiLineStorageRemove" id="multiLineStorageRemove" value="キー削除"/>
+</p>
+<script type="text/javascript">
+	// 書き込みボタンクリック
+	$('#multiLineStorageAdd').click(function(){
+		var k = $('#multiLineStorageKeyInput').val();
+		// キーが空白でなければ書き込み
+		if(k!='') {
+			var jsonObj = {
+				record : []
+			};
+			// 改行＆カンマで分割してjsonObj.recordにジャグ配列を突っ込む
+			$.each($('#multiLineStorageRecords').text().split(/\r?\n/), function(index,val){
+				jsonObj.record[index] = val.split(/,/);
+			});
+			localStorage.setItem(k, JSON.stringify(jsonObj));
+		}
+	});
+	// 読み込みボタンクリック
+	$('#multiLineStorageGet').click(function(){
+		var k = $('#multiLineStorageKeyInput').val();
+		// キーが空白でなければ読み込み
+		if(k!=''){
+			var jsonObj = JSON.parse(localStorage[k]);
+			if(jsonObj) {
+				var $textarea = $('#multiLineStorageRecords');
+				$textarea.val('');
+				$.each(jsonObj.record, function(index, val) {
+					$textarea.val(
+						$textarea.val() + val.join(',') + "\n");
+				});
+			}
+		}
+	});
+	// 削除ボタンクリック
+	$('#multiLineStorageRemove').click(function(){
+		var k = $('#multiLineStorageKeyInput').val();
+		// キーがあれば削除
+		if(k!=''){
+			localStorage.removeItem(k);
+			$('#multiLineStorageInputFields>:text').val('');
+		}
+	});
+</script>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/2014Camp-pro">2014Camp-pro</a></p>
