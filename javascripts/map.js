@@ -40,17 +40,17 @@ function successCallback(position) {
 			map: map
 		});
 	}else{
-		var lat2 = position.coords.latitude ;
-		var lon2 = position.coords.longitude ;
-		var location ="<li>"+"緯度：" + lat2 + "</li>";
-		location += "<li>"+"経度：" + lon2 + "</li>";
+		var lat3 = position.coords.latitude ;
+		var lon3 = position.coords.longitude ;
+		var location ="<li>"+"緯度：" + lat3 + "</li>";
+		location += "<li>"+"経度：" + lon3 + "</li>";
 		location += "<li>"+"方角：" + position.coords.heading + "</li>";
 		location += "<li>"+"速度：" + position.coords.speed + "</li>";
 		location += "<li>"+"呼び出し回数：" + count + "</li>";
 		document.getElementById("location").innerHTML = location;
-		var latlng = new google.maps.LatLng(lat2,lon2);
+		var latlng2 = new google.maps.LatLng(lat3,lon3);
 		var marker = new google.maps.Marker({
-			position: latlng,
+			position: latlng2,
 			map: map
 		});
 	}
