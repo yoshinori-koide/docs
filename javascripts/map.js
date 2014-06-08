@@ -1,5 +1,5 @@
-var lat;
-var lon;
+var map;
+var count = 0;
 
 
 function initialize() {
@@ -17,28 +17,43 @@ function initialize() {
     }
 	// （1）位置情報の取得に成功した場合
 function successCallback(position) {
-	var lat2 = position.coords.latitude ;
-	var lon2 = position.coords.longitude ;
-	var location ="<li>"+"緯度：" + lat2 + "</li>";
-	location += "<li>"+"経度：" + lon2 + "</li>";
-	location += "<li>"+"方角：" + position.coords.heading + "</li>";
-	location += "<li>"+"速度：" + position.coords.speed + "</li>";
-	document.getElementById("location").innerHTML = location;
-	lat = Number(lat2);
-	lon = Number(lon2);
-	var latlng = new google.maps.LatLng(lat2,lon2);
-	var opts = {
-			zoom: 16,
-			center: latlng,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			mapTypeControl: false
-	};
-	var map = new google.maps.Map(document.getElementById("map_canvas"), opts);
-
-	var marker = new google.maps.Marker({
-		position: latlng,
-		map: map
-	});
+	count++;
+	if(count >= 1){
+		var lat2 = position.coords.latitude ;
+		var lon2 = position.coords.longitude ;
+		var location ="<li>"+"緯度：" + lat2 + "</li>";
+		location += "<li>"+"経度：" + lon2 + "</li>";
+		location += "<li>"+"方角：" + position.coords.heading + "</li>";
+		location += "<li>"+"速度：" + position.coords.speed + "</li>";
+		location += "<li>"+"呼び出し回数：" + count + "</li>";
+		document.getElementById("location").innerHTML = location;
+		var latlng = new google.maps.LatLng(lat2,lon2);
+		var opts = {
+				zoom: 13,
+				center: latlng,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				mapTypeControl: false
+		};
+		map = new google.maps.Map(document.getElementById("map_canvas"), opts);
+		var marker = new google.maps.Marker({
+			position: latlng,
+			map: map
+		});
+	}else{
+		var lat2 = position.coords.latitude ;
+		var lon2 = position.coords.longitude ;
+		var location ="<li>"+"緯度：" + lat2 + "</li>";
+		location += "<li>"+"経度：" + lon2 + "</li>";
+		location += "<li>"+"方角：" + position.coords.heading + "</li>";
+		location += "<li>"+"速度：" + position.coords.speed + "</li>";
+		location += "<li>"+"呼び出し回数：" + count + "</li>";
+		document.getElementById("location").innerHTML = location;
+		var latlng = new google.maps.LatLng(lat2,lon2);
+		var marker = new google.maps.Marker({
+			position: latlng,
+			map: map
+		});
+	}
 }
   // （2）位置情報の取得に失敗した場合
 function errorCallback(error) {
