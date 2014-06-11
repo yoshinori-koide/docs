@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Place searches</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 200px;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&language=jp&types=establishment"></script>
+    <script>
+var map;
+var infowindow;
+
+function initialize() {
+  var pyrmont = new google.maps.LatLng(35.670168,139.702687);
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), {
+    center: pyrmont,
+    zoom: 15
+  });
+
+  var request = {
+    location: pyrmont,
+    radius: 500,
+    types: ['establishment']
+  };
+  infowindow = new google.maps.InfoWindow();
+  var service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
+}
+
+function callback(results, status) {
+	var storeListUl = $('#store_list');
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      storeListUl.append('<tr><td>'+results[i].name+'</td><td>'+results[i].geometry.location.k+'</td><td>'+results[i].geometry.location.A+'</td></tr>')
+      createMarker(results[i]);
+    }
+  }
+}
+
+function createMarker(place) {
+  var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location
+  });
+
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.setContent(place.name);
+    infowindow.open(map, this);
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+     <style>
+      #searchTextField {
+        width: 200px;
+      }
+     </style>
+     <input id="searchTextField" type="text" name="store_search" />
+     <script type="text/javascript">
+       function initialize() {
+         var input = document.getElementById( 'searchTextField');
+           var options = {
+           };
+           autocomplete = new google.maps.places.Autocomplete( input, options);
+       }
+       google.maps.event.addDomListener( window, 'load', initialize);
+     </script>
+    <table id="store_list">
+    </table>
+  </body>
+</html>
