@@ -1,0 +1,71 @@
+/*
+We highly recommend you use SASS and write your custom styles in sass/_custom.scss.
+However, this blank file is available if you prefer
+*/
+
+/**** COMMON ****/
+*{
+  font-family: "Open Sans";
+}
+.btn-widthmax {
+  width: 100%;
+}
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  margin-bottom: -26px;
+  margin-top: -80px;
+  padding-top: 80px;
+}
+
+/**** HEADER ****/
+.navbar {
+  background-color: #09A5EE;
+}
+.navbar ul {
+  background-color: #09A5EE;
+}
+.navbar a.toggle {
+  background-color: #09A5EE;
+  border: 1px solid #FFFFFF;
+}
+.navbar a.toggle:hover {
+  background-color: #2882AC;
+}
+.navbar a.toggle.active {
+  background-color: #045D86;
+}
+.navbar ul li > a {
+  text-shadow: none;
+}
+.gumby-no-touch .navbar ul li:hover > a {
+  background-color: #2882AC;
+}
+.gumby-touch .navbar ul li.active > a {
+  background-color: #045D86;
+}
+.navbar .logo a img {
+  width: 180px;
+  margin-top: 5px;
+}
+
+/**** FOOTER ****/
+.footer {
+  height: 26px;
+  background-color: #09A5EE;
+  color: #FFFFFF;
+}
+.footer-fix {
+  height: 25px;
+}
+
+/**** TOP ****/
+.navbar.navbar-top {
+  height: 0;
+  min-height: 0;
+  margin:0;
+}
+.wrapper.wrapper-top {
+  margin-top: 0px;
+  padding-top: 0px;
+}
