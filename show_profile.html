@@ -39,52 +39,6 @@
   <link rel="stylesheet" href="css/custom.css">
 
   <script src="js/libs/modernizr-2.6.2.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
-  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&language=jp&types=establishment"></script>
-  <script>
-    var map;
-    var infowindow;
-    function initialize() {
-      var pyrmont = new google.maps.LatLng(35.670168,139.702687);
-      map = new google.maps.Map(document.getElementById('map-canvas'), {
-        center: pyrmont,
-        zoom: 15
-      });
-      var request = {
-        location: pyrmont,
-        radius: 500,
-        types: ['establishment']
-      };
-      infowindow = new google.maps.InfoWindow();
-      var service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, callback);
-      var input = document.getElementById( 'searchTextField');
-      var options = {};
-      autocomplete = new google.maps.places.Autocomplete( input, options);
-    }
-    function callback(results, status) {
-      var storeListUl = $('#store_list');
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-          storeListUl.append('<tr><td><a class="table-link" href="chat.html">'+results[i].name+'</a></td></tr>')
-          createMarker(results[i]);
-        }
-      }
-    }
-    function createMarker(place) {
-      var placeLoc = place.geometry.location;
-      var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-      });
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.setContent(place.name);
-        infowindow.open(map, this);
-      });
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
- </script>
 </head>
 
 <style>
@@ -96,11 +50,6 @@
   .smallify { font-size: 13px; }
   .modal h2, .modal .btn { margin: 5% 0 20px; }
   .ttip.example { float: left; background: #eee; border: 1px dotted #ccc; padding: 20px; }
-  html, body, #map-canvas {
-    height: 200px;
-    margin: 0 0 10px;
-    padding: 0px
-  }
 </style>
 
 <body>
@@ -153,20 +102,26 @@
 
 
   <!--{コンテンツ ここから}-->
-    <div class="twelve columns">
-      <div id="map-canvas"></div>
-      <ul>
-        <li class="append field">
-          <input id="searchTextField" type="text" name="store_search" class="xwide text input" />
-          <div class="medium primary btn">
-            <a href="#">GO</a>
-          </div>
-        </li>
-      </ul>
-      <table id="store_list" class="striped rounded">
-        <tbody>
-        </tbody>
-      </table>
+    <div class="twelve columns profile">
+      <div class="four columns image rounded">
+        <img src="img/noimage.png">
+      </div>
+      <div class="field">
+        <h3>UserA</h3>
+        <span>30代</span> / 
+        <span>男性</span> / 
+        <span>東京都</span>
+        <p class="comment">
+          カレーのためなら24時間並べます
+        </p>
+      </div>
+      <div class="field storedata">
+        <h4 class="storetype">現在並んでいるお店</h4>
+        <p class="storename">Eggs'n Things原宿店</p>
+        <h4 class="storetype">過去に並んだお店</h4>
+        <p class="storename">ギャレットポップコーン原宿店</p>
+        <p class="storename">フライングタイガー・コペンハーゲン</p>
+      </div>
     </div>
   <!--{コンテンツ ここまで}-->
 

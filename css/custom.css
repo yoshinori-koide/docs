@@ -6,6 +6,7 @@ However, this blank file is available if you prefer
 /**** COMMON ****/
 *{
   font-family: "Open Sans";
+  font-weight: normal;
 }
 .btn-widthmax {
   width: 100%;
@@ -16,6 +17,17 @@ However, this blank file is available if you prefer
   margin-bottom: -26px;
   margin-top: -80px;
   padding-top: 80px;
+}
+a {
+  display: block;
+  width: 100%;
+  color: #3085d6;
+}
+a:hover {
+  color: #5b9ede;
+}
+.display-inline {
+  display: inline;
 }
 
 /**** HEADER ****/
@@ -68,4 +80,133 @@ However, this blank file is available if you prefer
 .wrapper.wrapper-top {
   margin-top: 0px;
   padding-top: 0px;
+}
+
+/**** PROFILE ****/
+.field-profile {
+  margin-bottom: 10px;
+}
+.picker-profile {
+  width: 100%;
+}
+.picker-profile select {
+  width: 100%;
+}
+.picker-profile:after {
+  right:2%;
+}
+.btn-profile {
+  font-weight: normal;
+  color: #FFFFFF;
+}
+.profile {
+  text-align: center;
+}
+.profile img {
+  width: 70%;
+}
+.profile .comment {
+  text-align: center;
+}
+.profile .storedata {
+  border-top: 1px solid #E3E3E3;
+  text-align: left;
+  padding-top: 10px;
+}
+.profile .storedata .storetype {
+  font-size: 20px;
+}
+.profile .storedata .storename {
+  text-indent: 10px;
+}
+
+/**** CHAT ****/
+.row.chat-timeline {
+  position: fixed;
+  bottom: 155px;
+}
+.chat-timeline-wrapper{
+  overflow-y: scroll;
+}
+.chat {
+  margin-bottom: 0;
+}
+.chat .user {
+  float: left;
+  margin-right: 10px;
+  text-align: center;
+  width: 20%;
+}
+.chat .user img{
+  width: 80%;
+}
+.chat .user .photo {
+  line-height: 0;
+}
+.chat .user .name {
+  font-size: 14px;
+}
+.chat .msg {
+  font-size: 14px;
+  margin-left: 25%;
+  padding: 10px;
+  position: relative;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #E3E3E3;
+}
+.chat .msg::after {
+  left: -15px;
+  border-width: 0px 20px 10px 0;
+  content: "";
+  position: absolute;
+  top: 5px;
+  bottom: auto;
+  border-style: solid;
+  display: block;
+  width: 0;
+  border-color: transparent #E3E3E3;
+}
+.chat.me .user {
+  float: right;
+  margin-left: 10px;
+  margin-right: 0;
+}
+.chat.me .msg {
+  margin-right: 25%;
+  margin-left: 0;
+  background: #09A5EE;
+  color: #FFFFFF;
+}
+.chat.me .msg::after {
+  left: inherit;
+  right: -15px;
+  border-width: 0px 0px 10px 20px;
+  border-color: transparent #09A5EE;
+}
+.chat .msg time {
+  display: block;
+  font-size: 10px;
+  line-height: 12px;
+}
+.row.chatsend {
+  background-color: #FFFFFF;
+  border-top: 1px solid #E3E3E3;
+  padding-top: 10px;
+  position: fixed;
+  bottom: 26px;
+}
+.chatsend textarea {
+  width: 80%;
+}
+.chatsend .btn-send {
+  float: right;
+  margin: 68px 0 0;
+  width: 15%;
+}
+.chatsend .btn-send button {
+  font-size: 13px;
+  padding: 5px 0;
+  width: 100%;
 }

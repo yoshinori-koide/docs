@@ -95,22 +95,70 @@
   </header>
   <!--{共通ヘッダー ここまで}-->
   <div class="wrapper">
-  <div class="row">
 
 
 
 
 
   <!--{コンテンツ ここから}-->
-    <div class="twelve columns image rounded">
+  <div class="row chat-timeline">
+    <div class="chat-timeline-wrapper">
+      <div class="twelve columns">
+        <ul>
+          <li class="field chat">
+            <div class="user">
+              <a href="show_profile.html" class="photo"><img src="img/noimage.png"></a>
+              <a href="show_profile.html" class="name">UserA</a>
+            </div>
+            <p class="msg">
+              <time>2014-06-20 09:00:00</time>
+              行列なう
+            </p>
+          </li>
+  
+          <li class="field chat">
+            <div class="user">
+              <a href="show_profile.html" class="photo"><img src="img/noimage.png"></a>
+              <a href="show_profile.html" class="name">UserB</a>
+            </div>
+            <p class="msg">
+              <time>2014-06-20 09:01:00</time>
+              行列なう
+            </p>
+          </li>
+  
+          <li class="field chat me">
+            <div class="user">
+              <a href="show_profile.html" class="photo"><img src="img/noimage.png"></a>
+              <a href="show_profile.html" class="name">katagiri</a>
+            </div>
+            <p class="msg">
+              <time>2014-06-20 09:0:00</time>
+              行列なう
+            </p>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
+  <div class="row chatsend">
+    <div class="twelve columns">
+      <ul>
+        <li class="field">
+          <div class="medium metro rounded success btn btn-send">
+            <button>送信</button>
+          </div>
+          <textarea class="input textarea" placeholder="コメント" rows="3"></textarea>
+        </li>
+      </ul>
+    </div>
+  </div>
   <!--{コンテンツ ここまで}-->
 
 
 
 
 
-  </div>
   <div class="footer-fix"></div>
   </div>
   <!--{共通フッター ここから}-->
