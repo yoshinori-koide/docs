@@ -95,27 +95,62 @@
   </header>
   <!--{共通ヘッダー ここまで}-->
   <div class="wrapper">
-  <div class="row">
 
 
 
 
 
   <!--{コンテンツ ここから}-->
+  <div class="row page-header">
     <div class="twelve columns">
-      <h3 style="text-align: center;">チェックアウトしました</h3>
-      <br />
+      <h3><i class="icon-pencil"></i> プロフィール登録</h3>
     </div>
+  </div>
+  <div class="row">
     <div class="twelve columns">
-      <div class="large metro rounded primary btn btn-widthmax"><a href="index.html">TOPへ戻る</a></div>
+      <form>
+        <ul>
+            <li class="field"><input name="name" class="xxwide text input" type="text" placeholder="ユーザー名"></li>
+            <li class="field-profile">
+                <input name="sex" value="1" type="radio" id="radio1"><label class="display-inline" for="radio1"> 男性</label>
+                <input name="sex" value="2" type="radio" id="radio2"><label class="display-inline" for="radio2"> 女性</label>
+                <input name="sex" value="3" type="radio" id="radio3"><label class="display-inline" for="radio3"> その他</label>
+            </li>
+            <li class="field">
+              <div class="picker picker-profile">
+                <select>
+                  <option value="#">住んでいるところ</option>
+                  <option value="#">EXTERMINATE</option>
+                </select>
+              </div>
+            </li>
+            <li class="field">
+              <div class="picker picker-profile">
+                <select>
+                  <option value="#">年代</option>
+                  <option value="#">EXTERMINATE</option>
+                </select>
+              </div>
+            </li>
+            <li class="field">
+              <button class="medium metro rounded success btn btn-widthmax btn-profile"><i class="icon-picture"></i> 写真をアップロード</button>
+            </li>
+            <li class="field">
+              <textarea class="input textarea" placeholder="コメント" rows="3"></textarea>
+            </li>
+            <li class="field">
+              <div class="large metro rounded primary btn btn-widthmax"><a href="chat.html"><i class="icon-check"></i> 保存して始める</a></div>
+            </li>
+          </ul>
+      </form>
     </div>
+  </div>
   <!--{コンテンツ ここまで}-->
 
 
 
 
 
-  </div>
   <div class="footer-fix"></div>
   </div>
   <!--{共通フッター ここから}-->

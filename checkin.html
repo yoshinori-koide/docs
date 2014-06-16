@@ -67,7 +67,7 @@
       var storeListUl = $('#store_list');
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
-          storeListUl.append('<tr><td><a class="table-link" href="chat.html">'+results[i].name+'</a></td></tr>')
+          storeListUl.append('<tr><td><a class="table-link" href="new_profile.html">'+results[i].name+'</a></td></tr>')
           createMarker(results[i]);
         }
       }
@@ -159,7 +159,7 @@
         <li class="append field">
           <input id="searchTextField" type="text" name="store_search" class="xwide text input" />
           <div class="medium primary btn">
-            <a href="#">GO</a>
+            <a href="new_profile.html">GO</a>
           </div>
         </li>
       </ul>

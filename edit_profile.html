@@ -95,48 +95,59 @@
   </header>
   <!--{共通ヘッダー ここまで}-->
   <div class="wrapper">
-  <div class="row">
 
 
 
 
 
   <!--{コンテンツ ここから}-->
+  <div class="row page-header">
     <div class="twelve columns">
-      <form>
+      <h3><i class="icon-pencil"></i> プロフィール編集</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="twelve columns edit-profile">
+      <div class="image rounded">
+        <img src="img/noimage.png">
+      </div>
+      <div>
+        <h4>katagiri</h4>
+        <a href="#">写真を変更する</a>
+      </div>
+      <form class="edit-profile-form">
         <ul>
-            <li class="field"><input name="name" class="xxwide text input" type="text" placeholder="ユーザー名"></li>
-            <li class="field-profile">
-                <input name="sex" value="1" type="radio" id="radio1"><label class="display-inline" for="radio1"> 男性</label>
-                <input name="sex" value="2" type="radio" id="radio2"><label class="display-inline" for="radio2"> 女性</label>
-                <input name="sex" value="3" type="radio" id="radio3"><label class="display-inline" for="radio3"> その他</label>
-            </li>
-            <li class="field">
-              <div class="picker picker-profile">
-                <select>
-                  <option value="#">住んでいるところ</option>
-                  <option value="#">EXTERMINATE</option>
-                </select>
-              </div>
-            </li>
-            <li class="field">
-              <div class="picker picker-profile">
-                <select>
-                  <option value="#">年代</option>
-                  <option value="#">EXTERMINATE</option>
-                </select>
-              </div>
-            </li>
-            <li class="field">
-              <button class="medium metro rounded success btn btn-widthmax btn-profile"><i class="icon-picture"></i> 写真をアップロード</button>
-            </li>
-            <li class="field">
-              <textarea class="input textarea" placeholder="コメント" rows="3"></textarea>
-            </li>
-            <li class="field">
-              <div class="large metro rounded primary btn btn-widthmax"><a href="chat.html"><i class="icon-check"></i> 保存して始める</a></div>
-            </li>
-          </ul>
+          <li class="field-profile">
+            <input name="sex" value="1" type="radio" id="radio1"><label class="display-inline" for="radio1"> 男性</label>
+            <input name="sex" value="2" type="radio" id="radio2"><label class="display-inline" for="radio2"> 女性</label>
+            <input name="sex" value="3" type="radio" id="radio3"><label class="display-inline" for="radio3"> その他</label>
+          </li>
+          <li class="field">
+            <div class="picker picker-profile">
+              <select>
+                <option value="#">住んでいるところ</option>
+                <option value="#">EXTERMINATE</option>
+              </select>
+            </div>
+          </li>
+          <li class="field">
+            <div class="picker picker-profile">
+              <select>
+                <option value="#">年代</option>
+                <option value="#">EXTERMINATE</option>
+              </select>
+            </div>
+          </li>
+          <li class="field">
+            <button class="medium metro rounded success btn btn-widthmax btn-profile"><i class="icon-picture"></i> 写真をアップロード</button>
+          </li>
+          <li class="field">
+            <textarea class="input textarea" placeholder="コメント" rows="3"></textarea>
+          </li>
+          <li class="field">
+            <div class="large metro rounded primary btn btn-widthmax"><a href="chat.html"><i class="icon-check"></i> 保存して始める</a></div>
+          </li>
+        </ul>
       </form>
     </div>
   <!--{コンテンツ ここまで}-->
