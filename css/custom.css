@@ -232,3 +232,11 @@ a:hover {
   padding: 5px 0;
   width: 100%;
 }
+
+/**** RANKING ****/
+.ranking tbody tr td {
+  font-size: 14px;
+}
+.ranking .content-name {
+  width: 260px;
+}
