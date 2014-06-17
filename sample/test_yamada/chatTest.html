@@ -115,9 +115,6 @@
 			var userObj = localStorage.getItem(meObj.user_id);
 			c.send(userObj);
 		}
-		
-		
-	  	connectedPeers[c.peer] = 1;
 	}
 	
 	// ページ遷移時、peerIdが変更されてしまうため再接続
