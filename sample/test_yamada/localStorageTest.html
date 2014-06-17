@@ -9,8 +9,8 @@
 <script>
 	$('#createdata').click(function(){
 		var jsonObj = {
-			id : $('#val1').val(),
-			val: $('#val2').val()
+			"id" : $('#val1').val(),
+			"val" : $('#val2').val()
 		}
 		
 		localStorage.setItem($('#id').val(), JSON.stringify(jsonObj));
