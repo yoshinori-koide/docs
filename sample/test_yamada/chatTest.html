@@ -137,15 +137,14 @@
 		      	
 		      	c.on('open', function() {
 					connect(c);
-				});
+			});
 				
-				c.on('error', function(err) { alert(err); });
-				var f = peer.connect(requestedPeer, { label: 'file', reliable: true });
-				f.on('open', function() {
-					connect(f);
-				});
-				f.on('error', function(err) { alert(err); });
-		    });
+			c.on('error', function(err) { alert(err); });
+			var f = peer.connect(requestedPeer, { label: 'file', reliable: true });
+			f.on('open', function() {
+				connect(f);
+			});
+			f.on('error', function(err) { alert(err); });
 		}
 		
 		// チャット出力処理
