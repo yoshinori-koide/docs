@@ -51,8 +51,8 @@
 			}
 			
 			/*
-				接続したUser情報をstoreに追加
-				接続しました？ポップアップかチャットで出力
+			接続したUser情報をstoreに追加
+			接続しました？ポップアップかチャットで出力
 			*/
 		
 			$('.filler').hide();
@@ -61,7 +61,7 @@
 			c.on('data', function(data) {
 			      messages.append('<div><span class="peer">' + c.peer + '</span>: ' + data + '</div>');
 			      /*
-			      	必要であれば、取得したメッセージをローカルストレージに保存
+		      		必要であれば、取得したメッセージをローカルストレージに保存
 			      */
 			});
 
@@ -133,6 +133,14 @@
 			}
 		localStorage.setItem("me", JSON.stringify(meObj));
 		
+		var activeList;
+		$.get(
+			"https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb",
+			function(list){
+				activeList = list;	
+			}
+		);
+		
 		var meObj = JSON.parse(localStorage.getItem("me"));
 		var storeObj = JSON.parse(localStorage.getItem(meObj.store_id));
 		var userArray = storeObj.user_ids.split(",");
@@ -146,7 +154,7 @@
 		      	});
 		      	
 		      	c.on('open', function() {
-					connect(c);
+				connect(c);
 			});
 				
 			c.on('error', function(err) { alert(err); });
