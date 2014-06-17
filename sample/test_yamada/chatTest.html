@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
 <meta http-equiv="Content-Language" content="en-us"> 
 
-// <link href="fancy.css" rel="stylesheet" type="text/css">
+<!-- <link href="fancy.css" rel="stylesheet" type="text/css"> -->
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
@@ -73,7 +73,7 @@
 				
 				// delete connectedPeers[c.peer];
 				
-				<!--
+				/*
 				// チェックアウト時に使おう
 				var meObj = JSON.parse(localStorage.getItem("me"));
 				var storeObj = JSON.parse(localStorage.getItem(meObj.store_id));
@@ -88,7 +88,7 @@
 				}
 				
 				//ログアウトしました
-				-->
+				*/
 				
 			});
 		} else if (c.label === 'file') {
@@ -162,7 +162,7 @@
 			e.stopPropagation();
 		}
 
-		<!--
+		/*
 		// Connect処理はチェックイン画面で行う
 		// Connect to a peer
 		$('#connect').click(function() {
@@ -188,9 +188,9 @@
 		    }
 		    connectedPeers[requestedPeer] = 1;
 		});
-		-->
+		*/
 
-		<!--
+		/*
 		// Checkoutの処理はどこで行うの？
 			下記処理を追加する必要がある
 			localStorage内のチャットデータを削除
@@ -201,7 +201,7 @@
 				c.close();
 		    });
 		});
-		-->
+		*/
 		
 		// Send a chat message to all active connections.
 		$('#send').submit(function(e) {
@@ -222,7 +222,7 @@
 		    $('#text').focus();
 	  	});
 
-		<!--
+		/*
 		// Goes through each active peer and calls FN on its connections.
 		function eachActiveConnection(fn) {
 			var actives = $('.active');
@@ -241,7 +241,7 @@
 				checkedIds[peerId] = 1;
 			});
 		}
-		-->
+		*/
 		
 		function eachActiveConnection(fn) {
 			var meObj = JSON.parse(localStorage.getItem("me");
