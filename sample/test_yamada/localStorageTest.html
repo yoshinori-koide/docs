@@ -27,11 +27,11 @@
 		
 		$('#testeach').click(function(){
 			var targetObj = JSON.parse(localStorage.getItem($('#id').val()));
-			var resultView = $('<div></div>').addClass('view').addClass('getValues');
+			// var resultView = $('<div></div>').addClass('view').addClass('getValues');
 			
 			targetObj.val1.each(function(){
 				var resultValue = $(this);
-				resultView.append(resultValue);
+				$('#view').append(resultValue);
 			})
 		});
 	});
