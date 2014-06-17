@@ -248,7 +248,7 @@
 			var userArray = storeObj.user_ids.split(",");
 			
 			for(var index in userArray){
-				var userObj = JSON.parse(localStorage.getItem(userArray[index]);
+				var userObj = JSON.parse(localStorage.getItem(userArray[index]));
 				fn(connectedPeers[userArray[index]]);
 			}
 		}
