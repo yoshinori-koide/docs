@@ -32,6 +32,11 @@
 				alert(arrayValue[index]);	
 			}
 		});
+		
+		$('#viewadd').click(function(){
+			var addValue = $('<div></div').append('<p></p>').append($('#addText').val());
+			$('#view').append(addValue);
+		});
 	});
 </script>
 
@@ -43,7 +48,10 @@
 <input type ="text" id ="val2"/><br/>
 <input class ="button" type ="button" value ="saveLocalStorage" id ="createdata"/>
 <input class ="button" type ="button" value ="getarrayValue" id ="getarrayValue"/>
-<input type="button" name="jsonStorageAdd" id="jsonStorageAdd" value="書き込み"/>
+<input type="button" name="jsonStorageAdd" id="jsonStorageAdd" value="書き込み"/><br/><br/>
+
+<input type ="text" id ="addText"/><br/>
+<input type = "button" id ="viewadd"/><br/>
 
 <div id ="view">
 </div>
