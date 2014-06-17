@@ -31,9 +31,9 @@
 			
 			var arrayValue = targetObj.val1.split(",");
 			
-			arrayValue.each(function(index){
-				alert(arrayValue[index]);
-			});
+			for(var index in arrayValue){
+				alert(arrayValue[index]);	
+			}
 		});
 	});
 </script>
