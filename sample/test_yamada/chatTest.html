@@ -155,7 +155,7 @@
 			});
 				
 			c.on('error', function(err) { alert(err); });
-			var f = peer.connect(requestedPeer, { label: 'file', reliable: true });
+			var f = peer.connect(userObj.peer_id, { label: 'file', reliable: true });
 			f.on('open', function() {
 				connect(f);
 			});
