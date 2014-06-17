@@ -29,8 +29,11 @@
 			var targetObj = JSON.parse(localStorage.getItem($('#id').val()));
 			// var resultView = $('<div></div>').addClass('view').addClass('getValues');
 			
-			$.each(function(targetObj.val1, index){
-				alert(targetObj.val1[index]);
+			var loopMax = targetObj.val1.length;
+			
+			for(i = 0; i < loopMax; i++){
+				alert(targetObj.val1[i]);
+			}
 		});
 	});
 </script>
