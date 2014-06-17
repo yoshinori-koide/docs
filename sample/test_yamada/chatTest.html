@@ -24,10 +24,10 @@
 		debug: 3,
 
 		// Set a logging function:
-		logFunction: function() {
+		/* logFunction: function() {
 			var copy = Array.prototype.slice.call(arguments).join(' ');
 			$('.log').append(copy + '<br>');
-	  	}
+	  	}*/
 	});
 	
 	var connectedPeers = {};
@@ -301,9 +301,6 @@
   </div>
   
 <div id="chatSpace"></div>
-
-<div class="log" style="color:#FF7500;text-shadow:none;padding:15px;background:#eee"><strong>Connection status</strong>:<br></div>
-</div>
 </body> 
 </html> 
 
