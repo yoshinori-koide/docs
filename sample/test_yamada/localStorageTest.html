@@ -1,0 +1,39 @@
+<!DOCTYPE HTML> 
+<html lang="en"> 
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="en-us"> 
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
+<script>
+	$('#createData').click(function(){
+		var jsonObj = {
+			id : $('#val1').val(),
+			val: $('#val2').val()
+		}
+		
+		localStorage.setItem($('#id').val(), JSON.stringify(jsonObj));
+		
+		$('#id').val('');
+		$('#val1').val('');
+		$('#val2').val('');
+	});
+</script>
+
+</head>
+<body>
+
+<div id = "create">
+	<input type = "text" id = "id">
+	<input type = "text" id = "val1">
+	<input type = "text" id = "val2">
+	<input type = "button" value = "saveLocalStorage" id = "createdata">
+</div>
+
+<div id = "view">
+</div>
+
+
+</body>
+</html>
