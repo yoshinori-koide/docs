@@ -164,10 +164,13 @@
 		}
 		
 		// チャット出力処理
-		var arrayChatId = storeObj.chat_ids.split(",");
+		var chatArray = storeObj.chat_ids.split(",");
 		
-		for(var index in arrayUserId){
-			
+		for(var index in chatArray){
+			var chatObj = JSON.parse(localStorage.getItem(chatArray[index]));
+			var userObj = JSON.parse(localStorage.getItem(chatObj.user_id));
+			$('#chatSpace').append('<div>[' + chatObj.datetime + ']' + userObj.name + '</div>')
+									.append('<p></p>').append(chatObj.msg);
 		}
 	});
 
