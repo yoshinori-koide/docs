@@ -147,8 +147,10 @@
 					serialization: 'none',
 					metadata: meObj.user_id
 		      	});
-		      	
 		      	c.on('open', function() {
+		      		if(connectedPeers[c.metadata] === null){
+					connectedPeers[c.metadata] = c;
+				}
 				connect(c);
 			});
 				
