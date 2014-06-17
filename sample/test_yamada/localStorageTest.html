@@ -15,8 +15,7 @@
 				"val2" : $('#val2').val()
 			};
 			
-			window.localStorage.setItem(key, JSON.stringify(jsonObj));
-			localStorage.setItem("copyCode", JSON.stringify(jsonObj));
+			localStorage.setItem(key, JSON.stringify(jsonObj));
 			
 			$('#id').val("");
 			$('#val1').val('');
@@ -25,6 +24,16 @@
 		
 		$('#jsonStorageAdd').click(function(){
 			window.open('sample.html',null,'width=400, height=300');
+		});
+		
+		$('#testeach').click(function(){
+			var targetObj = JSON.parse(localStorage.getItem($('#id').val()));
+			var resultView = $('<div></div>').addClass('view').addClass('getValues');
+			
+			targetObj.val1.each(function(){
+				var resultValue = $(this);
+				resultView.append(resultValue);
+			})
 		});
 	});
 </script>
@@ -36,6 +45,7 @@
 <input type ="text" id ="val1"/><br/>
 <input type ="text" id ="val2"/><br/>
 <input class ="button" type ="button" value ="saveLocalStorage" id ="createdata"/>
+<input class ="button" type ="button" value ="testeach" id ="testeach"/>
 <input type="button" name="jsonStorageAdd" id="jsonStorageAdd" value="書き込み"/>
 
 <div id ="view">
