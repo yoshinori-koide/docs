@@ -8,12 +8,13 @@
 <script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
 <script>
 	$('#createdata').click(function(){
+		var key = $('#id').val();
 		var jsonObj = {
 			"id" : $('#val1').val(),
 			"val" : $('#val2').val()
 		};
 		
-		localStorage.setItem($('#id').val(), JSON.stringify(jsonObj));
+		localStorage.setItem(key, JSON.stringify(jsonObj));
 		
 		$('#id').val('');
 		$('#val1').val('');
