@@ -58,9 +58,9 @@
 
 			c.on('data', function(data) {
 			      messages.append('<div><span class="peer">' + c.peer + '</span>: ' + data + '</div>');
-			      <!--
+			      /*
 			      	必要であれば、取得したメッセージをローカルストレージに保存
-			      -->
+			      */
 			});
 
 			// ページ遷移でもこのイベントが発生するためすごく不便だと思うの
