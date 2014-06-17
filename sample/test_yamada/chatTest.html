@@ -244,7 +244,7 @@
 		
 		function eachActiveConnection(fn) {
 			var meObj = JSON.parse(localStorage.getItem("me"));
-			var storeObj = JSON.parse(localStorage.getItem(meObj.store_id);
+			var storeObj = JSON.parse(localStorage.getItem(meObj.store_id));
 			var userArray = storeObj.user_ids.split(",");
 			
 			for(var index in userArray){
