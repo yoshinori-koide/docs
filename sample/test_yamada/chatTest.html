@@ -126,14 +126,12 @@
 	// ページ遷移時、peerIdが変更されてしまうため再接続
 	$(window).load(function(){
 		// Test用meTableを作成
-		function(){
 		var meObj = {
 			"user_id" : "user_1",
 			"peer_id" : myId,
 			"store_id": "store_001"
 			}
 		localStorage.setItem("me", JSON.stringify(meObj));
-		};
 		
 		var meObj = JSON.parse(localStorage.getItem("me"));
 		var storeObj = JSON.parse(localStorage.getItem(meObj.store_id));
