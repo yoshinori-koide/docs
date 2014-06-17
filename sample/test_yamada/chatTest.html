@@ -31,11 +31,23 @@
 	});
 	
 	var connectedPeers = {};
+	var myId;
 	
 	// Show this peer's ID.
 	peer.on('open', function(id){
 		$('#pid').text(id);
+		myId = id;
 	});
+	
+	// Test用meTableを作成
+	function(){
+	var meObj = {
+		"user_id" : "user_1",
+		"peer_id" : myId,
+		"store_id": "store_001"
+		}
+	localStorage.setItem("me", JSON.stringify(meObj));
+	};
 
 	// Await connections from others
 	peer.on('connection', connect);
