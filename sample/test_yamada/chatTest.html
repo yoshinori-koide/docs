@@ -145,7 +145,8 @@
 		for(var index in userArray){
 			var userObj = JSON.parse(localStorage.getItem(userArray[index]));
 			var c = peer.connect(userObj.peer_id, {
-					label: 'ask',
+					// label: 'ask',
+					label: 'chat',
 					serialization: 'none',
 					metadata: meObj.user_id
 		      	});
