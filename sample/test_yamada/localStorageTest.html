@@ -25,12 +25,9 @@
 			window.open('sample.html',null,'width=400, height=300');
 		});
 		
-		$('#testeach').click(function(){
+		$('#getarrayValue').click(function(){
 			var targetObj = JSON.parse(localStorage.getItem($('#id').val()));
-			// var resultView = $('<div></div>').addClass('view').addClass('getValues');
-			
 			var arrayValue = targetObj.val1.split(",");
-			
 			for(var index in arrayValue){
 				alert(arrayValue[index]);	
 			}
@@ -45,7 +42,7 @@
 <input type ="text" id ="val1"/><br/>
 <input type ="text" id ="val2"/><br/>
 <input class ="button" type ="button" value ="saveLocalStorage" id ="createdata"/>
-<input class ="button" type ="button" value ="testeach" id ="testeach"/>
+<input class ="button" type ="button" value ="getarrayValue" id ="getarrayValue"/>
 <input type="button" name="jsonStorageAdd" id="jsonStorageAdd" value="書き込み"/>
 
 <div id ="view">
