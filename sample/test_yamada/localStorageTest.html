@@ -27,9 +27,13 @@
 		
 		$('#getarrayValue').click(function(){
 			var targetObj = JSON.parse(localStorage.getItem($('#id').val()));
-			var arrayValue = targetObj.val1.split(",");
-			for(var index in arrayValue){
-				alert(arrayValue[index]);	
+			if(targetObj !==null){
+				var arrayValue = targetObj.val1.split(",");
+				for(var index in arrayValue){
+					alert(arrayValue[index]);
+				}
+			}else{
+				alert("this key is Unregistered");
 			}
 		});
 		
