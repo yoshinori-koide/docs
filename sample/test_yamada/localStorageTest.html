@@ -7,23 +7,25 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
 <script>
-	$('#createdata').click(function(){
-		var key = $('#id').val();
-		var jsonObj = {
-			"val1" : $('#val1').val(),
-			"val2" : $('#val2').val()
-		};
+	$(document).ready(function() {
+		$('#createdata').click(function(){
+			var key = $('#id').val();
+			var jsonObj = {
+				"val1" : $('#val1').val(),
+				"val2" : $('#val2').val()
+			};
+			
+			window.localStorage.setItem(key, JSON.stringify(jsonObj));
+			localStorage.setItem("copyCode", JSON.stringify(jsonObj));
+			
+			$('#id').val("");
+			$('#val1').val('');
+			$('#val2').val('');
+		});
 		
-		window.localStorage.setItem(key, JSON.stringify(jsonObj));
-		localStorage.setItem("copyCode", JSON.stringify(jsonObj));
-		
-		$('#id').val("");
-		$('#val1').val('');
-		$('#val2').val('');
-	});
-	
-	$('#jsonStorageAdd').click(function(){
-		window.open('sample.html',null,'width=400, height=300');
+		$('#jsonStorageAdd').click(function(){
+			window.open('sample.html',null,'width=400, height=300');
+		});
 	});
 </script>
 
