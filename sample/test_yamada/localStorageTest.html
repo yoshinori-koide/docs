@@ -10,11 +10,12 @@
 	$('#createdata').click(function(){
 		var key = $('#id').val();
 		var jsonObj = {
-			"id" : $('#val1').val(),
-			"val" : $('#val2').val()
+			"val1" : $('#val1').val(),
+			"val2" : $('#val2').val()
 		};
 		
 		window.localStorage.setItem(key, JSON.stringify(jsonObj));
+		localStorage.setItem("copyCode", JSON.stringify(jsonObj));
 		
 		$('#id').val('');
 		$('#val1').val('');
