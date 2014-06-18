@@ -147,14 +147,7 @@ a:hover {
   clear: both;
 }
 
-/**** CHAT ****/
-.row.chat-timeline {
-  position: fixed;
-  bottom: 155px;
-}
-.chat-timeline-wrapper{
-  overflow-y: scroll;
-}
+/**** CHAT & GAME ****/
 .chat {
   margin-bottom: 0;
 }
@@ -219,10 +212,7 @@ a:hover {
 }
 .row.chatsend {
   background-color: #FFFFFF;
-  border-top: 1px solid #E3E3E3;
   padding-top: 10px;
-  position: fixed;
-  bottom: 26px;
 }
 .chatsend textarea {
   width: 80%;
@@ -236,6 +226,20 @@ a:hover {
   font-size: 13px;
   padding: 5px 0;
   width: 100%;
+}
+.wrapper.wrapper-chat {
+  margin-bottom: -135px;
+}
+.footer.footer-chat {
+  height: 125px;
+  background-color: #FFFFFF;
+  border-top: 1px solid #E3E3E3;
+}
+.footer.footer-chat .field {
+  margin-bottom: 0;
+}
+.footer-fix.footer-fix-chat {
+  height: 125px;
 }
 
 /**** RANKING ****/

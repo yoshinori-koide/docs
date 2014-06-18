@@ -94,7 +94,7 @@
     </div>
   </header>
   <!--{共通ヘッダー ここまで}-->
-  <div class="wrapper">
+  <div class="wrapper wrapper-chat">
 
 
 
@@ -103,24 +103,93 @@
   <!--{コンテンツ ここから}-->
   <div class="row page-header">
     <div class="twelve columns">
-      <h3><i class="icon-star"></i> しりとり</h3>
+      <h3><i class="icon-chat"></i> しりとり</h3>
     </div>
   </div>
-  <div class="row">
-    <div class="twelve columns image rounded">
+  <div class="row chat-timeline">
+    <div class="chat-timeline-wrapper">
+      <div class="twelve columns">
+        <ul>
+          <li class="field chat">
+            <div class="user">
+              <a href="show_profile.html" class="photo"><img src="img/noimage.png"></a>
+              <a href="show_profile.html" class="name">UserA</a>
+            </div>
+            <p class="msg">
+              <time>2014-06-20 09:00:00</time>
+              しりとり
+            </p>
+          </li>
+  
+          <li class="field chat">
+            <div class="user">
+              <a href="show_profile.html" class="photo"><img src="img/noimage.png"></a>
+              <a href="show_profile.html" class="name">UserB</a>
+            </div>
+            <p class="msg">
+              <time>2014-06-20 09:01:00</time>
+              りす
+            </p>
+          </li>
+  
+          <li class="field chat me">
+            <div class="user">
+              <a href="show_profile.html" class="photo"><img src="img/noimage.png"></a>
+              <a href="show_profile.html" class="name">katagiri</a>
+            </div>
+            <p class="msg">
+              <time>2014-06-20 09:02:00</time>
+              するめいか
+            </p>
+          </li>
+
+          <li class="field chat">
+            <div class="user">
+              <a href="show_profile.html" class="photo"><img src="img/noimage.png"></a>
+              <a href="show_profile.html" class="name">UserA</a>
+            </div>
+            <p class="msg">
+              <time>2014-06-20 09:03:00</time>
+              からす
+            </p>
+          </li>
+  
+          <li class="field chat">
+            <div class="user">
+              <a href="show_profile.html" class="photo"><img src="img/noimage.png"></a>
+              <a href="show_profile.html" class="name">UserB</a>
+            </div>
+            <p class="msg">
+              <time>2014-06-20 09:04:00</time>
+              するめいか
+            </p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
+  <div class="footer-fix footer-fix-chat"></div>
   <!--{コンテンツ ここまで}-->
 
 
 
 
 
-  <div class="footer-fix"></div>
   </div>
   <!--{共通フッター ここから}-->
-  <footer class="row footer">
-    PRO Team @DEVCAMP 2014
+  <footer class="row footer footer-chat">
+    <div class="row chatsend">
+      <div class="twelve columns">
+        <ul>
+          <li class="field">
+            <div class="medium metro rounded success btn btn-send">
+              <button>送信</button>
+            </div>
+            <textarea class="input textarea" placeholder="Next「か」" rows="3"></textarea>
+          </li>
+        </ul>
+      </div>
+    </div>
   </footer>
   <!--{共通フッター ここまで}-->
   <!--
@@ -179,4 +248,4 @@
   <![endif]-->
 
   </body>
-</html>
+</html> 
