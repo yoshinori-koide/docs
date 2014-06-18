@@ -64,7 +64,7 @@
     	}
     	else{
     		window.alert(error);
-    		location.href = "new_profile.html";
+    		location.href = "http://2014camp-pro.github.io/docs/new_profile.html";
     	}
     	
     	
@@ -173,7 +173,7 @@
     	}
     	else{
     		window.alert(error);
-    		location.href = "edit_profile.html";
+    		location.href = "http://2014camp-pro.github.io/docs/edit_profile.html";
     	}
 
     	
