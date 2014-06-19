@@ -30,7 +30,7 @@
 	  	}*/
 	});
 	
-	var connectedPeers = {};
+	var connectedPeers = dataConnection[];
 	var myId;
 	var meObj = JSON.parse(localStorage.getItem("me"));
 	
@@ -180,7 +180,7 @@
 						// label: 'ask',
 						label: 'chat',
 						serialization: 'none',
-						metadata: ''
+						metadata: meObj.user_id
 			      	});
 			      	c.on('open', function() {
 			      		if(connectedPeers[c.metadata] === null){
