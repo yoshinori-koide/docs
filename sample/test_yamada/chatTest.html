@@ -189,14 +189,16 @@
 		}
 		
 		// チャット出力処理
-		var chatArray = storeObj.chat_ids.split(",");
-		
-		for(var index in chatArray){
-			var chatObj = JSON.parse(localStorage.getItem(chatArray[index]));
-			if(charObj !== null){
-				var userObj = JSON.parse(localStorage.getItem(chatObj.user_id));
-				$('#chatSpace').append('<div>[' + chatObj.datetime + ']' + userObj.name + '</div>')
-										.append('<p></p>').append(chatObj.msg);
+		if(storeObj.chat_ids !== null){
+			var chatArray = storeObj.chat_ids.split(",");
+			
+			for(var index in chatArray){
+				var chatObj = JSON.parse(localStorage.getItem(chatArray[index]));
+				if(charObj !== null){
+					var userObj = JSON.parse(localStorage.getItem(chatObj.user_id));
+					$('#chatSpace').append('<div>[' + chatObj.datetime + ']' + userObj.name + '</div>')
+											.append('<p></p>').append(chatObj.msg);
+				}
 			}
 		}
 	});
