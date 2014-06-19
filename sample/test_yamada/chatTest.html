@@ -157,33 +157,35 @@
 		
 		for(var index in userArray){
 			var userObj = JSON.parse(localStorage.getItem(userArray[index]));
-			var c = peer.connect(userObj.peer_id, {
-					// label: 'ask',
-					label: 'chat',
-					serialization: 'none',
-					metadata: ''
-		      	});
-		      	c.on('open', function() {
-		      		if(connectedPeers[c.metadata] === null){
-					connectedPeers[c.metadata] = c;
-				}
-				
-				var sendDataObj = {
-					'type' : "sendUserData",
-					'user_id': meObj.user_id,
-					'user_Data': localStorage.getItem(meObj.user_id)
-				};
-				
-				c.send(JSON.stringify(sendDataObj));
-				connect(c);
-			});
-				
-			c.on('error', function(err) { alert(err); });
-			var f = peer.connect(userObj.peer_id, { label: 'file', reliable: true });
-			f.on('open', function() {
-				connect(f);
-			});
-			f.on('error', function(err) { alert(err); });
+			if(userObj !== null){
+				var c = peer.connect(userObj.peer_id, {
+						// label: 'ask',
+						label: 'chat',
+						serialization: 'none',
+						metadata: ''
+			      	});
+			      	c.on('open', function() {
+			      		if(connectedPeers[c.metadata] === null){
+						connectedPeers[c.metadata] = c;
+					}
+					
+					var sendDataObj = {
+						'type' : "sendUserData",
+						'user_id': meObj.user_id,
+						'user_Data': localStorage.getItem(meObj.user_id)
+					};
+					
+					c.send(JSON.stringify(sendDataObj));
+					connect(c);
+				});
+					
+				c.on('error', function(err) { alert(err); });
+				var f = peer.connect(userObj.peer_id, { label: 'file', reliable: true });
+				f.on('open', function() {
+					connect(f);
+				});
+				f.on('error', function(err) { alert(err); });
+			}
 		}
 		
 		// チャット出力処理
