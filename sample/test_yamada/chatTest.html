@@ -139,6 +139,25 @@
 		if(getmeObj === null){
 			localStorage.setItem("me", JSON.stringify(meObj));
 		}
+		
+		var getUserObj = localStorage.getItem('user_' + meObj.user_id);
+		
+		if(getUserObj === null){
+			var userObj = {
+				"name" : "tester,
+				"sex" : 1,
+				"state" : 10,
+				"age" : 20,
+				"comment" : "つかれらの",
+				"photo" : "???",
+				"matrix_log_ids" : null,
+				"peer_id" : myId
+			};
+			
+			localStorage.setItem("user_" + meObj.user_id , JSON.stringify(userObj));
+		}
+		
+		// 残りの足りないデータはChromeさんのお力でなんとかしたらいいんじゃない
 		// ここまで
 		
 		// ページ遷移時のため 全てのユーザと通信
