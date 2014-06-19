@@ -274,8 +274,12 @@
 			e.preventDefault();
 			// For each active connection, send the message.
 			var nowTime = new Date();
-			var strTime = nowTime.getFullYear() + (nowTime.getMonth() + 1) + nowTime.getDate() + 
-						nowTime.getHours() + nowTime.getMinutes() + nowTime.getSeconds();
+			var strTime = (nowTime.getFullYear() * 10000000000) +
+				      ((nowTime.getMonth() + 1) * 100000000) +
+				      (nowTime.getDate() * 1000000)+
+				      (nowTime.getHours() * 10000) +
+				      (nowTime.getMinutes() * 100) +
+				      nowTime.getSeconds();
 			var msgObj = {
 				'store_id': meObj.store_id,
 				'user_id': meObj.user_id,
