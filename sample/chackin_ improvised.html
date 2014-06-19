@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Place searches</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 200px;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCcrhdnh9RPdxkAzL40AnDm9_EkqX-14vg&sensor=true&language=jp&types=establishment"></script>
+	<script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
+	<script src="./md5.min.js"></script>
+    <script>
+var map;
+var infowindow;
+var storeList;
+var peer = new Peer({
+  // Set API key for cloud server (you don't need this if you're running your
+  // own.
+//  key: 'cc6f5bfa-ec91-11e3-8c36-09d78563cbeb',
+// localhostは以下のキーを使用
+  key: '6165842a-5c0d-11e3-b514-75d3313b9d05',
+
+  // Set highest debug level (log everything!).
+  debug: 3,
+
+  // Set a logging function:
+  logFunction: function() {
+    var copy = Array.prototype.slice.call(arguments).join(' ');
+    $('.log').append(copy + '<br>');
+  }
+});
+var connectedPeers = {};
+var newCheckinPeers = {};
+
+
+
+function getCurrentPosition() {
+	if (navigator.geolocation) {
+		// オプション・パラメータをセット
+		var position_options = {
+			enableHighAccuracy: true,    // 高精度を要求する
+			timeout: 60000,              // 最大待ち時間（ミリ秒）
+			maximumAge: 0                // キャッシュ有効期間（ミリ秒）
+		};
+		// 現在の位置情報を取得
+		navigator.geolocation.getCurrentPosition(successCallback,errorCallback,position_options);
+	} else {
+		window.alert("本ブラウザではGeolocationが使えません");
+	}
+	
+	// （1）位置情報の取得に成功
+	function successCallback(position) {
+		// 現在地の緯度経度を取り出す
+		var lat = position.coords.latitude ;
+		var lon = position.coords.longitude ;
+		
+		// 近隣のお店を取得
+		getStoreList(lat,lon);
+	}
+
+	// （2）位置情報の取得に失敗した場合
+	function errorCallback(error) {
+		var message = "";
+		
+		switch (error.code) {
+		
+			// 位置情報が取得できない場合
+			case error.POSITION_UNAVAILABLE:
+				message = "位置情報の取得ができませんでした。";
+				break;
+			
+			// Geolocationの使用が許可されない場合
+			case error.PERMISSION_DENIED:
+				message = "位置情報取得の使用許可がされませんでした。";
+				break;
+			
+			// タイムアウトした場合
+			case error.PERMISSION_DENIED_TIMEOUT:
+				message = "位置情報取得中にタイムアウトしました。";
+				break;
+		}
+		window.alert(message);
+	}
+}
+
+// 現在地の緯度経度をもとに近隣の店リストを取得
+function getStoreList(lat,lon) {
+
+	var pyrmont = new google.maps.LatLng(lat,lon);
+	
+	map = new google.maps.Map(document.getElementById('map-canvas'), {
+		center: pyrmont,
+		zoom: 15
+	});
+	
+	var request = {
+		location: pyrmont,
+		radius: 500,
+		types: ['establishment']
+	};
+	infowindow = new google.maps.InfoWindow();
+	var service = new google.maps.places.PlacesService(map);
+	service.nearbySearch(request, callback);
+	
+	function callback(results, status) {
+		var storeListUl = $('#store_list');
+		if (status == google.maps.places.PlacesServiceStatus.OK) {
+			var storeList2 = results;
+			storeList = storeList2;
+			for (var i = 0; i < storeList.length; i++) {
+				storeListUl.append('<tr><td>' + storeList[i].name + '</td></tr>');
+				createMarker(results[i]);
+			}
+		}
+		getCell();
+	}
+}
+
+// 地図上にマーカー作成
+function createMarker(place) {
+	var placeLoc = place.geometry.location;
+	var marker = new google.maps.Marker({
+		map: map,
+		position: place.geometry.location
+	});
+	
+	google.maps.event.addListener(marker, 'click', function() {
+		infowindow.setContent(place.name);
+		infowindow.open(map, this);
+	});
+}
+
+// クリックされたセルを取得できるようにしておく
+function getCell() {
+	var storeListTable = document.getElementById('store_list');
+	// trをループ。rowsコレクションで,行位置取得。
+	for (var i=0; i<storeListTable.rows.length; i++) {
+	// tr内のtdをループ。cellsコレクションで行内セル位置取得。
+		for (var j=0; j<storeListTable.rows[i].cells.length; j++) {
+			var Cells=storeListTable.rows[i].cells[j]; //i番行のj番列のセル "td"
+			// onclickで 'Mclk'を実行。thisはクリックしたセル"td"のオブジェクトを返す。
+			Cells.onclick =function(){
+				confirmCheckin(this);
+			}
+		}
+	}
+}
+
+// 店名クリックされたら確認アラートを出す
+function confirmCheckin(Cell) {
+	var checkinStore = storeList[Cell.parentNode.rowIndex];
+	if (window.confirm('「' + checkinStore.name + '」へチェックインしますか？')) {
+		// YESのときのみチェックイン処理をする
+		// アクティブなpeerIdリストの取得
+		localStrage(checkinStore);
+	}
+}
+
+function localStrage(checkinStore) {
+	// storeIdを取得（少数点以下は4桁）
+	var storeLatArr = checkinStore.geometry.location.lat().toFixed(4).split('.');		// 緯度
+	var storeLngArr = checkinStore.geometry.location.lng().toFixed(4).split('.');	//経度
+	var storeStorageKey = 'store_' + storeLngArr[0] + '-' + storeLngArr[1] + '_' + storeLatArr[0] + '-' + storeLatArr[1];
+	
+	// 1桁の数字を0埋めで2桁にする
+	var toDoubleDigits = function(num) {
+		num += "";
+		if (num.length === 1) {
+			num = "0" + num;
+		}
+		return num;     
+	};
+	
+	// (1) meデータの有無の確認
+	var meData = $('#me').val();
+	if (meData == '') {
+		// 自身のデータがないならまずはidを作成
+		// ユーザーエージェント＋現在日時ミリ秒をハッシュ化
+		var date = new Date();
+		var now = date.getTime();
+		var ua = window.navigator.userAgent.toLowerCase();
+		// ハッシュ値（=id）を作成
+		var meId = md5(ua) + md5(now);
+		// 自身のデータを作成
+		window.localStorage.setItem('me',JSON.stringify({'user_id':meId,'peer_id':peer.id,'store_id':storeStorageKey}));
+	} else {
+		// データがあれば更新
+		meData = JSON.parse(window.localStorage.getItem('me'));
+		window.localStorage.setItem('me',JSON.stringify({'user_id':meData.id,'peer_id':peer.id,'store_id':storeStorageKey}));
+	}
+	// meデータを取得
+	meData = JSON.parse(window.localStorage.getItem('me'));
+	
+	// (2) matrixデータの作成
+	// idはuserId+連番としておく
+	var today=new Date();
+	var checkinDate = toDoubleDigits(today.getFullYear()) + '-' + toDoubleDigits(today.getMonth()+1) + '-' + toDoubleDigits(today.getDate());
+	var checkinTime = checkinDate + ' ' + toDoubleDigits(today.getHours()) + ':' + toDoubleDigits(today.getMinutes()) + ':' + toDoubleDigits(today.getSeconds());
+	var matrixId = 'matrix_log_' + meData.user_id + '-' + toDoubleDigits(today.getFullYear()) + toDoubleDigits(today.getMonth()+1) + toDoubleDigits(today.getDate()) + toDoubleDigits(today.getHours()) + toDoubleDigits(today.getMinutes()) + toDoubleDigits(today.getSeconds());
+	// matrixデータ登録（outは空にしておく）
+	window.localStorage.setItem(matrixId,JSON.stringify({'store_id':storeStorageKey,'user_id':meData.user_id,'date':checkinDate,'in':checkinTime, 'out':''}));
+	
+	// (3)ユーザ自身のデータの確認と更新
+	var meUserData = $('#user_' + meData.user_id).val();
+	if (meUserData == '') {
+		// 自身のユーザデータ作成する
+		window.localStorage.setItem('user_' + meData.user_id,JSON.stringify({'matrix_log_ids':matrixId,  'peer_id':peer.id}));
+	} else {
+		// 自身のユーザデータを更新する
+		meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
+		window.localStorage.setItem('user_' + meData.user_id,JSON.stringify({'matrix_log_ids':matrixId,  'peer_id':peer.id}));
+//		window.localStorage.setItem('user_' + meData.user_id, JSON.stringify({'name':meUserData.name,'sex':meUserData.sex,'state':meUserData.state,'age':meUserData.age,'comment':meUserData.comment,'photo': meUserData.photo,'matrix_log_ids':meUserData.matrix_log_ids + matrixId,'peer_id':peer.id}));
+	}
+
+	// (4) お店データの更新
+	// お店データ作成
+	var storeData = window.localStorage.getItem(storeStorageKey);
+	window.localStorage.setItem(storeStorageKey, JSON.stringify({"name":checkinStore.name,"user_ids":meData.user_id,"chat_ids":peer.id}));
+
+	// peerIdリストを取得する
+	var req = new XMLHttpRequest();
+	loadText("https://skyway.io/active/list/6165842a-5c0d-11e3-b514-75d3313b9d05");
+	// リクエストする
+	function loadText(path) {
+		req.onreadystatechange = readyStateChange;
+		// リクエスト発行
+		req.open("get", path, true);
+		req.send("");
+	}
+	
+	// 通信状態変化時イベントハンドラ
+	function readyStateChange() {
+		// 通信完了
+		if(req.readyState == 4) {
+			// テキスト扱いされてしまうので配列にする
+			var subText = req.responseText.replace(/\[|\]|\"/g, '');
+			var peerIdList = subText.split(',');
+			// 全員にチェックインリクエスト送る
+			sendData(peerIdList);
+		}
+	}
+}
+
+// 他からの接続を検知
+peer.on('connection', connect);
+
+// 他との接続を検知したときに実行
+function connect(c) {
+	if (c.label === 'checkin') {
+		// チェックイン時接続
+		c.on('open', function() {
+		
+		// ここから別ファイルに落としてすべてのページに読み込んでもらう
+			var uId = c.metadata.userId;
+			var meData = JSON.parse(window.localStorage.getItem('me'));
+			if (c.peer !== peer.id) {
+				// ユーザ情報も上書き保存
+				window.localStorage.setItem('user_' + c.metadata.userId, JSON.stringify(c.metadata.userData));
+				var mDataList = [c.metadata.matrixDataList];
+				for (key in mDataList) {
+					// マトリクスはとりあえず全件保存しとく
+					window.localStorage.setItem(key, JSON.stringify(mDataList[key]));
+				}
+				
+				var sId = c.metadata.storeId;
+				// 自身がチェックイン中のお店と一致したら返信する
+				if (sId === meData.store_id) {
+					// 自身のデータ作成
+					// meデータを取得
+					meData = JSON.parse(window.localStorage.getItem('me'));
+					// 自身のユーザデータ取得
+					var myUserData = 'user_' + meData.user_id + ':' + window.localStorage.getItem('user_' + meData.user_id);
+					// localStrageのデータ全件からmatrix_log_を全件取得する
+					var matrixData = [];
+					for(var i = 0; i < window.localStorage.length; i++){  
+					　　// キー名の取得  
+					　　var k = window.localStorage.key(i);  
+					　　　// matrix_log_[user_id]_で始まるデータを判別する
+							var str = ' ' + k;
+							if (str.indexOf(' matrix_log_' + meData.user_id + '-') !== -1) {
+								var mData = window.localStorage.getItem(k);
+								matrixData.push(k + ':' + mData);
+							}
+					}
+					
+					// 自身の情報を送り返す
+					newCheckinPeers[c.peer] = 1;
+				    eachActiveConnection(function(c, $c) {
+					    console.log("c.label" + c.label);
+							if (c.label === 'checkin') {
+								// データ投げ返す
+								var myData = {userId:meData.user_id,userData:JSON.stringify(myUserData),matrixDataList:matrixData};
+								c.send(JSON.stringify(myData));
+								console.log(myData);
+							}
+				    });
+				}
+			}
+			
+			// ここまで。
+		});
+		c.on('data', function(data) {
+			var getUserData = JSON.parse(data);
+			// うけとったデータを保存する
+			console.log(getUserData);
+			// とりあず保存
+			window.localStorage.setItem("user_" + getUserData.userId, JSON.stringify(getUserData.userData));
+			var mDataList = getUserData.matrixDataList;
+			for (key in mDataList) {
+				// マトリクスはとりあえず全件保存しとく
+				window.localStorage.setItem(key, JSON.stringify(mDataList[key]));
+			}
+			// ストアデータ更新
+			var meData = JSON.parse(window.localStorage.getItem("me"));
+			var storeData = JSON.parse(window.localStorage.getItem(meData.store_id));
+			var otherUserData = getUserData.userData;
+			window.localStorage.setItem(meData.store_id, JSON.stringify({"name":storeData.name,"user_ids":storeData.users_id + "," + getUserData.userId,"chat_ids":storeData.chat_ids + "," + otherUserData.peer_id}));
+		});
+		c.on('close', function() {
+			// 接続が切断されたことを検知
+			console.log(c.peer + ' has left the chat.');
+			if ($('.connection').length === 0) {
+				console.log("Hello world10");
+			}
+			delete connectedPeers[c.peer];
+		});
+	}
+	connectedPeers[c.peer] = 1;
+	console.log("Hello world15");
+}
+
+function sendData(peerIdList) {
+	// Connect to a peer
+	
+	console.log("Hello world22");
+	// チェックインリクエスト用データ作成
+	// meデータを取得
+	meData = JSON.parse(window.localStorage.getItem('me'));
+	// 自身のユーザデータ取得
+	var myUserData = 'user_' + meData.user_id + ':' + window.localStorage.getItem('user_' + meData.user_id);
+	// localStrageのデータ全件からmatrix_log_を全件取得する
+	var matrixData = [];
+	for(var i = 0; i < window.localStorage.length; i++){  
+	　　// キー名の取得  
+	　　var k = window.localStorage.key(i);  
+	　　　// matrix_log_[user_id]_で始まるデータを判別する
+			var str = ' ' + k;
+			if (str.indexOf(' matrix_log_' + meData.user_id + '-') !== -1) {
+				var mData = window.localStorage.getItem(k);
+				matrixData.push(k + ':' + mData);
+			}
+	}
+
+	// 全員にチェックインリクエスト送る
+	for (var i=0; i<peerIdList.length; i++) {
+	requestedPeer = peerIdList[i];
+	if (!connectedPeers[requestedPeer]) {
+		// リクエスト
+		c = peer.connect(requestedPeer, {
+			label: 'checkin',
+			serialization: 'none',
+			metadata: {storeId:meData.store_id,userId:meData.user_id, userData:myUserData, matrixDataList:matrixData}
+		});
+		c.on('open', function() {
+			connect(c);
+		});
+		c.on('error', function(err) { alert(err); });
+	}
+	connectedPeers[requestedPeer] = 1;
+	console.log("Hello world25");
+	}
+}
+
+// Goes through each active peer and calls FN on its connections.
+function eachActiveConnection(fn) {
+	console.log("Hello world32");
+	var actives = $('.active');
+	var checkedIds = {};
+	for(peerId in newCheckinPeers) {
+		console.log("Hello world33");
+		
+		if (!checkedIds[peerId]) {
+			console.log("Hello world34");
+			var conns = peer.connections[peerId];
+			for (var i = 0, ii = conns.length; i < ii; i += 1) {
+				console.log("Hello world35" + i + ii);
+				var conn = conns[i];
+				fn(conn, $(this));
+			}
+		}
+		
+		checkedIds[peerId] = 1;
+		console.log("Hello world36");
+	};
+}
+
+google.maps.event.addDomListener(window, 'load', getCurrentPosition);
+
+    </script>
+  </head>
+  
+  <body>
+    <div id="map-canvas"></div>
+     <style>
+      #searchTextField {
+        width: 200px;
+      }
+     </style>
+     <input id="searchTextField" type="text" name="store_search" />
+     <script type="text/javascript">
+       function initialize() {
+         var input = document.getElementById( 'searchTextField');
+           var options = {
+           };
+           autocomplete = new google.maps.places.Autocomplete( input, options);
+       }
+       google.maps.event.addDomListener( window, 'load', initialize);
+     </script>
+    <table id="store_list">
+    </table>
+  </body>
+</html>
