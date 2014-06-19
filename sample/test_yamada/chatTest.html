@@ -32,6 +32,7 @@
 	
 	var connectedPeers = {};
 	var myId;
+	var meObj = JSON.parse(localStorage.getItem("me"));
 	
 	// Show this peer's ID.
 	peer.on('open', function(id){
@@ -74,7 +75,7 @@
 				
 				
 				// チェックアウト時に使おう
-				var meObj = JSON.parse(localStorage.getItem("me"));
+				// var meObj = JSON.parse(localStorage.getItem("me")); いちいち作るの？
 				var storeObj = JSON.parse(localStorage.getItem(meObj.store_id));
 				var userArray = storeObj.user_ids.split(",");
 				
@@ -114,7 +115,7 @@
 				}
 			});
 			
-			var meObj = localStorage.getItem("me");
+			// var meObj = localStorage.getItem("me");
 			var userObj = localStorage.getItem(meObj.user_id);
 			var sendDataObj = {
 					'type' : "sendUserData",
@@ -146,7 +147,7 @@
 			}
 		);
 		
-		var meObj = JSON.parse(localStorage.getItem("me"));
+		// me取得跡地
 		var storeObj = JSON.parse(localStorage.getItem(meObj.store_id));
 		var userArray = storeObj.user_ids.split(",");
 		
@@ -243,15 +244,23 @@
 		$('#send').submit(function(e) {
 			e.preventDefault();
 			// For each active connection, send the message.
-			var msg = $('#text').val();
+			vat nowTime = new Date();
+			var strTime = nowTIme.getYear() + nowTime.getMonth() + nowTime.getDate() + 
+						nowTime.getHour() + nowTIme.getMinutes() + nowTime.getSeconds();
+			var msgObj = {
+				'store_id':,
+				'user_id':,
+				'msg' : $('#text').val(),
+				'datetime' : 
+			}
+			// 接続済みのすべてのユーザにメッセージを送信
 			eachActiveConnection(function(c) {
 				if (c.label === 'chat') {
-					c.send(msg);
-	      		}
-	    	});
-	    	
+					c.send(JSON.stringify(msgObj));
+	      			}
+	    		});
 			// 自身に表示する処理
-			var addmsg = $('<div>You:</div>').append('<p></p>').append(msg);
+			var addmsg = $('<div>' + strTime + 'You:<br/></div>').append('<p></p>').append($('#text').val());
 			$('#chatSpace').append(addmsg);
 			
 		    $('#text').val('');
@@ -259,7 +268,7 @@
 	  	});
 		
 		function eachActiveConnection(fn) {
-			var meObj = JSON.parse(localStorage.getItem("me"));
+			// var meObj = JSON.parse(localStorage.getItem("me"));
 			var storeObj = JSON.parse(localStorage.getItem(meObj.store_id));
 			var userArray = storeObj.user_ids.split(",");
 			
@@ -291,13 +300,6 @@
 
   <div id="actions">
     Your PeerJS ID is <span id="pid"></span><br>
-    <div id='chatMessage'>
-    	<input type="text" id="msg">
-    	<input type="button" id="sendMsg">
-    </div> 
-    
-    
-   
     <form id="send">
       <input type="text" id="text" placeholder="Enter message"><input class="button" type="submit" value="Send to selected peers">
     </form>
