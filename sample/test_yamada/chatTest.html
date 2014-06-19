@@ -134,8 +134,12 @@
 			"user_id" : "user_1",
 			"peer_id" : myId,
 			"store_id": "store_1234-5678_876-5432"
-			}
-		localStorage.setItem("me", JSON.stringify(meObj));
+			};
+		var getmeObj = localStorage.getItem("me");
+		
+		if(getmeObj === null){
+			localStorage.setItem("me", JSON.stringify(meObj));
+		}
 		// ここまで
 		
 		// ページ遷移時のため 全てのユーザと通信
@@ -248,8 +252,8 @@
 			var strTime = nowTIme.getYear() + nowTime.getMonth() + nowTime.getDate() + 
 						nowTime.getHour() + nowTIme.getMinutes() + nowTime.getSeconds();
 			var msgObj = {
-				'store_id':,
-				'user_id':,
+				'store_id': meObj.store_id,
+				'user_id': meObj.user_id,
 				'msg' : $('#text').val(),
 				'datetime' : 
 			}
