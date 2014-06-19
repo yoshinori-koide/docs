@@ -244,7 +244,7 @@
 		$('#send').submit(function(e) {
 			e.preventDefault();
 			// For each active connection, send the message.
-			vat nowTime = new Date();
+			var nowTime = new Date();
 			var strTime = nowTIme.getYear() + nowTime.getMonth() + nowTime.getDate() + 
 						nowTime.getHour() + nowTIme.getMinutes() + nowTime.getSeconds();
 			var msgObj = {
