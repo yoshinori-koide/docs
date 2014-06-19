@@ -47,9 +47,7 @@
 	function connect(c) {
 		// Handle a chat connection.
 		if (c.label === 'chat') {
-			if(connectedPeers[c.metadata] === null){
-				connectedPeers[c.metadata] = c;
-			}
+			connectedPeers[c.metadata] = c;
 			
 			/*
 			接続したUser情報をstoreに追加
@@ -57,7 +55,8 @@
 			*/
 
 			c.on('data', function(data) {
-			      $('#chatSpace').append('<div><span class="peer">' + c.peer + '</span>: ' + data + '</div>');
+				var getMsgObj = JSON.parce(data);
+			      	$('#chatSpace').append('<div><span class="peer">' + getMsgObj.user_id + '</span>: ' + getMsgObj.msg + '</div>');
 			      /*
 		      		必要であれば、取得したメッセージをローカルストレージに保存
 			      */
@@ -76,11 +75,11 @@
 				
 				// チェックアウト時に使おう
 				// var meObj = JSON.parse(localStorage.getItem("me")); いちいち作るの？
-				var storeObj = JSON.parse(localStorage.getItem(meObj.store_id));
+				var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
 				var userArray = storeObj.user_ids.split(",");
 				
 				for(var index in userArray){
-					var userObj = JSON.parse(localStorage.getItem(userArray[index]));
+					var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
 					if(c.peer === userObj.peer_id){
 						userArray.aplit(index, 1);
 						break;
@@ -116,7 +115,7 @@
 			});
 			
 			// var meObj = localStorage.getItem("me");
-			var userObj = localStorage.getItem(meObj.user_id);
+			var userObj = localStorage.getItem('user_' + meObj.user_id);
 			var sendDataObj = {
 					'type' : "sendUserData",
 					'user_id': meObj.user_id,
@@ -152,11 +151,11 @@
 		);
 		
 		// me取得跡地
-		var storeObj = JSON.parse(localStorage.getItem(meObj.store_id));
+		var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
 		var userArray = storeObj.user_ids.split(",");
 		
 		for(var index in userArray){
-			var userObj = JSON.parse(localStorage.getItem(userArray[index]));
+			var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
 			if(userObj !== null){
 				var c = peer.connect(userObj.peer_id, {
 						// label: 'ask',
@@ -172,7 +171,7 @@
 					var sendDataObj = {
 						'type' : "sendUserData",
 						'user_id': meObj.user_id,
-						'user_Data': localStorage.getItem(meObj.user_id)
+						'user_Data': localStorage.getItem('user_' + meObj.user_id)
 					};
 					
 					c.send(JSON.stringify(sendDataObj));
@@ -193,7 +192,7 @@
 			var chatArray = storeObj.chat_ids.split(",");
 			
 			for(var index in chatArray){
-				var chatObj = JSON.parse(localStorage.getItem(chatArray[index]));
+				var chatObj = JSON.parse(localStorage.getItem('store_' + chatArray[index]));
 				if(charObj !== null){
 					var userObj = JSON.parse(localStorage.getItem(chatObj.user_id));
 					$('#chatSpace').append('<div>[' + chatObj.datetime + ']' + userObj.name + '</div>')
@@ -279,11 +278,11 @@
 		
 		function eachActiveConnection(fn) {
 			// var meObj = JSON.parse(localStorage.getItem("me"));
-			var storeObj = JSON.parse(localStorage.getItem(meObj.store_id));
+			var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
 			var userArray = storeObj.user_ids.split(",");
 			
 			for(var index in userArray){
-				var userObj = JSON.parse(localStorage.getItem(userArray[index]));
+				var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
 				fn(connectedPeers[userArray[index]]);
 			}
 		}
