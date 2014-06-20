@@ -225,7 +225,12 @@
   		
   		// me取得跡地
   		var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
-  		var userArray = storeObj.user_ids.split(",");
+  		if(storeObj.indexOf(",") != -1){
+  			var userArray = storeObj.user_ids.split(",");
+  		}else{
+  			var userArray = storeObj.user_ids;
+  		}
+  		
   		
   		for(var index in userArray){
   			var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
