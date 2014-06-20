@@ -196,31 +196,6 @@
   	
   	// ページ遷移時、peerIdが変更されてしまうため再接続
   	$(window).load(function(){
-  		// Test用meTableを作成
-  		var meDummyObj = {
-  			"user_id" : "1",
-  			"peer_id" : myId,
-  			"store_id": "1234-5678_876-5432"
-  			};
-  		var getmeObj = localStorage.getItem("me");
-  		
-  		if(getmeObj === null){
-  			localStorage.setItem("me", JSON.stringify(meDummyObj));
-  		}else{
-  			meObj = meDummyObj;
-  		}
-  			
-  		var getStoreObj = localStorage.getItem('store_' + meObj.store_id);
-  		if(getStoreObj === null){
-  			var storeDummyObj = {
-	  			"name" : "ギャレットポップコーン原宿店",
-	  			"user_ids" : "1",
-	  			"chat_ids" : null
-  			};
-  			
-  			localStorage.setItem("store_" + meObj.store_id, JSON.stringify(storeDummyObj));
-  		}
-  		
   		alert(meObj);
   		var alertUserData = localStorage.getItem('user_' + meObj.user_id);
   		
