@@ -224,7 +224,11 @@
   		alert(meObj);
   		var alertUserData = localStorage.getItem('user_' + meObj.user_id);
   		
-  		alert(alertUserData);
+  		if(alertUserData === null){
+  			alert("user table not found");
+  		}else{
+  			alert(alertUserData);
+  		}
   		
   		// 残りの足りないデータはChromeさんのお力でなんとかしたらいいんじゃない
   		// ここまで
