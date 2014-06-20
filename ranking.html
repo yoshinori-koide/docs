@@ -47,6 +47,10 @@
     var stateList = {};
     var storeList = {};
     var storeNameList = {};
+    var peer = new Peer({
+  		key: 'cc6f5bfa-ec91-11e3-8c36-09d78563cbeb',
+  		debug: 3,
+  	});
     
     // Await connections from others
   	peer.on('connection', connect);
