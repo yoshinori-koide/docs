@@ -346,7 +346,7 @@
   			var nowTime = new Date();
   			// 日時を数値化　もっといい方法あるかも
   			var strTime = nowTime.getFullYear() * '-' +
-  				      (nowime.getMonth() + 1) + '-' +
+  				      (nowTime.getMonth() + 1) + '-' +
   				      nowTime.getDate() + " " +
   				      nowTime.getHours() + ':' +
   				      nowTime.getMinutes() + ':' +
@@ -363,7 +363,8 @@
   					c.send(JSON.stringify(msgObj));
   	      			}
   	    		});
-  	    var userObj = JSON.parse('user_' + meObj.user_id);
+  	    		
+  	    		var userObj = JSON.parse('user_' + meObj.user_id);
   			// 自身に表示する処理
   			$('#chat-space').append('<li class="field chat me"></li>')
   			      .append('<div class="user">' + 
