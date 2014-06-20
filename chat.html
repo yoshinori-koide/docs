@@ -364,7 +364,7 @@
   	      			}
   	    		});
   	    		
-  	    		var userObj = JSON.parse('user_' + meObj.user_id);
+  	    		var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
   			// 自身に表示する処理
   			$('#chat-space').append('<li class="field chat me"></li>')
   			      .append('<div class="user">' + 
