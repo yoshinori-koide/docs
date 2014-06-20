@@ -73,11 +73,10 @@
     
  // localstrageから自分のプロフィールを取得する
     function getProfileValue(){
-    	// TODO
     	// 自分のIDを取得する
-    	
+    	var me = JSON.parse(window.localStorage.getItem("me"));
     	// localstrageからユーザ情報を取得
-    	var user_info = JSON.parse(window.localStorage.getItem("user_id"));
+    	var user_info = JSON.parse(window.localStorage.getItem(me.user_id));
     	// 名前
     	document.getElementById("name").innerHTML="<h4>"+user_info.user_id.name+"</h4>";
     	// 性別
@@ -120,8 +119,10 @@
  // プロフィールをloalstrageに保存する
     function editProfileValue() {
     	var error = "";
-    	// 名前取得
-    	var user_info = JSON.parse(window.localStorage.getItem("user_id"));
+    	// 自分のIDを取得する
+    	var me = JSON.parse(window.localStorage.getItem("me"));
+    	// localstrageからユーザ情報を取得
+    	var user_info = JSON.parse(window.localStorage.getItem(me.user_id));
     	var name = user_info.user_id.name;
     	
     	// 性別取得
