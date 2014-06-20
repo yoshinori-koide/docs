@@ -1,29 +1,28 @@
 // *** メソッド *** //
 // peerIdリストを取得する
 var req = new XMLHttpRequest();
-loadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
+distLoadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
 // リクエストする
-function loadText(path) {
-    req.onreadystatechange = readyStateChange;
+function distLoadText(path) {
+    req.onreadystatechange = distReadyStateChange;
     // リクエスト発行
     req.open("get", path, true);
     req.send("");
 }
 
 // 通信状態変化時イベントハンドラ
-function readyStateChange() {
+function distReadyStateChange() {
     // 通信完了
     if(req.readyState == 4) {
         // テキスト扱いされてしまうので配列にする
         var subText = req.responseText.replace(/\[|\]|\"/g, '');
         var peerIdList = subText.split(',');
         // 全員にチェックインリクエスト送る
-        sendData(peerIdList);
+        distSendData(peerIdList);
     }
 }
 var connectedPeers = {};
-function sendData(peerIdList) {
-    console.log("Hello world22");
+function distSendData(peerIdList) {
     // localStrageのデータ全件からmatrix_log_を全件取得する
 //    var storeList = getAllStoreList();
 
@@ -32,7 +31,7 @@ function sendData(peerIdList) {
     requestedPeer = peerIdList[i];
     if (!connectedPeers[requestedPeer]) {
         // リクエスト
-        c = peer.connect(requestedPeer, {
+        var c = peer.connect(requestedPeer, {
             label: 'distribution-map',
             serialization: 'none',
 //            metadata: {storeList:storeList}
@@ -64,7 +63,10 @@ function getAllStoreList() {
           var store_data = JSON.parse(window.localStorage.getItem(k));
           store_list[j]['name'] = store_data.name;
           // チェッックインユーザー数
-          var user_ids = store_data.user_ids.split(',');
+          var user_ids = new Array();
+          if(store_data.user_ids != null) {
+              vuser_ids = store_data.user_ids.split(',');
+          }
           store_list[j]['count'] = user_ids.length;
           createMarker(store_list[j]);
           j++;
@@ -96,6 +98,4 @@ function createMarker(store) {
         infowindow.open(map,this);
     });
 }
-
-
 getAllStoreList();
