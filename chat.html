@@ -291,7 +291,7 @@
   				if(chatObj !== null){
   					// てきとーに表示、時系列並び替え必要かも
   					var userObj = JSON.parse(localStorage.getItem('user_' + chatObj.user_id));
-  					if(userObj.user_id == meObj.user_id){
+  					if(chatObj.user_id == meObj.user_id){
   						$('#chat-space').append('<li class="field chat me">' + 
 	  			      			'<div class="user">' + 
 	                				'<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
