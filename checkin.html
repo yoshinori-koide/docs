@@ -268,8 +268,21 @@
  			// テキスト扱いされてしまうので配列にする
  			var subText = req.responseText.replace(/\[|\]|\"/g, '');
  			var peerIdList = subText.split(',');
- 			// 全員にチェックインリクエスト送る
- 			sendData(peerIdList);
+ 			if (peerIdList.length <= 0) {
+ 				// １番目なので画面遷移する
+				var meData = JSON.parse(window.localStorage.getItem('me'));
+				var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
+				if (meUserData.name) {
+					// チャットへ遷移
+ 					location.href = "chat.html";
+				} else {
+					// プロフ登録へ遷移
+ 					location.href = "new_profile.html";
+				}
+ 			} else {
+	 			// 全員にチェックインリクエスト送る
+	 			sendData(peerIdList);
+ 			}
  		}
  	}
  }
