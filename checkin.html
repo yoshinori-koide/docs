@@ -210,7 +210,7 @@
  	var meData = JSON.parse(window.localStorage.getItem('me'));
  	if (meData) {
  		// データがあれば更新
- 		window.localStorage.setItem('me',JSON.stringify({'user_id':meData.id,'peer_id':peer.id,'store_id':storeStorageKey}));
+ 		window.localStorage.setItem('me',JSON.stringify({'user_id':meData.user_id,'peer_id':peer.id,'store_id':storeStorageKey}));
  	} else {
  		// 自身のデータがないならまずはidを作成
  		// ユーザーエージェント＋現在日時ミリ秒をハッシュ化
