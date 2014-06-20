@@ -1,7 +1,10 @@
 // チェックイン状態かのチェック
 function isCheckedIn() {
     meData = JSON.parse(window.localStorage.getItem('me'));
-    return meData.store_id != '';
+    if(meData != null) {
+        return meData.store_id != '';
+    }
+    return false;
 }
 // チェックアウトさせる
 function checkOut() {
