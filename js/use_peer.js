@@ -61,6 +61,8 @@ function successCallback(position) {
 	// B.一定距離外（適当に100m以上とする）
 	if (distance > 200) {
 		// チェックアウト処理する
+			// ログアウトを周囲の人に通知
+			sendLogoutData();
 			//・店データのuser_idsから自分のidを削除  
 			//・行列ログデータのoutを設定更新
 			for(var i = 0; i < window.localStorage.length; i++){  
@@ -83,8 +85,41 @@ function successCallback(position) {
 			//・meデータのstore_idを削除 
 			window.localStorage.setItem('me',JSON.stringify({'user_id':meData.user_id,'peer_id':meData.peer_id,'store_id':''}));
 			
+			
 			// トップへ飛ばす？？
 			location.href = "https://www.google.co.jp/?gws_rd=ssl";
+	}
+	
+	
+	// ログアウトを通知
+	function sendLogoutData() {
+	 // Connect to a peer
+	 // チェックアウトリクエスト用データ作成
+	 // meデータを取得
+	 var meData = JSON.parse(window.localStorage.getItem('me'));
+	 // ストア情報取得
+	 var storeData = JSON.parse(window.localStorage.getItem(meData.store_id));
+	 var chatIds = storeData.chat_ids;
+	 // リクエスト送る
+	 for (var i=0; i<chatIds.length; i++) {
+	 	requestedPeer = chatIds[i];
+	 	if (!connectedPeers[requestedPeer]) {
+	 		// リクエスト
+	 		var c = peer.connect(requestedPeer, {
+	 			label: 'checkout',
+	 			serialization: 'none',
+	 			metadata: {storeId:meData.store_id,userId:meData.user_id}
+	 		});
+	 		c.on('open', function() {
+	 			connect(c);
+	 		});
+	 		c.on('close', function() {
+	 			console.log(c.peer + ' cancel.');
+	 		});
+	 		c.on('error', function(err) { alert(err); });
+	 	}
+	 connectedPeers[requestedPeer] = 1;
+	 }
 	}
 }
   // （2）位置情報の取得に失敗した場合
