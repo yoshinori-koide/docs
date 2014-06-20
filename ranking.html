@@ -164,7 +164,7 @@
  	    
  	    var rankArray = new Array(5);
   	      var idArray = new Array(5);
-  	      $.each(storeList, function(index){
+  	      for (var index in storeList){
   	        for(i = 0 ; i < 5 ; i++){
   	          if(rankArray[i] <= storeList[index]){
   	            for(x = 4; x > i; x--){
