@@ -200,7 +200,7 @@ function connect(c) {
 		});
 	}else if(c.label === 'distribution-map') {
         // 分布マップ時接続
-        c.on('open', function() {
+//        c.on('open', function() {
             var store_list = new Array();
             var j = 0;
             for(var i = 0; i < window.localStorage.length; i++){ 
@@ -229,6 +229,6 @@ function connect(c) {
                 c.send(store_list);
                 console.log(store_list);
             };
-        });
+//        });
 	};
 };
