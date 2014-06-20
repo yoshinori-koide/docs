@@ -221,6 +221,11 @@
   			localStorage.setItem("store_" + meObj.store_id, JSON.stringify(storeDummyObj));
   		}
   		
+  		alert(meObj);
+  		var alertUserData = localStorage.getItem('user_' + meObj.user_id);
+  		
+  		alert(alertUserData);
+  		
   		// 残りの足りないデータはChromeさんのお力でなんとかしたらいいんじゃない
   		// ここまで
   		
