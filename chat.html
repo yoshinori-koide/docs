@@ -148,7 +148,7 @@
   					var url = window.URL.createObjectURL(dataBlob);
   					$('#chatSpace').append('<li class="field chat"></li>')
   			      .append('<div class="user">' + 
-                        '<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>'
+                        '<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
                         '<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
                         '</div>' +
                         '<p class="msg">' +
@@ -278,7 +278,7 @@
   					var userObj = JSON.parse(localStorage.getItem(chatObj.user_id));
   					$('#chatSpace').append('<li class="field chat"></li>')
   			      .append('<div class="user">' + 
-                        '<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>'
+                        '<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
                         '<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
                         '</div>' +
                         '<p class="msg">' +
@@ -364,7 +364,7 @@
   			// 自身に表示する処理
   			$('#chat-space').append('<li class="field chat me"></li>')
   			      .append('<div class="user">' + 
-                        '<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>'
+                        '<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
                         '<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
                         '</div>' +
                         '<p class="msg">' +
