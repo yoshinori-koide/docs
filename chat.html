@@ -288,7 +288,7 @@
   			
   			for(var index in chatArray){
   				var chatObj = JSON.parse(localStorage.getItem('chat_' + chatArray[index]));
-  				if(charObj !== null){
+  				if(chatObj !== null){
   					// てきとーに表示、時系列並び替え必要かも
   					var userObj = JSON.parse(localStorage.getItem(chatObj.user_id));
   					$('#chatSpace').append('<li class="field chat">' + 
