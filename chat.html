@@ -235,7 +235,7 @@
   		// me取得跡地
   		// var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
   		var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
-  		var storeObj = JSON.parse(localStorage.getItem('store_1234-5678_876-5432'));
+  		var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
   		var userArray = storeObj.user_ids.split(",");
   		
   		for(var index in userArray){
