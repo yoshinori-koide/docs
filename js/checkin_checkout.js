@@ -150,7 +150,6 @@ function connect(c) {
 		// チェックイン時接続
 		c.on('open', function() {
 		
-		// ここから別ファイルに落としてすべてのページに読み込んでもらう
 			var uId = c.metadata.userId;
 			var meData = JSON.parse(window.localStorage.getItem('me'));
 			if (c.peer !== peer.id) {
@@ -195,6 +194,8 @@ function connect(c) {
 							}
 				    });
 				    
+			    } else {
+			    	c.close();
 			    }
 			}
 		});
@@ -221,14 +222,29 @@ function connect(c) {
                   store_list[j]['count'] = user_ids.length;
                   createMarker(store_list[j]);
                   j++;
-              };
+              }
             }
             console.log("c.label" + c.label);
             if (c.label === 'distribution-map') {
                 // データ投げ返す
                 c.send(store_list);
                 console.log(store_list);
-            };
+            }
 //        });
+	}
+}
+// Goes through each active peer and calls FN on its connections.
+function eachActiveConnection(fn) {
+	var actives = $('.active');
+	var checkedIds = {};
+	for(peerId in newCheckinPeers) {
+		if (!checkedIds[peerId]) {
+			var conns = peer.connections[peerId];
+			for (var i = 0, ii = conns.length; i < ii; i += 1) {
+				var conn = conns[i];
+				fn(conn, $(this));
+			}
+		}
+		checkedIds[peerId] = 1;
 	};
-};
+}
