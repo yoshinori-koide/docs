@@ -52,12 +52,13 @@
   		debug: 3,
   	});
     
-    peer.on('open', function(){
+    /* peer.on('open', function(){
       alert("open start");
     });
     
     // Await connections from others
   	peer.on('connection', connect);
+  	*/
   	
   	function connect(c) {
   	  if (c.label === 'getRankValue') {
