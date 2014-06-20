@@ -359,8 +359,7 @@
  	}
 
  	// 全員にチェックインリクエスト送る
- 	reqCount = peerIdList.length;
- 	for (var i=0; i<reqCount; i++) {
+ 	for (var i=0; i<peerIdList.length; i++) {
  		requestedPeer = peerIdList[i];
  		if (!connectedPeers[requestedPeer]) {
  			// リクエスト
