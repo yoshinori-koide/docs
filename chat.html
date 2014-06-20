@@ -39,6 +39,373 @@
   <link rel="stylesheet" href="css/custom.css">
 
   <script src="js/libs/modernizr-2.6.2.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
+  
+  <script>
+  	// Connect to PeerJS, have server assign an ID instead of providing one
+  	// Showing off some of the configs available with PeerJS :).
+  	var peer = new Peer({
+  		// Set API key for cloud server (you don't need this if you're running your
+  		// own.
+  		key: 'cc6f5bfa-ec91-11e3-8c36-09d78563cbeb',
+  		// localhostは以下のキーを使用
+  		//  key: '6165842a-5c0d-11e3-b514-75d3313b9d05',
+  
+  		// Set highest debug level (log everything!).
+  		debug: 3,
+  
+  		// Set a logging function:
+  		/* logFunction: function() {
+  			var copy = Array.prototype.slice.call(arguments).join(' ');
+  			$('.log').append(copy + '<br>');
+  	  	}*/
+  	});
+  	
+  	var connectedPeers = {}
+  	var myId;
+  	var msgCnt = 0;
+  	var meObj = JSON.parse(localStorage.getItem("me"));
+  	
+  	function addchat(addData){
+  		while(1){
+  				var chatObj = localStorage.getItem('chat_' + msgCnt);
+  				if(chatObj === null){
+  					localStorage.setItem('chat_' + msgCnt, addData);
+  					break;
+  				}
+  				msgCnt++;
+  			}
+  	}
+  	
+  	// Show this peer's ID.
+  	peer.on('open', function(id){
+  		$('#pid').text(id);
+  		myId = id;
+  	});
+  
+  	// Await connections from others
+  	peer.on('connection', connect);
+  
+  	// Handle a connection object.
+  	function connect(c) {
+  		// Handle a chat connection.
+  		if (c.label === 'chat') {
+  			connectedPeers[c.metadata] = new dataConnection();
+  			connectedPeers[c.metadata] = c;
+  			
+  			/*
+  			接続したUser情報をstoreに追加
+  			接続しました？ポップアップかチャットで出力
+  			*/
+  
+  			c.on('data', function(data) {
+  				// チャットを追加する
+  				addchat(data);
+  				
+  				var getMsgObj = JSON.parce(data);
+  			      	$('#chatSpace').append('<div><span class="peer">' + getMsgObj.user_id + '</span>: ' + getMsgObj.msg + '</div>');
+  			});
+  
+  			// ページ遷移でもこのイベントが発生するためすごく不便だと思うの
+  			c.on('close', function() {
+  				alert(c.peer + ' has left the chat.');
+  				
+  				if ($('.connection').length === 0) {
+  					$('.filler').show();
+  				}
+  				
+  				// delete connectedPeers[c.peer];
+  				
+  				
+  				/*
+  				チェックアウト時に使おう
+  				離れたら再度チェックイン？（再接続する）用に実装する
+  				*/
+  				
+  				// var meObj = JSON.parse(localStorage.getItem("me")); いちいち作るの？
+  				var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
+  				var userArray = storeObj.user_ids.split(",");
+  				
+  				for(var index in userArray){
+  					var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
+  					if(c.peer === userObj.peer_id){
+  						userArray.split(index, 1);
+  						break;
+  					}
+  				}
+  				
+  				//ログアウトしました
+  				alert("チェックアウトしました");
+  				
+  			});
+  		} else if (c.label === 'file') {
+  			c.on('data', function(data) {
+  				// If we're getting a file, create a URL for it.
+  				if (data.constructor === ArrayBuffer) {
+  					var dataView = new Uint8Array(data);
+  					var dataBlob = new Blob([dataView]);
+  					var url = window.URL.createObjectURL(dataBlob);
+  					$('#chatSpace').append('<li class="field chat"></li>')
+  			        .append('<div class="user">' + 
+                        '<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
+                        '<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
+                        '</div>' +
+                        '<p class="msg">' +
+                        '<time>' + chatObj.date + '</time>' +
+                        chatObj.msg +
+                        '</p>'
+                );
+  				}
+			  });
+		  } else if(c.label === 'ask') {
+			  c.on('data', function(data) {
+				  var getObj = JSON.parse(data);
+				  if(getObj.type === 'sendUserData'){
+  					var userObj = localStorage.getItem('user_' + getObj.user_id);
+  					if(userObj !== null){
+  						localStorage.removeItem('user_' + getObj.user_id);
+  					}
+					
+					localStorage.setItem('user_' + getObj.user_id, getObj.user_Data);
+				  }
+			  });
+  			
+  			// var meObj = localStorage.getItem("me");
+  			var userObj = localStorage.getItem('user_' + meObj.user_id);
+  			var sendDataObj = {
+  					'type' : "sendUserData",
+  					'user_id': meObj.user_id,
+  					'user_Data': localStorage.getItem(meObj.user_id)
+  			};
+  				
+  			c.send(JSON.stringify(sendDataObj));
+  		}
+  	}
+  	
+  	// ページ遷移時、peerIdが変更されてしまうため再接続
+  	$(window).load(function(){
+  		// Test用meTableを作成
+  		var meObj = {
+  			"user_id" : "1",
+  			"peer_id" : myId,
+  			"store_id": "1234-5678_876-5432"
+  			};
+  		var getmeObj = localStorage.getItem("me");
+  		
+  		if(getmeObj === null){
+  			localStorage.setItem("me", JSON.stringify(meObj));
+  		}
+  		
+  		var getUserObj = localStorage.getItem('user_' + meObj.user_id);
+  		
+  		if(getUserObj === null){
+  			var userObj = {
+  				"name" : "tester",
+  				"sex" : "1",
+  				"state" : "10",
+  				"age" : "20",
+  				"comment" : "つかれらの",
+  				"photo" : "???",
+  				"matrix_log_ids" : null,
+  				"peer_id" : myId
+  			};
+  			
+  			localStorage.setItem("user_" + meObj.user_id , JSON.stringify(userObj));
+  		}
+  		
+  		// 残りの足りないデータはChromeさんのお力でなんとかしたらいいんじゃない
+  		// ここまで
+  		
+  		// ページ遷移時のため 全てのユーザと通信
+  		var activeList;
+  		$.get(
+  			"https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb",
+  			function(list){
+  				activeList = list;	
+  			}
+  		);
+  		/* 
+  		   全てのユーザ情報を取得？
+  		   取得したユーザ情報から現在同じストアにチェックインしている人を確認
+  		   （store_xxxにuser_idを追加する）
+  		   以降は新たにチェックインするたびにstore_xxxにuser_idを追加的な処理がはいるとこ
+  		*/
+  		
+  		// me取得跡地
+  		var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
+  		var userArray = storeObj.user_ids.split(",");
+  		
+  		for(var index in userArray){
+  			var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
+  			if(userObj !== null){
+  				var c = peer.connect(userObj.peer_id, {
+  						// label: 'ask',
+  						label: 'chat',
+  						serialization: 'none',
+  						metadata: meObj.user_id
+  			      	});
+  			      	c.on('open', function() {
+  			      		if(connectedPeers[c.metadata] === null){
+  						connectedPeers[c.metadata] = c;
+  					}
+  					
+  					var sendDataObj = {
+  						'type' : "sendUserData",
+  						'user_id': meObj.user_id,
+  						'user_Data': localStorage.getItem('user_' + meObj.user_id)
+  					};
+  					
+  					c.send(JSON.stringify(sendDataObj));
+  					connect(c);
+  				});
+  					
+  				c.on('error', function(err) { alert(err); });
+  				var f = peer.connect(userObj.peer_id, { label: 'file', reliable: true });
+  				f.on('open', function() {
+  					connect(f);
+  				});
+  				f.on('error', function(err) { alert(err); });
+  			}
+  		}
+  		
+  		// チャット出力処理
+  		if(storeObj.chat_ids !== null){
+  			var chatArray = storeObj.chat_ids.split(",");
+  			
+  			for(var index in chatArray){
+  				var chatObj = JSON.parse(localStorage.getItem('chat_' + chatArray[index]));
+  				if(charObj !== null){
+  					// てきとーに表示、時系列並び替え必要かも
+  					var userObj = JSON.parse(localStorage.getItem(chatObj.user_id));
+  					$('#chatSpace').append('<li class="field chat"></li>')
+  			      			.append('<div class="user">' + 
+                				'<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
+                				'<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
+        				        '</div>' +
+				                '<p class="msg">' +
+                        			'<time>' + chatObj.msg + '</time>' +
+                				chatObj.msg +
+                        			'</p>');
+  				}
+  			}
+  		}
+  	});
+  
+  	$(document).ready(function() {
+  		function doNothing(e){
+  			e.preventDefault();
+  			e.stopPropagation();
+  		}
+  
+  		/*
+  		// Connect処理はチェックイン画面で行う
+  		// Connect to a peer
+  		$('#connect').click(function() {
+  			requestedPeer = $('#rid').val();
+  		    if (!connectedPeers[requestedPeer]) {
+  				// Create 2 connections, one labelled chat and another labelled file.
+  				var c = peer.connect(requestedPeer, {
+  					label: 'chat',
+  					serialization: 'none',
+  					metadata: {message: 'hi i want to chat with you!'}
+  		      	});
+  		      	
+  		      	c.on('open', function() {
+  					connect(c);
+  				});
+  				
+  				c.on('error', function(err) { alert(err); });
+  				var f = peer.connect(requestedPeer, { label: 'file', reliable: true });
+  				f.on('open', function() {
+  					connect(f);
+  				});
+  				f.on('error', function(err) { alert(err); });
+  		    }
+  		    connectedPeers[requestedPeer] = 1;
+  		});
+  		*/
+  
+  		/*
+  		// Checkoutの処理はどこで行うの？
+  			下記処理を追加する必要がある
+  			localStorage内のチャットデータを削除
+  			ユーザデータも不要？
+  		// Close a connection.
+  		$('#close').click(function() {
+  			eachActiveConnection(function(c) {
+  				c.close();
+  		    });
+  		});
+  		*/
+  		
+  		// Send a chat message to all active connections.
+  		$('#send').submit(function(e) {
+  			e.preventDefault();
+  			// For each active connection, send the message.
+  			var nowTime = new Date();
+  			// 日時を数値化　もっといい方法あるかも
+  			var strTime = nowTime.getFullYear() * '-' +
+  				      (nowTime.getMonth() + 1) + '-' +
+  				      nowTime.getDate() + " " +
+  				      nowTime.getHours() + ':' +
+  				      nowTime.getMinutes() + ':' +
+  				      nowTime.getSeconds();
+  			var msgObj = {
+  				'store_id': meObj.store_id,
+  				'user_id': meObj.user_id,
+  				'msg' : $('#text').val(),
+  				'datetime' : strTime
+  			};
+  			// 接続済みのすべてのユーザにメッセージを送信
+  			eachActiveConnection(function(c) {
+  				if (c.label === 'chat') {
+  					c.send(JSON.stringify(msgObj));
+  	      			}
+  	    		});
+  	    		
+  	    		var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
+  			// 自身に表示する処理
+  			$('#chat-space').append('<li class="field chat me"></li>')
+  			      .append('<div class="user">' + 
+                        '<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
+                        '<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
+                        '</div>' +
+                        '<p class="msg">' +
+                        '<time>' + msgObj.msg + '</time>' +
+                        msgObj.msg +
+                        '</p>');
+  			
+  			// チャットに追加する処理
+  			addchat(JSON.stringify(msgObj));
+  			
+  		    $('#text').val('');
+  		    $('#text').focus();
+  	  	});
+  		
+  		function eachActiveConnection(fn) {
+  			// var meObj = JSON.parse(localStorage.getItem("me"));
+  			var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
+  			var userArray = storeObj.user_ids.split(",");
+  			
+  			for(var index in userArray){
+  				if(userArray[index] != meObj.user_id){
+  					var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
+  					fn(connectedPeers[userArray[index]]);
+  				}
+  			}
+  		}
+  	});
+  
+  	// Make sure things clean up properly.
+  
+  	window.onunload = window.onbeforeunload = function(e) {
+  		if (!!peer && !peer.destroyed) {
+  		    peer.destroy();
+  		}
+  	};
+  
+  </script>
 </head>
 
 <style>
@@ -109,7 +476,7 @@
   <div class="row chat-timeline">
     <div class="chat-timeline-wrapper">
       <div class="twelve columns">
-        <ul>
+        <ul id="chat-space">
           <li class="field chat">
             <div class="user">
               <a href="show_profile.html" class="photo"><img src="img/noimage.png"></a>
@@ -160,10 +527,12 @@
       <div class="twelve columns">
         <ul>
           <li class="field">
-            <div class="medium metro rounded success btn btn-send">
-              <button>送信</button>
-            </div>
-            <textarea class="input textarea" placeholder="コメント" rows="3"></textarea>
+          	<form id="send">
+	            <div class="medium metro rounded success btn btn-send">
+	              <input class = "button" type="submit" >送信</button>
+	            </div>
+	            <textarea class="input textarea" placeholder="コメント" rows="3" id="text"></textarea>
+            	</form>
           </li>
         </ul>
       </div>
