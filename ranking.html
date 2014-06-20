@@ -163,9 +163,14 @@
  	    
  	    
  	    var rankArray = {};
-  	      var idArray = {};
+  	  var idArray = {};
   	      for (var index in storeList){
   	        for(i = 0 ; i < 5 ; i++){
+  	          if(rankArray[i] === null){
+  	            rankArray[i] = storeList[index];
+  	            idArray = index;
+  	          }
+  	          
   	          if(rankArray[i] <= storeList[index]){
   	            for(x = 4; x > i; x--){
   	              if((x + 1) < 4){
