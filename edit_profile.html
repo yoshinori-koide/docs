@@ -40,6 +40,7 @@
 
   <script src="js/libs/modernizr-2.6.2.min.js"></script>
   <script type="text/javascript" src="js/profile.js"></script>
+  <script type="text/javascript" src="js/get_image.js"></script>
 </head>
 
 <style>
@@ -109,12 +110,13 @@
   </div>
   <div class="row">
     <div class="twelve columns edit-profile">
-      <div class="image rounded">
-        <img src="img/noimage.png">
+      <div id = "edit_photo" class="image rounded">
+        <img id ="photo" src="">
       </div>
       <div>
       	<div id = "name"></div>
-        <a href="#">写真を変更する</a>
+        <a href="" onclick="clickbutton()">写真を変更する</a>
+        <input id="file" type="file" onchange="editfileget(this)" >
       </div>
       <form class="edit-profile-form" name="profile">
         <ul>

@@ -40,6 +40,7 @@
 
   <script src="js/libs/modernizr-2.6.2.min.js"></script>
   <script type="text/javascript" src="js/profile.js"></script>
+  <script type="text/javascript" src="js/get_image.js"></script>
 </head>
 
 <style>
@@ -181,7 +182,10 @@
               </div>
             </li>
             <li class="field">
-              <button class="medium metro rounded success btn btn-widthmax btn-profile"><i class="icon-picture"></i> 写真をアップロード</button>
+              <button class="medium metro rounded success btn btn-widthmax btn-profile" onclick="clickbutton()"><i class="icon-picture"></i> 写真をアップロード</button>
+              <input id="file" type="file" onchange="fileget(this)" >
+              <input type="hidden" id="photo" value="">
+              <hiddon>
             </li>
             <li class="field">
               <textarea class="input textarea" placeholder="コメント" rows="3" name="comment"></textarea>

@@ -48,7 +48,8 @@
     	}
 		
     	// 写真を取得
-
+    	var file = "";
+		file = document.profile.photo.value;
     	
     	// コメント取得
     	var comment = document.profile.comment.value;
@@ -56,7 +57,7 @@
     	if(error === ""){
         	var id = "user_id";
         	var user = {};
-        	var value = {"name":name, "sex":sex, "state":state, "age":age, "comment":comment};
+        	var value = {"name":name, "sex":sex, "state":state, "age":age, "comment":comment, "photo":file};
         	user[id] = value;
     	
         	window.localStorage.setItem(id, JSON.stringify(user));
@@ -106,8 +107,14 @@
     	// コメント
     	document.profile.comment.value = user_info.user_id.comment; 
     	// 写真
-    	
-    	
+    	var photo = user_info.user_id.photo;
+    	if(photo === ""){
+    		document.getElementById("photo").src = "img/noimage.png";
+    	}
+    	else{
+    		document.getElementById("photo").src = photo;
+    	}
+       	
     }
 
  // プロフィールをloalstrageに保存する
@@ -157,7 +164,7 @@
     	}
 		
     	// 写真を取得
-
+		var photo = document.getElementById("photo").src;
     	
     	// コメント取得
     	var comment = document.profile.comment.value;
@@ -165,7 +172,7 @@
        	if(error === ""){
         	var id = "user_id";
         	var user = {};
-        	var value = {"name":name, "sex":sex, "state":state, "age":age, "comment":comment};
+        	var value = {"name":name, "sex":sex, "state":state, "age":age, "comment":comment, "photo":photo};
         	user[id] = value;
     	
         	window.localStorage.setItem(id, JSON.stringify(user));
