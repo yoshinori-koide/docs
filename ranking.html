@@ -109,25 +109,7 @@
   	}
   	
     $(window).load(function(){
-      
-      // テスト用データ
-      var meData = {
-        "store_id" : 1,
-        "user_id" : 1,
-      }
-      localStorage.setItem('me', JSON.stringify(meData));
-      
-      var storeData = {
-        "name" : "TEST"
-      }
-      localStorage.setItem('store_1', JSON.stringify(storeData));
-      
-      var userData = {
-        "state" : 1
-      }
-      localStorage.setItem('user_1', JSON.stringify(storeData));
-      
-      // 全てのユーザから情報を集める
+            // 全てのユーザから情報を集める
       var req = new XMLHttpRequest();
      	loadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
      	// リクエストする
@@ -178,7 +160,7 @@
  	    
  	    var rankArray = new Array(5);
   	      var idArray = new Array(5);
-  	      storeList.each(function(index){
+  	      storeList.forEach(function(index){
   	        for(i = 0 ; i < 5 ; i++){
   	          if(rankArray[i] < storeList[index]){
   	            for(x = 4; x > i; x--){
