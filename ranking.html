@@ -178,7 +178,9 @@
   	      });
   	      
   	      for(no = 0; no < 5; no++){
-  	        $('#checkIn1').innerHTML = storeNameList[idArray[i]]; 
+  	        $('#chackInRank').append('<tr><td>' no + 1 '</td></tr>');
+  	        $('#chackInRank').append('<td class="content-name">' + storeNameList[idArray[no]] + '</td>');
+  	        $('#chackInRank').append('<td>' + rankArray[no] + "人" + '</td>');
   	      }
     });
   </script>
@@ -258,32 +260,8 @@
             <td colspan="3"><i class="icon-location"></i> チェックイン数</td>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td class="content-name" id='checkIn1'>ギャレットポップコーン原宿店</td>
-            <td>100人</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td class="content-name" id='checkIn2'>Eggs'n Things原宿店</td>
-            <td>50人</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td class="content-name" id='checkIn3'>代々木体育館</td>
-            <td>40人</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td class="content-name" id='checkIn4'>アップルストア銀座店</td>
-            <td>30人</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td class="content-name" id='checkIn5'>フライングタイガー・コペンハーゲン</td>
-            <td>20人</td>
-          </tr>
+        <tbody id="chackInRank">
+          
         </tbody>
       </table>
       <table class="striped rounded ranking">
