@@ -265,8 +265,8 @@
  	function readyStateChange() {
  		// 通信完了
  		if(req.readyState == 4) {
- 			var meUserData2 = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
- 			window.alert(req.responseText + '\n' + meUserData2);
+			var meData = JSON.parse(window.localStorage.getItem('me'));
+ 			window.alert(req.responseText + '\n' + meData.user_id);
  			// テキスト扱いされてしまうので配列にする
  			var subText = req.responseText.replace(/\[|\]|\"/g, '');
  			var peerIdList = subText.split(',');
