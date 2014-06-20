@@ -32,7 +32,19 @@
 	
 	var connectedPeers = {}
 	var myId;
+	var msgCnt = 0;
 	var meObj = JSON.parse(localStorage.getItem("me"));
+	
+	function addchat(addData){
+		while(1){
+				var chatObj = localStorage.getItem('chat_' + msgCnt);
+				if(chatObj === null){
+					localStorage.setItem('chat_' + msgCnt, addData);
+					break;
+				}
+				msgCnt++;
+			}
+	}
 	
 	// Show this peer's ID.
 	peer.on('open', function(id){
@@ -56,11 +68,11 @@
 			*/
 
 			c.on('data', function(data) {
+				// チャットを追加する
+				addchat(data);
+				
 				var getMsgObj = JSON.parce(data);
 			      	$('#chatSpace').append('<div><span class="peer">' + getMsgObj.user_id + '</span>: ' + getMsgObj.msg + '</div>');
-			      /*
-		      		必要であれば、取得したメッセージをローカルストレージに保存
-			      */
 			});
 
 			// ページ遷移でもこのイベントが発生するためすごく不便だと思うの
@@ -212,8 +224,9 @@
 			var chatArray = storeObj.chat_ids.split(",");
 			
 			for(var index in chatArray){
-				var chatObj = JSON.parse(localStorage.getItem('store_' + chatArray[index]));
+				var chatObj = JSON.parse(localStorage.getItem('chat_' + chatArray[index]));
 				if(charObj !== null){
+					// てきとーに表示、時系列並び替え必要かも
 					var userObj = JSON.parse(localStorage.getItem(chatObj.user_id));
 					$('#chatSpace').append('<div>[' + chatObj.datetime + ']' + userObj.name + '</div>')
 											.append('<p></p>').append(chatObj.msg);
@@ -274,6 +287,7 @@
 			e.preventDefault();
 			// For each active connection, send the message.
 			var nowTime = new Date();
+			// 日時を数値化　もっといい方法あるかも
 			var strTime = (nowTime.getFullYear() * 10000000000) +
 				      ((nowTime.getMonth() + 1) * 100000000) +
 				      (nowTime.getDate() * 1000000)+
@@ -296,6 +310,9 @@
 			var addmsg = $('<div>' + strTime + 'You:<br/></div>').append('<p></p>').append($('#text').val());
 			$('#chatSpace').append(addmsg);
 			
+			// チャットに追加する処理
+			addchat(JSON.stringify(msgObj));
+			
 		    $('#text').val('');
 		    $('#text').focus();
 	  	});
@@ -312,9 +329,6 @@
 				}
 			}
 		}
-		
-		// Show browser version
-		$('#browsers').text(navigator.userAgent);
 	});
 
 	// Make sure things clean up properly.
