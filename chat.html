@@ -186,7 +186,7 @@
   	// ページ遷移時、peerIdが変更されてしまうため再接続
   	$(window).load(function(){
   		// Test用meTableを作成
-  		var meObj = {
+  		var meDummyObj = {
   			"user_id" : "1",
   			"peer_id" : myId,
   			"store_id": "1234-5678_876-5432"
@@ -194,10 +194,10 @@
   		var getmeObj = localStorage.getItem("me");
   		
   		if(getmeObj === null){
-  			localStorage.setItem("me", JSON.stringify(meObj));
+  			localStorage.setItem("me", JSON.stringify(meDummyObj));
   		}
   		
-  		var getUserObj = localStorage.getItem('user_' + meObj.user_id);
+  		var getUserObj = localStorage.getItem('user_' + meDummyObj.user_id);
   		
   		if(getUserObj === null){
   			var userObj = {
@@ -211,7 +211,7 @@
   				"peer_id" : myId
   			};
   			
-  			localStorage.setItem("user_" + meObj.user_id , JSON.stringify(userObj));
+  			localStorage.setItem("user_" + meDummyObj.user_id , JSON.stringify(userObj));
   		}
   		
   		// 残りの足りないデータはChromeさんのお力でなんとかしたらいいんじゃない
