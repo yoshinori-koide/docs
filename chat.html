@@ -209,23 +209,6 @@
   		}else{
   			meObj = meDummyObj;
   		}
-  		
-  		var getUserObj = localStorage.getItem('user_' + meDummyObj.user_id);
-  		
-  		if(getUserObj === null){
-  			var userObj = {
-  				"name" : "tester",
-  				"sex" : "1",
-  				"state" : "10",
-  				"age" : "20",
-  				"comment" : "つかれらの",
-  				"photo" : "???",
-  				"matrix_log_ids" : null,
-  				"peer_id" : myId
-  			};
-  			
-  			localStorage.setItem("user_" + meDummyObj.user_id , JSON.stringify(userObj));
-  		}
   			
   		var getStoreObj = localStorage.getItem('store_' + meObj.store_id);
   		if(getStoreObj === null){
