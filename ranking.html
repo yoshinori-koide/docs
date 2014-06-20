@@ -97,7 +97,6 @@
        			// 全員にチェックインリクエスト送る
        			for (var i=0; i<peerIdList.length; i++) {
            		var requestedPeer = peerIdList[i];
-           		if (!connectedPeers[requestedPeer]) {
              			// リクエスト
              			c = peer.connect(requestedPeer, {
                				label: 'getRankValue',
@@ -108,8 +107,6 @@
              				connect(c);
              			});
              			c.on('error', function(err) { alert(err); });
-           		}
-         	  connectedPeers[requestedPeer] = 1;
    	        }
    		  }
  	    }
