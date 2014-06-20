@@ -290,7 +290,7 @@
   				var chatObj = JSON.parse(localStorage.getItem('chat_' + chatArray[index]));
   				if(chatObj !== null){
   					// てきとーに表示、時系列並び替え必要かも
-  					var userObj = JSON.parse(localStorage.getItem(chatObj.user_id));
+  					var userObj = JSON.parse(localStorage.getItem('user_' + chatObj.user_id));
   					$('#chatSpace').append('<li class="field chat">' + 
   			      			'<div class="user">' + 
                 				'<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
