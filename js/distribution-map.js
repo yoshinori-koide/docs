@@ -45,6 +45,29 @@ function distSendData(peerIdList) {
     connectedPeers[requestedPeer] = 1;
     }
 }
+
+// 他からの接続を検知したら、自分の持っている店データを返す
+peer.on('connection', returnStoreList);
+// 他との接続を検知したときに実行
+function returnStoreList(c) {
+   if (c.label === 'distribution-map') {
+       c.on('data', function(data) {
+           var storeList = JSON.parse(data);
+           // うけとったデータを保存する
+           console.log(storeList);
+           window.localStrage.setItem('store_list', storeList);
+       });
+       c.on('close', function() {
+           // 接続が切断されたことを検知
+           console.log(c.peer + ' has left.');
+           if ($('.connection').length === 0) {
+               console.log(c.peer + ' no connection');
+           }
+           delete connectedPeers[c.peer];
+       });
+   }
+   connectedPeers[c.peer] = 1;
+}
 function getAllStoreList() {
 
     var store_list = new Array();
@@ -68,7 +91,6 @@ function getAllStoreList() {
               vuser_ids = store_data.user_ids.split(',');
           }
           store_list[j]['count'] = user_ids.length;
-          createMarker(store_list[j]);
           j++;
       } 
     }
