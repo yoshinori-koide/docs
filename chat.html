@@ -155,19 +155,19 @@
                         '<time>' + chatObj.msg + '</time>' +
                         chatObj.msg +
                         '</p>');
-  	    	});
-  		} else if(c.label === 'ask') {
-  			c.on('data', function(data) {
-  				var getObj = JSON.parse(data);
-  				if(getObj.type === 'sendUserData'){
-  					var userObj = localStorage.getItem('user_' + getObj.user_id);
-  					if(userObj !== null){
-  						localStorage.removeItem('user_' + getObj.user_id);
-  					}
+  				});
+  		  } else if(c.label === 'ask') {
+  			  c.on('data', function(data) {
+  				  var getObj = JSON.parse(data);
+  				  if(getObj.type === 'sendUserData'){
+    					var userObj = localStorage.getItem('user_' + getObj.user_id);
+    					if(userObj !== null){
+    						localStorage.removeItem('user_' + getObj.user_id);
+    					}
   					
   					localStorage.setItem('user_' + getObj.user_id, getObj.user_Data);
-  				}
-  			});
+  				  }
+  			  });
   			
   			// var meObj = localStorage.getItem("me");
   			var userObj = localStorage.getItem('user_' + meObj.user_id);
