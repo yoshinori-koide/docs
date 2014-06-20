@@ -96,7 +96,7 @@
        			var peerIdList = subText.split(',');
        			// 全員にチェックインリクエスト送る
        			for (var i=0; i<peerIdList.length; i++) {
-           		requestedPeer = peerIdList[i];
+           		var requestedPeer = peerIdList[i];
            		if (!connectedPeers[requestedPeer]) {
              			// リクエスト
              			c = peer.connect(requestedPeer, {
