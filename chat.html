@@ -68,14 +68,17 @@
   	var meObj = JSON.parse(localStorage.getItem("me"));
   	
   	function addchat(addData){
+  		var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
   		while(1){
   				var chatObj = localStorage.getItem('chat_' + msgCnt);
   				if(chatObj === null){
   					localStorage.setItem('chat_' + msgCnt, addData);
+  					storeObj.chat_ids = storeObj.chat_ids + "," + msgCnt;
   					break;
   				}
   				msgCnt++;
   			}
+  		localStorage.setItem('store_' + meObj.store_id ,JSON.stringify(storeObj));
   	}
   	
   	// Show this peer's ID.
