@@ -181,6 +181,12 @@
 				activeList = list;	
 			}
 		);
+		/* 
+		   全てのユーザ情報を取得？
+		   取得したユーザ情報から現在同じストアにチェックインしている人を確認
+		   （store_xxxにuser_idを追加する）
+		   以降は新たにチェックインするたびにstore_xxxにuser_idを追加的な処理がはいるとこ
+		*/
 		
 		// me取得跡地
 		var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
