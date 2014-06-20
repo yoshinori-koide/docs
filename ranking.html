@@ -166,13 +166,7 @@
   	  var idArray = new Array();
   	      for (var index in storeList){
   	        for(i = 0 ; i < 5 ; i++){
-  	          if(rankArray.length <= i){
-  	            rankArray[i] = storeList[index];
-  	            idArray = index;
-  	            continue;
-  	          }
-  	          
-  	          if(rankArray[i] <= storeList[index]){
+  	           if(rankArray[i] <= storeList[index]){
   	            for(x = 4; x > i; x--){
   	              if((x + 1) < 4){
     	              rankArray[x] = rankArray[x - 1];
@@ -181,6 +175,12 @@
   	            }
   	            rankArray[i] = storeList[index];
   	            idArray = index;
+  	          }
+  	          
+  	          if(rankArray.length <= i){
+  	            rankArray[i] = storeList[index];
+  	            idArray = index;
+  	            continue;
   	          }
   	        }
   	      }
