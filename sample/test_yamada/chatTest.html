@@ -86,7 +86,11 @@
 				// delete connectedPeers[c.peer];
 				
 				
-				// チェックアウト時に使おう
+				/*
+				チェックアウト時に使おう
+				離れたら再度チェックイン？（再接続する）用に実装する
+				*/
+				
 				// var meObj = JSON.parse(localStorage.getItem("me")); いちいち作るの？
 				var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
 				var userArray = storeObj.user_ids.split(",");
@@ -94,7 +98,7 @@
 				for(var index in userArray){
 					var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
 					if(c.peer === userObj.peer_id){
-						userArray.aplit(index, 1);
+						userArray.split(index, 1);
 						break;
 					}
 				}
