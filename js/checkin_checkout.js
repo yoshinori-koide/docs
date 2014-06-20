@@ -173,9 +173,9 @@ function connect(c) {
 					// localStrageのデータ全件からmatrix_log_を全件取得する
 					var matrixData = [];
 					for(var i = 0; i < window.localStorage.length; i++){  
-					　　// キー名の取得  
-					　　var k = window.localStorage.key(i);  
-					　　　// matrix_log_[user_id]_で始まるデータを判別する
+					   // キー名の取得  
+					   var k = window.localStorage.key(i);  
+					     // matrix_log_[user_id]_で始まるデータを判別する
 							var str = ' ' + k;
 							if (str.indexOf(' matrix_log_' + meData.user_id + '-') !== -1) {
 								var mData = window.localStorage.getItem(k);
@@ -198,5 +198,7 @@ function connect(c) {
 			    }
 			}
 		});
+	}else if(c.label === 'distribution-map') {
+	    
 	}
 }
