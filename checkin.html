@@ -66,6 +66,7 @@
     });
     var connectedPeers = {};
     var newCheckinPeers = {};
+    var reqCount = 0;
     var resCount = 0;
     
     function getCurrentPosition() {
@@ -312,7 +313,7 @@
  			window.localStorage.setItem(meData.store_id, JSON.stringify({'name':storeData.name,'user_ids':storeData.users_id + ',' + getUserData.userId,'chat_ids':storeData.chat_ids + ',' + otherUserData.peer_id}));
  			// カウント増やす
  			resCount++;
-			if (resCount == connectedPeers.length) {
+			if (resCount == reqCount) {
 				// 取得完了。画面遷移
 				var meData = JSON.parse(window.localStorage.getItem('me'));
 				var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
@@ -330,7 +331,6 @@
  			console.log(c.peer + ' has left.');
  			if ($('.connection').length === 0) {
  				console.log(c.peer + ' no connection');
- 				// 自分が１番
  			}
  			delete connectedPeers[c.peer];
  		});
@@ -374,7 +374,7 @@
  			c.on('close', function() {
  				console.log(c.peer + ' cancel.');
  				resCount++;
- 				if (resCount == connectedPeers.length) {
+ 				if (resCount == reqCount) {
  					// 取得完了。画面遷移
  					var meData = JSON.parse(window.localStorage.getItem('me'));
  					var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
