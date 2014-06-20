@@ -166,7 +166,7 @@
   	      var idArray = new Array(5);
   	      storeList.forEach(function(index){
   	        for(i = 0 ; i < 5 ; i++){
-  	          if(rankArray[i] < storeList[index]){
+  	          if(rankArray[i] =< storeList[index]){
   	            for(x = 4; x > i; x--){
   	              rankArray[x] = rankArray[x - 1];
   	              idArray[x] = idArray[x - 1];
@@ -261,7 +261,6 @@
           </tr>
         </thead>
         <tbody id="chackInRank">
-          
         </tbody>
       </table>
       <table class="striped rounded ranking">
