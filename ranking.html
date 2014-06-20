@@ -85,29 +85,30 @@
  	    }
  	    
  	    function readyStateChange() {
-   		// 通信完了
-   		if(req.readyState == 4) {
-     			// テキスト扱いされてしまうので配列にする
-     			var subText = req.responseText.replace(/\[|\]|\"/g, '');
-     			var peerIdList = subText.split(',');
-     			// 全員にチェックインリクエスト送る
-     			for (var i=0; i<peerIdList.length; i++) {
-         		requestedPeer = peerIdList[i];
-         		if (!connectedPeers[requestedPeer]) {
-           			// リクエスト
-           			c = peer.connect(requestedPeer, {
-             				label: 'getRankValue',
-             				serialization: 'none',
-             				metadata: 'null'
-           			});
-           			c.on('open', function() {
-           				connect(c);
-           			});
-           			c.on('error', function(err) { alert(err); });
-         		}
-       	  connectedPeers[requestedPeer] = 1;
- 	        }
- 		  }
+     		// 通信完了
+     		if(req.readyState == 4) {
+       			// テキスト扱いされてしまうので配列にする
+       			var subText = req.responseText.replace(/\[|\]|\"/g, '');
+       			var peerIdList = subText.split(',');
+       			// 全員にチェックインリクエスト送る
+       			for (var i=0; i<peerIdList.length; i++) {
+           		requestedPeer = peerIdList[i];
+           		if (!connectedPeers[requestedPeer]) {
+             			// リクエスト
+             			c = peer.connect(requestedPeer, {
+               				label: 'getRankValue',
+               				serialization: 'none',
+               				metadata: 'null'
+             			});
+             			c.on('open', function() {
+             				connect(c);
+             			});
+             			c.on('error', function(err) { alert(err); });
+           		}
+         	  connectedPeers[requestedPeer] = 1;
+   	        }
+   		  }
+ 	    }
     });
   </script>
   
