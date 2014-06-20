@@ -22,9 +22,10 @@ function distReadyStateChange() {
     }
 }
 var connectedPeers = {};
+
 function distSendData(peerIdList) {
     // localStrageのデータ全件からmatrix_log_を全件取得する
-//    var storeList = getAllStoreList();
+    var storeList = getAllStoreList();
 
     // 全員にチェックインリクエスト送る
     for (var i=0; i<peerIdList.length; i++) {
@@ -34,7 +35,7 @@ function distSendData(peerIdList) {
         var c = peer.connect(requestedPeer, {
             label: 'distribution-map',
             serialization: 'none',
-//            metadata: {storeList:storeList}
+            metadata: {storeList:storeList}
         });
         c.on('open', function() {
             connect(c);
@@ -42,7 +43,6 @@ function distSendData(peerIdList) {
         c.on('error', function(err) { alert(err); });
     }
     connectedPeers[requestedPeer] = 1;
-    console.log("Hello world25");
     }
 }
 function getAllStoreList() {
