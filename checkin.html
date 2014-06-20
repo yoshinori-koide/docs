@@ -53,19 +53,21 @@
       // own.
       key: 'cc6f5bfa-ec91-11e3-8c36-09d78563cbeb',
     // localhostは以下のキーを使用
-    //  key: '6165842a-5c0d-11e3-b514-75d3313b9d05',
+//      key: '6165842a-5c0d-11e3-b514-75d3313b9d05',
 
       // Set highest debug level (log everything!).
       debug: 3,
 
       // Set a logging function:
-      logFunction: function() {
-        var copy = Array.prototype.slice.call(arguments).join(' ');
-        $('.log').append(copy + '<br>');
-      }
+	  logFunction: function() {
+	    var copy = Array.prototype.slice.call(arguments).join(' ');
+	    console.log(copy);
+	  }
     });
     var connectedPeers = {};
     var newCheckinPeers = {};
+    var reqCount = 0;
+    var resCount = 0;
     
     function getCurrentPosition() {
     	if (navigator.geolocation) {
@@ -282,7 +284,7 @@
  			// うけとったデータを保存する
  			console.log(getUserData);
  			// とりあず保存
- 			window.localStorage.setItem("user_" + getUserData.userId, JSON.stringify(getUserData.userData));
+ 			window.localStorage.setItem('user_' + getUserData.userId, JSON.stringify(getUserData.userData));
  			var mDataList = getUserData.matrixDataList;
  			for (key in mDataList) {
  				// マトリクスはとりあえず全件保存しとく
@@ -294,12 +296,36 @@
  			var otherUserData = getUserData.userData;
  			window.localStorage.setItem(meData.store_id, JSON.stringify({'name':storeData.name,'user_ids':storeData.users_id + ',' + getUserData.userId,'chat_ids':storeData.chat_ids + ',' + otherUserData.peer_id}));
  			// カウント増やす
+ 			resCount++;
+			if (reqCount == resCount) {
+				// 取得完了。画面遷移
+				var meData = JSON.parse(window.localStorage.getItem('me'));
+				var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
+				if (meUserData.name) {
+					// チャットへ遷移
+ 					location.href = "chat.html";
+				} else {
+					// プロフ登録へ遷移
+ 					location.href = "new_profile.html";
+				}
+			}
  		});
  		c.on('close', function() {
  			// 接続が切断されたことを検知
  			console.log(c.peer + ' has left.');
  			if ($('.connection').length === 0) {
  				console.log(c.peer + ' no connection');
+ 				// 自分が１番目
+ 				 // 取得完了。画面遷移
+				var meData = JSON.parse(window.localStorage.getItem('me'));
+				var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
+				if (meUserData.name) {
+					// チャットへ遷移
+ 					location.href = "chat.html";
+				} else {
+					// プロフ登録へ遷移
+ 					location.href = "new_profile.html";
+				}
  			}
  			delete connectedPeers[c.peer];
  		});
@@ -328,17 +354,34 @@
  	}
 
  	// 全員にチェックインリクエスト送る
- 	for (var i=0; i<peerIdList.length; i++) {
+ 	reqCount = peerIdList.length;
+ 	for (var i=0; i<reqCount; i++) {
  		requestedPeer = peerIdList[i];
  		if (!connectedPeers[requestedPeer]) {
  			// リクエスト
- 			c = peer.connect(requestedPeer, {
+ 			var c = peer.connect(requestedPeer, {
  				label: 'checkin',
  				serialization: 'none',
  				metadata: {storeId:meData.store_id,userId:meData.user_id, userData:myUserData, matrixDataList:matrixData}
  			});
  			c.on('open', function() {
  				connect(c);
+ 			});
+ 			c.on('close', function() {
+ 				console.log(c.peer + ' cancel.');
+ 				resCount++;
+ 				if (reqCount == resCount) {
+ 					// 取得完了。画面遷移
+ 					var meData = JSON.parse(window.localStorage.getItem('me'));
+ 					var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
+ 					if (meUserData.name) {
+ 						// チャットへ遷移
+ 	 					location.href = "chat.html";
+ 					} else {
+ 						// プロフ登録へ遷移
+ 	 					location.href = "new_profile.html";
+ 					}
+ 				}
  			});
  			c.on('error', function(err) { alert(err); });
  		}
