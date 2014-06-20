@@ -52,6 +52,8 @@
   		debug: 3,
   	});
     
+    peer.on('open', function(){});
+    
     // Await connections from others
   	peer.on('connection', connect);
   	
