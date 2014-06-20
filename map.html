@@ -39,7 +39,6 @@
   <link rel="stylesheet" href="css/custom.css">
 
   <script src="js/libs/modernizr-2.6.2.min.js"></script>
-  
 </head>
 
 <style>
@@ -76,8 +75,6 @@
   </script>
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
   <script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
-  <script src="js/checkin_checkout.js"></script>
-  <script src="js/distribution-map.js"></script>
   
   <!--{共通ヘッダー ここから}-->
   <header class="navbar" id="nav1">
@@ -119,6 +116,7 @@
   <!--{コンテンツ ここまで}-->
 
 
+<!--後読み込みのJS -->
 <style>
 #map-canvas {
   width: 100%;
@@ -127,6 +125,10 @@
 #map-canvas img  { max-width:none; }
 #map-canvas label { width: auto; display:inline; }
 </style>
+<script src="js/checkin_checkout.js"></script>
+<script src="js/distribution-map.js"></script>
+
+<!--後読み込みのJS -->
 
 
 
