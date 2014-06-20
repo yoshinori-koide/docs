@@ -92,7 +92,8 @@
     </div>
     <div>
       <div class="twelve columns">
-        <div class="large metro rounded primary btn btn-widthmax"><a href="checkin.html"><i class="icon-location"></i> チェックイン</a></div>
+        <div id="top-menu-checkin" class="large metro rounded primary btn btn-widthmax"><a href="checkin.html"><i class="icon-location"></i> チェックイン</a></div>
+        <div id="top-menu-checkout" class="large metro rounded primary btn btn-widthmax"><a href="#" onClick="checkOut()"><i class="icon-logout"></i> チェックアウト</a></div>
       </div>
       <div class="twelve columns">
         <div class="large metro rounded primary btn btn-widthmax"><a href="map.html"><i class="icon-globe"></i> MAPをみる</a></div>
@@ -112,6 +113,17 @@
     PRO Team @DEVCAMP 2014
   </footer>
   <!--{共通フッター ここまで}-->
+
+
+<!--後読み込みのJS -->
+<script src="js/display-controll.js"></script>
+
+<!--後読み込みのJS -->
+
+
+
+  
+  
   <!--
   Include gumby.js followed by UI modules followed by gumby.init.js
   Or concatenate and minify into a single file -->

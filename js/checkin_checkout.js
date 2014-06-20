@@ -221,14 +221,14 @@ function connect(c) {
                   store_list[j]['count'] = user_ids.length;
                   createMarker(store_list[j]);
                   j++;
-              }
+              };
             }
             console.log("c.label" + c.label);
             if (c.label === 'distribution-map') {
                 // データ投げ返す
                 c.send(store_list);
                 console.log(store_list);
-            }
+            };
         });
-	}
-}
+	};
+};
