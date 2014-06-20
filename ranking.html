@@ -39,6 +39,78 @@
   <link rel="stylesheet" href="css/custom.css">
 
   <script src="js/libs/modernizr-2.6.2.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
+  
+  <script>
+    var meObj = JSON.parse(localStorage.getItem("me"));
+    var stateList = {};
+    var storeList = {};
+    var storeNameList = {};
+    
+    // Await connections from others
+  	peer.on('connection', connect);
+  	
+  	function connect(c) {
+  	  if (c.label === 'getRankValue') {
+  	    var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
+  	    var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.user_id));
+  	    
+  	    var userData = {
+  	      "store_id" : meObj.user_id,
+  	      "name" : storeObj.name,
+  	      "state" : userObj.state
+  	    };
+  	    
+  	    c.send(JSON.stringify(userData));
+  	    c.on('data', function(data) {
+  	      var getData = JSON.parse(data);
+  	      storeList[data.store_id]++;
+  	      storeNameList[data.store_id] = date.name;
+  	      stateList[data.state]++;
+  	    });
+  	  }
+  	}
+  	
+    $(window).load(function(){
+      // 全てのユーザから情報を集める
+      var req = new XMLHttpRequest();
+     	loadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
+     	// リクエストする
+     	function loadText(path) {
+     		req.onreadystatechange = readyStateChange;
+     		// リクエスト発行
+     		req.open("get", path, true);
+     		req.send("");
+ 	    }
+ 	    
+ 	    function readyStateChange() {
+   		// 通信完了
+   		if(req.readyState == 4) {
+     			// テキスト扱いされてしまうので配列にする
+     			var subText = req.responseText.replace(/\[|\]|\"/g, '');
+     			var peerIdList = subText.split(',');
+     			// 全員にチェックインリクエスト送る
+     			for (var i=0; i<peerIdList.length; i++) {
+         		requestedPeer = peerIdList[i];
+         		if (!connectedPeers[requestedPeer]) {
+           			// リクエスト
+           			c = peer.connect(requestedPeer, {
+             				label: 'getRankValue',
+             				serialization: 'none',
+             				metadata: 'null'
+           			});
+           			c.on('open', function() {
+           				connect(c);
+           			});
+           			c.on('error', function(err) { alert(err); });
+         		}
+       	  connectedPeers[requestedPeer] = 1;
+ 	        }
+ 		  }
+    });
+  </script>
+  
 </head>
 
 <style>
