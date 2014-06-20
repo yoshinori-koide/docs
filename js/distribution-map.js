@@ -1,8 +1,56 @@
 // *** メソッド *** //
+// peerIdリストを取得する
+var req = new XMLHttpRequest();
+loadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
+// リクエストする
+function loadText(path) {
+    req.onreadystatechange = readyStateChange;
+    // リクエスト発行
+    req.open("get", path, true);
+    req.send("");
+}
+
+// 通信状態変化時イベントハンドラ
+function readyStateChange() {
+    // 通信完了
+    if(req.readyState == 4) {
+        // テキスト扱いされてしまうので配列にする
+        var subText = req.responseText.replace(/\[|\]|\"/g, '');
+        var peerIdList = subText.split(',');
+        // 全員にチェックインリクエスト送る
+        sendData(peerIdList);
+    }
+}
+var connectedPeers = {};
+function sendData(peerIdList) {
+    console.log("Hello world22");
+    // localStrageのデータ全件からmatrix_log_を全件取得する
+//    var storeList = getAllStoreList();
+
+    // 全員にチェックインリクエスト送る
+    for (var i=0; i<peerIdList.length; i++) {
+    requestedPeer = peerIdList[i];
+    if (!connectedPeers[requestedPeer]) {
+        // リクエスト
+        c = peer.connect(requestedPeer, {
+            label: 'distribution-map',
+            serialization: 'none',
+//            metadata: {storeList:storeList}
+        });
+        c.on('open', function() {
+            connect(c);
+        });
+        c.on('error', function(err) { alert(err); });
+    }
+    connectedPeers[requestedPeer] = 1;
+    console.log("Hello world25");
+    }
+}
 function getAllStoreList() {
+
     var store_list = new Array();
     var j = 0;
-    for(var i = 0; i < window.localStorage.length; i++){ 
+    for(var i = 0; i < window.localStorage.length; i++){
       // キー名の取得 
       var k = window.localStorage.key(i); 
         // store_で始まるデータを判別する
