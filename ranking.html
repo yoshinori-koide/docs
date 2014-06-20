@@ -72,6 +72,38 @@
   	      storeList[data.store_id]++;
   	      storeNameList[data.store_id] = date.name;
   	      stateList[data.state]++;
+  	      
+  	      var rankArray = new Array(5);
+  	      var idArray = new Array(5);
+  	      storeList.each(function(index){
+  	        for(i = 0 ; i < 5 ; i++){
+  	          if(rankArray[i] < storeList[index]){
+  	            for(x = 4; x > i; x--){
+  	              rankArray[x] = rankArray[x - 1];
+  	              idArray[x] = idArray[x - 1];
+  	            }
+  	            rankArray[i] = storeList[index];
+  	            idArray = index;
+  	          }
+  	        }
+  	      });
+  	      
+  	      for(i = 0; i < 5; i++){
+  	        $('#checkIn' + no).innerHTML = storeNameList[idArray[i]]; 
+  	      }
+  	      
+  	      
+  	      stateList.each(function(index){
+  	        for(i = 0 ; i < 5 ; i++){
+  	          if(rankArray[i] < stateList[index]){
+  	            for(x = 4; x > i; x--){
+  	              rankArray[x] = rankArray[x - 1];
+  	            }
+  	            rankArray[i] = stateList[index];
+  	          }
+  	        }
+  	      });
+  	      
   	    });
   	  }
   	}
@@ -191,27 +223,27 @@
         <tbody>
           <tr>
             <td>1</td>
-            <td class="content-name">ギャレットポップコーン原宿店</td>
+            <td class="content-name" id='checkIn1'>ギャレットポップコーン原宿店</td>
             <td>100人</td>
           </tr>
           <tr>
             <td>2</td>
-            <td class="content-name">Eggs'n Things原宿店</td>
+            <td class="content-name" id='checkIn2'>Eggs'n Things原宿店</td>
             <td>50人</td>
           </tr>
           <tr>
             <td>3</td>
-            <td class="content-name">代々木体育館</td>
+            <td class="content-name" id='checkIn3'>代々木体育館</td>
             <td>40人</td>
           </tr>
           <tr>
             <td>4</td>
-            <td class="content-name">アップルストア銀座店</td>
+            <td class="content-name" id='checkIn4'>アップルストア銀座店</td>
             <td>30人</td>
           </tr>
           <tr>
             <td>5</td>
-            <td class="content-name">フライングタイガー・コペンハーゲン</td>
+            <td class="content-name" id='checkIn5'>フライングタイガー・コペンハーゲン</td>
             <td>20人</td>
           </tr>
         </tbody>
@@ -225,27 +257,27 @@
         <tbody>
           <tr>
             <td>1</td>
-            <td class="content-name">東京</td>
+            <td class="content-name" id='state1'>東京</td>
             <td>100人</td>
           </tr>
           <tr>
             <td>2</td>
-            <td class="content-name">大阪</td>
+            <td class="content-name" id='state2'>大阪</td>
             <td>50人</td>
           </tr>
           <tr>
             <td>3</td>
-            <td class="content-name">神奈川</td>
+            <td class="content-name" id='state3'>神奈川</td>
             <td>40人</td>
           </tr>
           <tr>
             <td>4</td>
-            <td class="content-name">兵庫</td>
+            <td class="content-name" id='state4'>兵庫</td>
             <td>30人</td>
           </tr>
           <tr>
             <td>5</td>
-            <td class="content-name">北海道</td>
+            <td class="content-name" id='state5'>北海道</td>
             <td>20人</td>
           </tr>
         </tbody>
