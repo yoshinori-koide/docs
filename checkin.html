@@ -225,9 +225,6 @@
  		window.localStorage.setItem('user_' + meData.user_id,JSON.stringify({'store_id':storeStorageKey,'store_name':checkinStore.name,'store_lat':checkinStore.geometry.location.lat(),'store_lng':checkinStore.geometry.location.lng(),'matrix_log_ids':matrixId,'chat_ids':''}));
  	}
  	
- 	// ユーザデータ送信
- 	getPeerIdList();
- 	
  	// ページ遷移
  	meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
  	var url = "chat.html";
