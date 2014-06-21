@@ -94,8 +94,8 @@ function connect(c) {
 		// 新規チェックイン者受信
 		c.on('open', function() {
 			// 保存
-			console.log("c.metadata.meUserData:" + c.metadata.meUserData);
-			window.localStorage.setItem(c.metadata.meUserData);
+			console.log("c.metadata.meUserData:" + c.metadata);
+			window.localStorage.setItem(c.metadata);
 		});
  		c.on('close', function() {
  			// 接続が切断されたことを検知
