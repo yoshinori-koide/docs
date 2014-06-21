@@ -149,39 +149,6 @@
     });
   	
     $(window).load(function(){
-            // 全てのユーザから情報を集める
-      /* var req = new XMLHttpRequest();
-     	loadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
-     	// リクエストする
-     	function loadText(path) {
-     		req.onreadystatechange = readyStateChange;
-     		// リクエスト発行
-     		req.open("get", path, true);
-     		req.send("");
- 	    }
- 	    
- 	    function readyStateChange() {
-     		// 通信完了
-     		if(req.readyState == 4) {
-       			// テキスト扱いされてしまうので配列にする
-       			var subText = req.responseText.replace(/\[|\]|\"/g, '');
-       			var peerIdList = subText.split(',');
-       			// 全員にチェックインリクエスト送る
-       			for (var i=0; i<peerIdList.length; i++) {
-           		var requestedPeer = peerIdList[i];
-             			// リクエスト
-             			c = peer.connect(requestedPeer, {
-               				label: 'getRankValue',
-               				serialization: 'none',
-               				metadata: 'null'
-             			});
-             			c.on('open', function() {
-             				connect(c);
-             			});
-             			c.on('error', function(err) { alert(err); });
-   	        }
-   		  }
- 	    } */
  	    
  	    var storeList = new Array();
  	    storeList["0"] = 1;
@@ -210,9 +177,9 @@
  	    storeNameList["o3"] = "4-";
  	    
  	    getRanking(storeList, storeNameList, '#chackInRank');
- 	    
+    });
+    
   </script>
-  
 </head>
 
 <style>
