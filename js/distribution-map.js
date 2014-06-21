@@ -5,35 +5,34 @@ var peer = new Peer({
   key: apiKey,
   debug: 3,
 });
-
-// peerIdリストを取得する
-var req = new XMLHttpRequest();
-distLoadText("https://skyway.io/active/list/"+apiKey);
-// リクエストする
-function distLoadText(path) {
-    req.onreadystatechange = distReadyStateChange;
-    // リクエスト発行
-    req.open("get", path, true);
-    req.send("");
-}
-
-// 通信状態変化時イベントハンドラ
-function distReadyStateChange() {
-    // 通信完了
-    if(req.readyState == 4) {
-        // テキスト扱いされてしまうので配列にする
-        var subText = req.responseText.replace(/\[|\]|\"/g, '');
-        var peerIdList = subText.split(',');
-        // 全員にお店リストリクエストを送る
-        distSendData(peerIdList);
-    }
-}
 var connectedPeers = {};
 
 //通信状態変化時イベントハンドラ
-function distSendData(peerIdList) {
+function distSendData() {
+    peerIdList = {};
     // localStrageのデータ全件からstore_を全件取得する
     var storeList = getAllStoreList();
+
+     // peerIdリストを取得する
+     var req = new XMLHttpRequest();
+     distLoadText("https://skyway.io/active/list/"+apiKey);
+     // リクエストする
+     function distLoadText(path) {
+         req.onreadystatechange = distReadyStateChange;
+         // リクエスト発行
+         req.open("get", path, true);
+         req.send("");
+     }
+    
+     // 通信状態変化時イベントハンドラ
+     function distReadyStateChange() {
+         // 通信完了
+         if(req.readyState == 4) {
+             // テキスト扱いされてしまうので配列にする
+             var subText = req.responseText.replace(/\[|\]|\"/g, '');
+             peerIdList = subText.split(',');
+         }
+     }
 
     // 全員にお店リストを送る
     for (var i=0; i<peerIdList.length; i++) {
@@ -79,7 +78,7 @@ function returnStoreList(dataConnection) {
            delete connectedPeers[dataConnection.peer];
        });
    }
-   connectedPeers[dataConnection.peer] = 1;
+   connectedPeers[dataConnection.pz1eer] = 1;
 }
 
 function getAllStoreList() {
@@ -101,7 +100,7 @@ function getAllStoreList() {
           // チェッックインユーザー数
           var user_ids = new Array();
           if(store_data.user_ids != null) {
-              vuser_ids = store_data.user_ids.split(',');
+              user_ids = store_data.user_ids.split(',');
           }
           store_list[j]['count'] = user_ids.length;
 //          createMarker(store_list[j]);
@@ -128,10 +127,20 @@ function createMarker(store) {
     });
     var contentString = '<div class="map-infowindow">'+
     '<h4>'+store['name']+'</h4>'+
-    '<p>並んでいる人数'+store['count']+'</p>'+
+    '<p>並んでいる人数: '+store['count']+'人</p>'+
     '</div>';
     google.maps.event.addListener(marker, 'click', function() {
         infowindow.setContent(contentString);
         infowindow.open(map,this);
     });
 }
+var localStoreList = getAllStoreList();
+for(var i=0; i < localStoreList.length; i++){
+    createMarker(localStoreList[i]);
+}
+
+window.onunload = window.onbeforeunload = function(e) {
+    if (!!peer && !peer.destroyed) {
+        peer.destroy();
+    }
+};
