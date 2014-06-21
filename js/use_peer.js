@@ -25,6 +25,10 @@ const CHAT = 'chat';
 // peerIdリストを取得する
 function getPeerIdList () {
 	
+	// 自身のユーザデータ取得
+	var meData = JSON.parse(window.localStorage.getItem('me'));
+	var myUserData = window.localStorage.getItem(meData.user_id);
+	
  	// リクエストする
  	function loadText(path) {
  		req.onreadystatechange = readyStateChange;
@@ -47,10 +51,6 @@ function getPeerIdList () {
  		}
  	}
 
-	// 自身のユーザデータ取得
-	var meData = JSON.parse(window.localStorage.getItem('me'));
-	var myUserData = window.localStorage.getItem(meData.user_id);
-	
  	// peerIdリストを取得する
  	var req = new XMLHttpRequest();
  	loadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
