@@ -173,7 +173,7 @@
 		 			var subText = req.responseText.replace(/\[|\]|\"/g, '');
 		 			var peerIdList = subText.split(',');
 		 			if (peerIdList.length > 0) {
-			 			// 全員にチェックインリクエスト送る
+			 			// 全員にチャットデータを送る
 		 				function((){
 		 					var c = peer.connect(peerIdList[i], {
 							 	label: 'chat',
@@ -183,15 +183,11 @@
 							 c.send(msgObj);
 		 				})
 		 			}
+		 		}
 	 		}
+  		});
  	}
 
- 	// peerIdリストを取得する
- 	var req = new XMLHttpRequest();
- 	loadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
-  		}
-  	});
-  
   	// Make sure things clean up properly.
   
   	window.onunload = window.onbeforeunload = function(e) {
