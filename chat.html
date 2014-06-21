@@ -170,10 +170,8 @@
   		
   		function eachActiveConnection(msgObj){
   			for(var key in chatConnectArray){
-  				if(chatConnectArray[key]){
-	  				var conns = peer.key;
-	  				conns.send(msgObj);
-  				}
+  				var conns = peer.connections[key];
+  				conns.send(msgObj);
   			}
  		}
   	});
