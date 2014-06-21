@@ -111,6 +111,45 @@
   	    });
   	  }
   	} */
+  	$(document).ready(function() {
+  	    function getRanking(targetArray, targetNameArray, viewId){
+  	      var rankArray = new Array();
+      	  var idArray = new Array();
+      	  var RankInFlag = false;
+      	      for (var index in targetArray){
+      	            RankInFlag = false;
+          	        for(i = 0 ; i < 5 ; i++){
+          	          if(!RankInFlag){
+              	           if(rankArray[i] <= targetArray[index]){
+              	                for(x = 4; x > i; x--){
+                    	                rankArray[x] = rankArray[x - 1];
+                    	                idArray[x] = idArray[x - 1];
+              	                }
+                  	            rankArray[i] = targetArray[index];
+                  	            idArray[i] = index;
+                  	            RankInFlag = true;
+              	           }
+          	          }
+          	          if(!RankInFlag){
+              	          if(rankArray.length <= i){
+              	            rankArray[i] = targetArray[index];
+              	            idArray[i] = index;
+              	            RankInFlag = true;
+              	          }
+          	          }
+          	        }
+      	        }
+      	      
+      	      for(no = 0; no < 5; no++){
+      	        $(viewId).append('<tr><td>' + (no + 1) + '</td>' + 
+      	                                 '<td class="content-name">' + targetNameArray[idArray[no]] + '</td>' +
+      	                                 '<td>' + rankArray[no] + "人" + '</td></tr>');
+      	      }
+  	    }
+    });
+  	      
+  	    }
+  	});
   	
     $(window).load(function(){
             // 全てのユーザから情報を集める
@@ -147,7 +186,7 @@
    		  }
  	    } */
  	    
- 	    var storeList = new Array(5);
+ 	    var storeList = new Array();
  	    storeList["0"] = 1;
  	    storeList["1"] = 1;
  	    storeList["2"] = 4;
@@ -160,7 +199,7 @@
  	    storeList["o2"] = 4;
  	    storeList["o3"] = 4;
  	    
- 	    var storeNameList = new Array(5);
+ 	    var storeNameList = new Array();
  	    storeNameList["0"] = "0号店";
  	    storeNameList["1"] = "1号店";
  	    storeNameList["2"] = "2号店";
@@ -173,40 +212,8 @@
  	    storeNameList["o2"] = "4--";
  	    storeNameList["o3"] = "4-";
  	    
+ 	    getRanking(storeList, storeNameList, '#chackInRank');
  	    
- 	    var rankArray = new Array();
-  	  var idArray = new Array();
-  	  var RankInFlag = false;
-  	      for (var index in storeList){
-  	            RankInFlag = false;
-      	        for(i = 0 ; i < 5 ; i++){
-      	          if(!RankInFlag){
-          	           if(rankArray[i] <= storeList[index]){
-          	                for(x = 4; x > i; x--){
-                	                rankArray[x] = rankArray[x - 1];
-                	                idArray[x] = idArray[x - 1];
-          	                }
-              	            rankArray[i] = storeList[index];
-              	            idArray[i] = index;
-              	            RankInFlag = true;
-          	           }
-      	          }
-      	          if(!RankInFlag){
-          	          if(rankArray.length <= i){
-          	            rankArray[i] = storeList[index];
-          	            idArray[i] = index;
-          	            RankInFlag = true;
-          	          }
-      	          }
-      	        }
-  	        }
-  	      
-  	      for(no = 0; no < 5; no++){
-  	        $('#chackInRank').append('<tr><td>' + (no + 1) + '</td>' + 
-  	                                 '<td class="content-name">' + storeNameList[idArray[no]] + '</td>' +
-  	                                 '<td>' + rankArray[no] + "人" + '</td></tr>');
-  	      }
-    });
   </script>
   
 </head>
