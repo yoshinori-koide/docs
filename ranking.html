@@ -111,42 +111,40 @@
   	    });
   	  }
   	} */
-  	$(document).ready(function() {
-  	    function getRanking(targetArray, targetNameArray, viewId){
-  	      var rankArray = new Array();
-      	  var idArray = new Array();
-      	  var RankInFlag = false;
-      	      for (var index in targetArray){
-      	            RankInFlag = false;
-          	        for(i = 0 ; i < 5 ; i++){
-          	          if(!RankInFlag){
-              	           if(rankArray[i] <= targetArray[index]){
-              	                for(x = 4; x > i; x--){
-                    	                rankArray[x] = rankArray[x - 1];
-                    	                idArray[x] = idArray[x - 1];
-              	                }
-                  	            rankArray[i] = targetArray[index];
-                  	            idArray[i] = index;
-                  	            RankInFlag = true;
-              	           }
-          	          }
-          	          if(!RankInFlag){
-              	          if(rankArray.length <= i){
-              	            rankArray[i] = targetArray[index];
-              	            idArray[i] = index;
-              	            RankInFlag = true;
-              	          }
-          	          }
-          	        }
-      	        }
-      	      
-      	      for(no = 0; no < 5; no++){
-      	        $(viewId).append('<tr><td>' + (no + 1) + '</td>' + 
-      	                                 '<td class="content-name">' + targetNameArray[idArray[no]] + '</td>' +
-      	                                 '<td>' + rankArray[no] + "人" + '</td></tr>');
-      	      }
-  	    }
-    });
+	    function getRanking(targetArray, targetNameArray, viewId){
+	      var rankArray = new Array();
+    	  var idArray = new Array();
+    	  var RankInFlag = false;
+    	      for (var index in targetArray){
+    	            RankInFlag = false;
+        	        for(i = 0 ; i < 5 ; i++){
+        	          if(!RankInFlag){
+            	           if(rankArray[i] <= targetArray[index]){
+            	                for(x = 4; x > i; x--){
+                  	                rankArray[x] = rankArray[x - 1];
+                  	                idArray[x] = idArray[x - 1];
+            	                }
+                	            rankArray[i] = targetArray[index];
+                	            idArray[i] = index;
+                	            RankInFlag = true;
+            	           }
+        	          }
+        	          if(!RankInFlag){
+            	          if(rankArray.length <= i){
+            	            rankArray[i] = targetArray[index];
+            	            idArray[i] = index;
+            	            RankInFlag = true;
+            	          }
+        	          }
+        	        }
+    	        }
+    	      
+    	      for(no = 0; no < 5; no++){
+    	        $(viewId).append('<tr><td>' + (no + 1) + '</td>' + 
+    	                                 '<td class="content-name">' + targetNameArray[idArray[no]] + '</td>' +
+    	                                 '<td>' + rankArray[no] + "人" + '</td></tr>');
+    	      }
+	    }
   	
     $(window).load(function(){
  	    
