@@ -26,7 +26,7 @@ function getPeerIdList () {
 	
 	// 自身のユーザデータ取得
 	var meData = JSON.parse(window.localStorage.getItem('me'));
-	var myUserData = window.localStorage.getItem(meData.user_id);
+	var myUserData = window.localStorage.getItem('user_' + meData.user_id);
 	
  	// リクエストする
  	function loadText(path) {
