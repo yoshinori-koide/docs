@@ -70,8 +70,8 @@ function connect(c) {
 								var myData = {userId:meData.user_id,userData:JSON.stringify(myUserData),matrixDataList:matrixData};
 								c.send(JSON.stringify(myData));
 								console.log(myData);
-//							}
-				    });
+							}
+//				    });
 				    
 				    } else {
 				    	c.close();
