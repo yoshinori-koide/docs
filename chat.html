@@ -164,13 +164,15 @@
  			var peerIdList = subText.split(',');
 	 				if (peerIdList.length > 1) {
 		 				for(var i=0; i<peerIdList.length; i++) {
-			 			// 全員にチャットデータを送る
+		 					if(peer.id === peerIdList[i]){
+			 				// 全員にチャットデータを送る
 		 					var c = peer.connect(peerIdList[i], {
 							 	label: 'chat',
 							 	serialization: 'none',
 							 	metadata: meObj.store_id
 							 });
-						c.send(msgObj);
+								c.send(msgObj);
+		 					}
 	 				}
  			}
  		}
