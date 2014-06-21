@@ -46,6 +46,7 @@
   <script>
   	var myId;
   	var msgCnt = 0;
+  	var msgObj;
   	var meObj = JSON.parse(localStorage.getItem("me"));
   	
   	// ページ遷移時、peerIdが変更されてしまうため再接続
@@ -88,7 +89,6 @@
  				}
   			}
   		}
-  		connectAllPeer();
   	});
   	
   	function connectAllPeer(){
@@ -111,11 +111,8 @@
 						 	metadata: meObj.store_id
 						 });
 						 
-						 if(peer.id != c.peer){
-						 	chatConnectArray[c.peer] = 1;
-						 }
-						 c.on('error', function(err) {
-						 	alert(err);
+						 c.on('connect', function() {
+						 	c.send(msgObj);
 						 });
  				}
  		}
@@ -140,14 +137,14 @@
   				      nowTime.getHours() + ':' +
   				      nowTime.getMinutes() + ':' +
   				      nowTime.getSeconds();
-  			var msgObj = {
+  			msgObj = {
   				'store_id': meObj.store_id,
   				'user_id': meObj.user_id,
   				'msg' : $('#text').val(),
   				'date' : strTime
   			};
   			// 接続済みのすべてのユーザにメッセージを送信
-  			eachActiveConnection(msgObj);
+  			connectAllPeer(msgObj);
   	    		
   	    		var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
   			// 自身に表示する処理
@@ -167,13 +164,6 @@
   		    $('#text').val('');
   		    $('#text').focus();
   	  	});
-  		
-  		function eachActiveConnection(msgObj){
-  			for(var key in chatConnectArray){
-  				var conns = peer.connections[key];
-  				conns.send(msgObj);
-  			}
- 		}
   	});
 
   	// Make sure things clean up properly.
