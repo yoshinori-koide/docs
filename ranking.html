@@ -42,6 +42,7 @@
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
   <script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
   <script src="js/use_peer.js"></script>
+  <script src="js/display-controll.js"></script>
   <script>
     var meObj = JSON.parse(localStorage.getItem("me"));
     var stateList = {};
@@ -338,7 +339,7 @@
         <li><a href="ranking.html"><i class="icon-trophy"></i> ランキング</a></li>
         <li><a href="edit_profile.html"><i class="icon-user"></i> プロフィール編集</a></li>
         <li><a href="game.html"><i class="icon-star"></i> しりとり</a></li>
-        <li><a href="checkout.html"><i class="icon-logout"></i> チェックアウト</a></li>
+        <li><a onClick="checkOut()"><i class="icon-logout"></i> チェックアウト</a></li>
       </ul>
     </div>
   </header>
