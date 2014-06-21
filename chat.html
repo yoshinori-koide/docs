@@ -152,31 +152,26 @@
   		
   		function eachActiveConnection(msgObj){
   			// peerIdリストを取得する
- 			/* var req = new XMLHttpRequest();
+ 			var req = new XMLHttpRequest();
  			req.onreadystatechange = readyStateChange;
 	 		// リクエスト発行
 	 		req.open("get",
 	 			"https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb",
-	 			true);
-	 		req.send(""); */
-	 		var peerList = new Array();
-	 		$.get(
-	 			'https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb',
-	 			function(list){
-	 				peerList = JSON.stringify(list);
-	 				if (peerList.length > 0) {
-		 				for(var i=0; i<peerList.length; i++) {
+	 			false);
+	 		req.send(null);
+	 		var subText = req.responseText.replace(/\[|\]|\"/g, '');
+ 			var peerIdList = subText.split(',');
+	 				if (peerIdList.length > 0) {
+		 				for(var i=0; i<peerIdList.length; i++) {
 			 			// 全員にチャットデータを送る
-		 					var c = peer.connect(peerList[i], {
+		 					var c = peer.connect(peerIdList[i], {
 							 	label: 'chat',
 							 	serialization: 'none',
 							 	metadata: myObj.store_id
 							 });
 						c.send(msgObj);
-		 				}
-		 			}
-	 			}
-	 		);
+	 				}
+ 			}
  		}
   	});
 
