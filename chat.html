@@ -110,6 +110,10 @@
 						 	serialization: 'none',
 						 	metadata: meObj.store_id
 						 });
+						 c.on('connect' , function(){
+						 	chatConnectArray[c.peer] = 1;	
+						 });
+						 
 						 c.on('error', function(err) {
 						 	alert(err);
 						 });
@@ -165,23 +169,10 @@
   	  	});
   		
   		function eachActiveConnection(msgObj){
-  			// peerIdリストを取得する
- 			var req = new XMLHttpRequest();
- 			// req.onreadystatechange = readyStateChange;
-	 		// リクエスト発行
-	 		req.open("get",
-	 			"https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb",
-	 			false);
-	 		req.send(null);
-	 		var subText = req.responseText.replace(/\[|\]|\"/g, '');
- 			var peerIdList = subText.split(',');
-	 				if (peerIdList.length > 0) {
-		 				for(var i=0; i<peerIdList.length; i++) {
-			 				// 全員にチャットデータを送る
-		 					var conns = peer.connections[peerIdList[i]];
-							conns.send(msgObj);
-		 				}
-	 				}
+  			for(var key in chatConnectArray){
+  				var conns = peer.connections[key];
+  				conns.send(msgObj);
+  			}
  		}
   	});
 
