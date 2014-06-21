@@ -47,6 +47,154 @@
     var stateList = {};
     var storeList = {};
     var storeNameList = {};
+    
+    	function getState(id){
+	var state_name = "";
+	switch (id){
+		case "1":
+			state_name = "北海道";
+			break;
+		case "2":
+			state_name = "青森県";
+			break;
+		case "3":
+			state_name = "岩手県";
+			break;
+		case "4":
+			state_name = "宮城県";
+			break;
+		case "5":
+			state_name = "秋田県";
+			break;
+		case "6":
+			state_name = "山形県";
+			break;
+		case "7":
+			state_name = "福島県";
+			break;
+		case "8":
+			state_name = "茨城県";
+			break;
+		case "9":
+			state_name = "栃木県";
+			break;
+		case "10":
+			state_name = "群馬県";
+			break;
+		case "11":
+			state_name = "埼玉県";
+			break;
+		case "12":
+			state_name = "千葉県";
+			break;
+		case "13":
+			state_name = "東京都";
+			break;
+		case "14":
+			state_name = "神奈川県";
+			break;
+		case "15":
+			state_name = "新潟県";
+			break;
+		case "16":
+			state_name = "富山県";
+			break;
+		case "17":
+			state_name = "石川県";
+			break;
+		case "18":
+			state_name = "福井県";
+			break;
+		case "19":
+			state_name = "山梨県";
+			break;
+		case "20":
+			state_name = "長野県";
+			break;
+		case "21":
+			state_name = "岐阜県";
+			break;
+		case "22":
+			state_name = "静岡県";
+			break;
+		case "23":
+			state_name = "愛知県";
+			break;
+		case "24":
+			state_name = "三重県";
+			break;
+		case "25":
+			state_name = "滋賀県";
+			break;
+		case "26":
+			state_name = "京都府";
+			break;
+		case "27":
+			state_name = "大阪府";
+			break;
+		case "28":
+			state_name = "兵庫県";
+			break;
+		case "29":
+			state_name = "奈良県";
+			break;
+		case "30":
+			state_name = "和歌山県";
+			break;
+		case "31":
+			state_name = "鳥取県";
+			break;
+		case "32":
+			state_name = "島根県";
+			break;
+		case "33":
+			state_name = "岡山県";
+			break;
+		case "34":
+			state_name = "広島県";
+			break;
+		case "35":
+			state_name = "山口県";
+			break;
+		case "36":
+			state_name = "徳島県";
+			break;
+		case "37":
+			state_name = "香川県";
+			break;
+		case "38":
+			state_name = "愛媛県";
+			break;
+		case "39":
+			state_name = "高知県";
+			break;
+		case "40":
+			state_name = "福岡県";
+			break;
+		case "41":
+			state_name = "佐賀県";
+			break;
+		case "42":
+			state_name = "長崎県";
+			break;
+		case "43":
+			state_name = "熊本県";
+			break;
+		case "44":
+			state_name = "大分県";
+			break;
+		case "45":
+			state_name = "宮崎県";
+			break;
+		case "46":
+			state_name = "鹿児島県";
+			break;
+		case "47":
+			state_name = "沖縄県";
+			break;
+	}
+	return state_name;
+}
 
 	function sort(targetArray, rankArray, idArray){
     	  var RankInFlag = false;
@@ -79,6 +227,12 @@
 		var rtnRankArray = new Array();
 		var rtnIdArray = new Array()
 		sort(targetArray, rtnRankArray, rtnIdArray);
+		
+		for(no = 0; no < 5; no++){
+    	        $(viewId).append('<tr><td>' + (no + 1) + '</td>' + 
+    	                                 '<td class="content-name">' + getState[rtnIdArray[no]] + '</td>' +
+    	                                 '<td>' + rtnRankArray[no] + "人" + '</td></tr>');
+    	      }
 		
 		
 	}
