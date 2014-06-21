@@ -121,7 +121,8 @@ function connect(c) {
  		
 	 	connectedPeers[c.peer] = 1;
 
-	}else if(c.label === 'distribution-map') {
+	}
+	else if(c.label === 'distribution-map') {
         // 分布マップ時接続
         c.on('open', function() {
             var store_list = new Array();
@@ -152,9 +153,61 @@ function connect(c) {
                 c.send(store_list);
                 console.log(store_list);
             }
-        });
+          });
+	}
+	else if (c.label === 'chat') {
+	  	/* connectedPeers[c.metadata] = new dataConnection();
+	  	connectedPeers[c.metadata] = c;
+	  	
+	  	var storeObj = JSON.parse(localStoreage.getItem(meObj.store_id));
+	  	storeObj */  			
+	
+	  	c.on('data', function(data) {
+	  		// チャットを追加する
+	  		addchat(data);
+	  		
+	  		var getMsgObj = JSON.parce(data);
+	  		var userObj = JSON.parse(getMssgObj.user_id)
+	  	      	$('#chat-space')
+	  	        .append('<li class="field chat"><div class="user">' + 
+	        	'<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
+	        	'<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
+	        	'</div>' +
+	        	'<p class="msg">' +
+	        	'<time>' + getMsgObj.date + '</time>' +
+	        	getMsgObj.msg +
+	        	'</p></li>')
+	  	});
+	
+	  	// ページ遷移でもこのイベントが発生するためすごく不便だと思うの
+	  	c.on('close', function() {
+	  		alert(c.peer + ' has left the chat.');
+	  		
+	  		if ($('.connection').length === 0) {
+	  			$('.filler').show();
+	  		}
+	  		
+	  		delete connectedPeers[c.peer];
+	  		
+	  		// var meObj = JSON.parse(localStorage.getItem("me")); いちいち作るの？
+	  		var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
+	  		var userArray = storeObj.user_ids.split(",");
+	  		
+	  		for(var index in userArray){
+	  			var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
+	  			if(c.peer === userObj.peer_id){
+	  				userArray.split(index, 1);
+	  				break;
+	  			}
+	  		}
+	  		
+	  		//ログアウトしました
+	  		alert("チェックアウトしました");
+	  		
+	  	});
 	}
 }
+
 // Goes through each active peer and calls FN on its connections.
 function eachActiveConnection(fn) {
 	var actives = $('.active');
