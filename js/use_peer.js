@@ -19,6 +19,41 @@ var newCheckinPeers = {};
 var reqCount = 0;
 var resCount = 0;
 
+// 送信専用
+function sendMyData(myData) {
+    var peer = new Peer({
+	// Set API key for cloud server (you don't need this if you're running your
+	// own.
+	key: 'cc6f5bfa-ec91-11e3-8c36-09d78563cbeb',
+	// localhostは以下のキーを使用
+	//  key: '6165842a-5c0d-11e3-b514-75d3313b9d05',
+	
+	// Set highest debug level (log everything!).
+	debug: 3,
+	
+	// Set a logging function:
+	logFunction: function() {
+	var copy = Array.prototype.slice.call(arguments).join(' ');
+	console.log(copy);
+	}
+    });
+    
+	 // リクエスト
+	 var c = peer.connect(requestedPeer, {
+	 	label: 'checkin',
+	 	serialization: 'none',
+	 	metadata: {myData:myData}
+	 });
+	 c.on('open', function() {
+	 	connect(c);
+	 });
+	 c.on('close', function() {
+	 	console.log(c.peer + ' close.');
+	 });
+	 c.on('error', function(err) {
+	 	alert(err);
+	 });
+}
 
 // 他からの接続を検知
 peer.on('connection', connect);
@@ -68,8 +103,9 @@ function connect(c) {
 							if (c.label === 'checkin') {
 								// データ投げ返す
 								var myData = {userId:meData.user_id,userData:JSON.stringify(myUserData),matrixDataList:matrixData};
-								c.send(JSON.stringify(myData));
+								//c.send(JSON.stringify(myData));
 								console.log(myData);
+								sendMyData(myData);
 							}
 //				    });
 				    
