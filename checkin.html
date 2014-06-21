@@ -306,7 +306,7 @@
  			c.on('close', function() {
  				console.log(c.peer + ' cancel.');
  				resCount++;
- 				if (resCount == reqCount) {
+ 				if (resCount == reqCount - 1) {
  					// 取得完了。画面遷移
  					var meData = JSON.parse(window.localStorage.getItem('me'));
  					var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
