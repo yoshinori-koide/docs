@@ -63,16 +63,19 @@ function connect(c) {
 					
 					// 自身の情報を送り返す
 					newCheckinPeers[c.peer] = 1;
-				    eachActiveConnection(function(c, $c) {
+//				    eachActiveConnection(function(c, $c) {
 					    console.log("c.label" + c.label);
 							if (c.label === 'checkin') {
 								// データ投げ返す
 								var myData = {userId:meData.user_id,userData:JSON.stringify(myUserData),matrixDataList:matrixData};
 								c.send(JSON.stringify(myData));
 								console.log(myData);
-							}
+//							}
 				    });
 				    
+				    } else {
+				    	c.close();
+			    
 			    } else {
 			    	c.close();
 			    }
