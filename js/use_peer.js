@@ -119,7 +119,7 @@ function connect(c) {
 	  		// チャットを追加する
 	  		addchat(data);
 	  		
-	  		var getMsgObj = JSON.parce(data);
+	  		var getMsgObj = JSON.parse(data);
 	  		var userObj = JSON.parse(getMsgObj.user_id)
 	  	      	$('#chat-space')
 	  	        .append('<li class="field chat"><div class="user">' + 
