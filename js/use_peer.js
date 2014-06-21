@@ -152,7 +152,7 @@ function connect(c) {
 	
 	  	// ページ遷移でもこのイベントが発生するためすごく不便だと思うの
 	  	c.on('close', function() {
-	  		chatConnectArray[c.peer] = 0;
+	  		delete chatConnectArray[c.peer];
 	  		
 	  		if ($('.connection').length === 0) {
 	  			$('.filler').show();
