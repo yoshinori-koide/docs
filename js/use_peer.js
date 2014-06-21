@@ -19,7 +19,6 @@ var newCheckinPeers = {};
 var checkinFlag = false;
 
 const CHECKIN = 'checkin';
-const CHECKINRES = 'checkinRes';
 const CHAT = 'chat';
 
 // peerIdリストを取得する
@@ -78,10 +77,7 @@ function sendMyData(peerId,label,myUserData) {
 function sendMeData(peerIdList,myUserData) {
 	
 	console.log("peerIdList:" + peerIdList);
-	var label = CHECKINRES;
-	if (!myUserData.name) {
-		label = CHECKIN;
-	}
+	var label = CHECKIN;
 	for(var i=0; i<peerIdList.length; i++) {
 		sendMyData(peerIdList[i],label,myUserData)
 	}
@@ -94,15 +90,11 @@ peer.on('connection', connect);
 function connect(c) {
 	
 	console.log("c.label:" + c.label);
-	if (c.label === CHECKIN || c.label === CHECKINRES) {
+	if (c.label === CHECKIN) {
 		// 新規チェックイン者受信
 		c.on('open', function() {
 			// 保存
 			window.localStorage.setItem(c.metadata.meUserData);
-			if (c.label === CHECKIN) {
-				// チェックインリクエスト受け取ったフラグをたてておく
-				checkinFlag = true;
-			}
 			console.log("c.metadata.meUserData:" + c.metadata.meUserData);
 		});
  		c.on('close', function() {
