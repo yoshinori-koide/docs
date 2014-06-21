@@ -156,7 +156,7 @@
 							 	serialization: 'none',
 							 	metadata: meObj.store_id
 							 });
-							 c.on('open', function() {
+							 c.on('connect', function() {
 							 	c.send(msgObj);
 							 });
 							 c.on('error', function(err) {
