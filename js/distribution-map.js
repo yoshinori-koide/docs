@@ -1,7 +1,14 @@
 // *** メソッド *** //
+//var apiKey = "cc6f5bfa-ec91-11e3-8c36-09d78563cbeb";
+var apiKey = "6165842a-5c0d-11e3-b514-75d3313b9d05";
+var peer = new Peer({
+  key: apiKey,
+  debug: 3,
+});
+
 // peerIdリストを取得する
 var req = new XMLHttpRequest();
-distLoadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
+distLoadText("https://skyway.io/active/list/"+apiKey);
 // リクエストする
 function distLoadText(path) {
     req.onreadystatechange = distReadyStateChange;
@@ -17,17 +24,18 @@ function distReadyStateChange() {
         // テキスト扱いされてしまうので配列にする
         var subText = req.responseText.replace(/\[|\]|\"/g, '');
         var peerIdList = subText.split(',');
-        // 全員にチェックインリクエスト送る
+        // 全員にお店リストリクエストを送る
         distSendData(peerIdList);
     }
 }
 var connectedPeers = {};
 
+//通信状態変化時イベントハンドラ
 function distSendData(peerIdList) {
-    // localStrageのデータ全件からmatrix_log_を全件取得する
+    // localStrageのデータ全件からstore_を全件取得する
     var storeList = getAllStoreList();
 
-    // 全員にチェックインリクエスト送る
+    // 全員にお店リストを送る
     for (var i=0; i<peerIdList.length; i++) {
     requestedPeer = peerIdList[i];
     if (!connectedPeers[requestedPeer]) {
@@ -38,38 +46,43 @@ function distSendData(peerIdList) {
             metadata: {storeList:storeList}
         });
         c.on('open', function() {
-            connect(c);
+            returnStoreList(c);
         });
         c.on('error', function(err) { alert(err); });
     }
     connectedPeers[requestedPeer] = 1;
     }
+    
 }
 
-// 他からの接続を検知したら、自分の持っている店データを返す
+//他からの接続を検知したら、自分の持っている店データを返す
 peer.on('connection', returnStoreList);
-// 他との接続を検知したときに実行
-function returnStoreList(c) {
-   if (c.label === 'distribution-map') {
-       c.on('data', function(data) {
-           var storeList = JSON.parse(data);
-           // うけとったデータを保存する
-           console.log(storeList);
-           window.localStrage.setItem('store_list', storeList);
+function returnStoreList(dataConnection) {
+    // Handle a chat connection.
+    if (dataConnection.label === 'distribution-map') {
+
+        dataConnection.on('data', function(data) {
+            storeList = data;
+            for(var i = 0; i < storeList.length; i++) {
+                // 受け取ったデータを保存する
+                console.log('*********');
+                window.localStorage.setItem(storeList[i]['key'],JSON.stringify(storeList[i]['val']));
+                console.log('*********');
+            }
        });
-       c.on('close', function() {
+        dataConnection.on('close', function() {
            // 接続が切断されたことを検知
-           console.log(c.peer + ' has left.');
+           console.log(dataConnection.peer + ' has left.');
            if ($('.connection').length === 0) {
-               console.log(c.peer + ' no connection');
+               console.log(dataConnection.peer + ' no connection');
            }
-           delete connectedPeers[c.peer];
+           delete connectedPeers[dataConnection.peer];
        });
    }
-   connectedPeers[c.peer] = 1;
+   connectedPeers[dataConnection.peer] = 1;
 }
-function getAllStoreList() {
 
+function getAllStoreList() {
     var store_list = new Array();
     var j = 0;
     for(var i = 0; i < window.localStorage.length; i++){
@@ -91,9 +104,11 @@ function getAllStoreList() {
               vuser_ids = store_data.user_ids.split(',');
           }
           store_list[j]['count'] = user_ids.length;
+//          createMarker(store_list[j]);
           j++;
-      } 
+      }
     }
+    return store_list;
 }
 
 
@@ -120,4 +135,3 @@ function createMarker(store) {
         infowindow.open(map,this);
     });
 }
-getAllStoreList();
