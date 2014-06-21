@@ -146,7 +146,7 @@ function connect(c) {
                   // チェッックインユーザー数
                   var user_ids = store_data.user_ids.split(',');
                   store_list[j]['count'] = user_ids.length;
-                  createMarker(store_list[j]);
+                  //createMarker(store_list[j]);
                   j++;
               }
             }
