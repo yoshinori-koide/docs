@@ -50,55 +50,57 @@
     var infowindow;
     var storeList;
     
-    //function getCurrentPosition() {
-    //	if (navigator.geolocation) {
-    //		// オプション・パラメータをセット
-    //		var position_options = {
-    //			enableHighAccuracy: true,    // 高精度を要求する
-    //			timeout: 60000,              // 最大待ち時間（ミリ秒）
-    //			maximumAge: 0                // キャッシュ有効期間（ミリ秒）
-    //		};
-    //		// 現在の位置情報を取得
-    //		navigator.geolocation.getCurrentPosition(successCallback,errorCallback,position_options);
-    //	} else {
-    //		window.alert("本ブラウザではGeolocationが使えません");
-    //	}
+    function getCurrentPosition() {
+    	if (navigator.geolocation) {
+    		// オプション・パラメータをセット
+    		var position_options = {
+    			enableHighAccuracy: true,    // 高精度を要求する
+    			timeout: 60000,              // 最大待ち時間（ミリ秒）
+    			maximumAge: 0                // キャッシュ有効期間（ミリ秒）
+    		};
+    		// 現在の位置情報を取得
+    		// navigator.geolocation.getCurrentPosition(successCallback,errorCallback,position_options);
+    		
+    		getStoreList(35.188623, 139.653483);
+    	} else {
+    		window.alert("本ブラウザではGeolocationが使えません");
+    	}
     	
-    //	// （1）位置情報の取得に成功
-    //	function successCallback(position) {
-    //		// 現在地の緯度経度を取り出す
-    //		var lat = position.coords.latitude ;
-    //		var lon = position.coords.longitude ;
+    	// （1）位置情報の取得に成功
+    	function successCallback(position) {
+    		// 現在地の緯度経度を取り出す
+    		var lat = position.coords.latitude ;
+    		var lon = position.coords.longitude ;
     		
-    //		// 近隣のお店を取得
-    //		// getStoreList(lat,lon);
-    //		getStoreList(35.188623, 139.653483);
-    //	}
+    		// 近隣のお店を取得
+    		// getStoreList(lat,lon);
+    		getStoreList(35.188623, 139.653483);
+    	}
 
-    //	// （2）位置情報の取得に失敗した場合
-    //	function errorCallback(error) {
-    //		var message = "";
+    	// （2）位置情報の取得に失敗した場合
+    	function errorCallback(error) {
+    		var message = "";
     		
-    //		switch (error.code) {
+    		switch (error.code) {
     		
-    //			// 位置情報が取得できない場合
-    //			case error.POSITION_UNAVAILABLE:
-    //				message = "位置情報の取得ができませんでした。";
-    //				break;
+    			// 位置情報が取得できない場合
+    			case error.POSITION_UNAVAILABLE:
+    				message = "位置情報の取得ができませんでした。";
+    				break;
     			
-    //			// Geolocationの使用が許可されない場合
-    //			case error.PERMISSION_DENIED:
-    //				message = "位置情報取得の使用許可がされませんでした。";
-    //				break;
+    			// Geolocationの使用が許可されない場合
+    			case error.PERMISSION_DENIED:
+    				message = "位置情報取得の使用許可がされませんでした。";
+    				break;
     			
-    //			// タイムアウトした場合
-    //			case error.PERMISSION_DENIED_TIMEOUT:
-    //				message = "位置情報取得中にタイムアウトしました。";
-    //				break;
-    //		}
-    //		window.alert(message);
-    //	}
-    //}
+    			// タイムアウトした場合
+    			case error.PERMISSION_DENIED_TIMEOUT:
+    				message = "位置情報取得中にタイムアウトしました。";
+    				break;
+    		}
+    		window.alert(message);
+    	}
+    }
 
  // 現在地の緯度経度をもとに近隣の店リストを取得
  function getStoreList(lat,lon) {
@@ -235,7 +237,7 @@
  	location.href = url;
  }
 
- google.maps.event.addDomListener(window, 'load', getStoreList(35.188623, 139.653483));
+ google.maps.event.addDomListener(window, 'load', getCurrentPosition);
 
  </script>
 </head>
