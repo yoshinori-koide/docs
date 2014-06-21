@@ -167,12 +167,10 @@
 	 			}
 	 		);
 	 		
-	 		var subText = peerList.split(",");
- 			var peerIdList = subText.split(',');
- 			if (peerIdList.length > 0) {
- 				for(var i=0; i<peerIdList.length; i++) {
+ 			if (peerList.length > 0) {
+ 				for(var i=0; i<peerList.length; i++) {
 	 			// 全員にチャットデータを送る
- 					var c = peer.connect(peerIdList[i], {
+ 					var c = peer.connect(peerList[i], {
 					 	label: 'chat',
 					 	serialization: 'none',
 					 	metadata: myObj.store_id
