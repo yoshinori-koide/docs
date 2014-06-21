@@ -49,26 +49,26 @@
   	var meObj = JSON.parse(localStorage.getItem("me"));
   	
   	function addchat(addData){
-  		var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
+  		var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
   		while(1){
   				var chatObj = localStorage.getItem('chat_' + msgCnt);
   				if(chatObj === null){
   					localStorage.setItem('chat_' + msgCnt, addData);
-  					storeObj.chat_ids = storeObj.chat_ids + "," + msgCnt;
+  					userObj.chat_ids = userObj.chat_ids + "," + msgCnt;
   					break;
   				}
   				msgCnt++;
   			}
-  		localStorage.setItem('store_' + meObj.store_id ,JSON.stringify(storeObj));
+  		localStorage.setItem('user_' + meObj.user_id ,JSON.stringify(userObj));
   	}
   	
   	// ページ遷移時、peerIdが変更されてしまうため再接続
   	$(window).load(function(){
 	 	// ユーザデータ送信
-	 	getPeerIdList();
+	 	var userObj = JSON.parse(localStorage.getItem(meObj.user_id));
   		// チャット出力処理
-  		if(storeObj.chat_ids !== null){
-  			var chatArray = storeObj.chat_ids.split(",");
+  		if(userObj.chat_ids !== null){
+  			var chatArray = userObj.chat_ids.split(",");
   			
   			for(var index in chatArray){
   				var chatObj = JSON.parse(localStorage.getItem('chat_' + chatArray[index]));
@@ -155,7 +155,7 @@
   		function eachActiveConnection(fn) {
   			// var meObj = JSON.parse(localStorage.getItem("me"));
   			var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
-  			var userArray = storeObj.user_ids.split(",");
+  			var userArray = userObj.user_ids.split(",");
   			
   			for(var index in userArray){
   				if(userArray[index] != meObj.user_id){
