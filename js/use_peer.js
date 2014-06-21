@@ -16,6 +16,8 @@ var peer = new Peer({
 });
 var connectedPeers = {};
 var newCheckinPeers = {};
+var reqCount = 0;
+var resCount = 0;
 
 
 // 他からの接続を検知
