@@ -95,7 +95,7 @@ function connect(c) {
 		c.on('open', function() {
 			// 保存
 			console.log("c.metadata.meUserData:" + c.metadata.meUserData);
-			window.localStorage.setItem('user_' + c.metadata.userId,c.metadata.meUserData);
+			window.localStorage.setItem(c.metadata.userId,c.metadata.meUserData);
 		});
  		c.on('close', function() {
  			// 接続が切断されたことを検知
