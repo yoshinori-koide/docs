@@ -31,7 +31,7 @@ function connect(c) {
 		
 			var uId = c.metadata.userId;
 			var meData = JSON.parse(window.localStorage.getItem('me'));
-			if (c.peer !== peer.id) {
+			if (meData.store_id) {
 				// ユーザ情報も上書き保存
 				window.localStorage.setItem('user_' + c.metadata.userId, JSON.stringify(c.metadata.userData));
 				var mDataList = [c.metadata.matrixDataList];
