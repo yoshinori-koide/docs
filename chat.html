@@ -178,8 +178,8 @@
 	 				if (peerIdList.length > 0) {
 		 				for(var i=0; i<peerIdList.length; i++) {
 			 				// 全員にチャットデータを送る
-		 					var conns = peer.connections[peerId]
-							 conns.send(msgObj);
+		 					var conns = peer.connections[peerIdList[i]];
+							conns.send(msgObj);
 	 				}
  			}
  		}
