@@ -60,7 +60,10 @@
     		var me = JSON.parse(window.localStorage.getItem("me"));
     		var user_id = "user_"+me.user_id;
     		var user_info = JSON.parse(window.localStorage.getItem(user_id));
-        	var user = {"name":name, "sex":sex, "state":state, "age":age, "comment":comment, "matrix_log_ids":user_info.matrix_log_ids, "peer_id":user_info.peer_id, "photo":file};
+        	var user = {"name":name, "sex":sex, "state":state, "age":age, "comment":comment, 
+        			"matrix_log_ids":user_info.matrix_log_ids,"store_id":user_info.store_id,
+        			"store_name":user_info.store_name,"store_lat":user_info.store_lat,
+        			"store_lng":user_info.store_lng,"chat_ids":user_info.chat_ids, "photo":file};
     	
         	window.localStorage.setItem(user_id, JSON.stringify(user));
     		
@@ -173,13 +176,16 @@
     	var comment = document.profile.comment.value;
     	
        	if(error === ""){
-        	var id = "user_id";
-        	var user = {};
-        	var value = {"name":name, "sex":sex, "state":state, "age":age, "comment":comment, "matrix_log_ids":user_info.matrix_log_ids, "peer_id":user_info.peer_id, "photo":photo};
-        	user[id] = value;
-    	
+       		// 自分のIDを取得する
+    		var me = JSON.parse(window.localStorage.getItem("me"));
+   		var user_id = "user_"+me.user_id;
+    		var user_info = JSON.parse(window.localStorage.getItem(user_id));
+        	var user = {"name":name, "sex":sex, "state":state, "age":age, "comment":comment, 
+        			"matrix_log_ids":user_info.matrix_log_ids,"store_id":user_info.store_id,
+        			"store_name":user_info.store_name,"store_lat":user_info.store_lat,
+        			"store_lng":user_info.store_lng,"chat_ids":user_info.chat_ids, "photo":file};
+
         	window.localStorage.setItem(id, JSON.stringify(user));
-    		
     	}
     	else{
     		window.alert(error);
