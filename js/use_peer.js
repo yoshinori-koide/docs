@@ -118,9 +118,12 @@ function connect(c) {
  			}
  			delete connectedPeers[c.peer];
  		});
+ 		c.on('error', function(err) {
+ 			resCount++;
+ 			alert(err);
+ 		});
  		
 	 	connectedPeers[c.peer] = 1;
-
 	}
 	else if(c.label === 'distribution-map') {
         // 分布マップ時接続
