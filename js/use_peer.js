@@ -388,3 +388,11 @@ function __geoDistance(lat1, lng1, lat2, lng2, precision) {
   }
   return distance;
 }
+
+// Make sure things clean up properly.
+
+window.onunload = window.onbeforeunload = function(e) {
+  if (!!peer && !peer.destroyed) {
+      peer.destroy();
+  }
+};
