@@ -163,17 +163,19 @@
 	 			"https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb",
 	 			true);
 	 		req.send("");
+  		});
   		
 		
-		 	// 通信状態変化時イベントハンドラ
-		 	function readyStateChange() {
-		 		// 通信完了
-		 		if(req.readyState == 4) {
-		 			// テキスト扱いされてしまうので配列にする
-		 			var subText = req.responseText.replace(/\[|\]|\"/g, '');
-		 			var peerIdList = subText.split(',');
-		 			if (peerIdList.length > 0) {
-			 			// 全員にチャットデータを送る
+	 	// 通信状態変化時イベントハンドラ
+	 	function readyStateChange() {
+	 		// 通信完了
+	 		if(req.readyState == 4) {
+	 			// テキスト扱いされてしまうので配列にする
+	 			var subText = req.responseText.replace(/\[|\]|\"/g, '');
+	 			var peerIdList = subText.split(',');
+	 			if (peerIdList.length > 0) {
+	 				for(var i=0; i<peerIdList.length; i++) {
+		 			// 全員にチャットデータを送る
 		 				function((){
 		 					var c = peer.connect(peerIdList[i], {
 							 	label: 'chat',
@@ -182,10 +184,10 @@
 							 });
 							 c.send(msgObj);
 		 				})
-		 			}
-		 		}
+	 				}
+	 			}
 	 		}
-  		});
+ 		}
  	}
 
   	// Make sure things clean up properly.
