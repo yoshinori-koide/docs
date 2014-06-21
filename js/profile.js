@@ -66,7 +66,7 @@
         			"store_lng":user_info.store_lng,"chat_ids":user_info.chat_ids, "photo":file};
     	
         	window.localStorage.setItem(user_id, JSON.stringify(user));
-    	else{
+    	}else{
     		window.alert(error);
     	}
     	
