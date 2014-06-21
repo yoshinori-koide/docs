@@ -97,7 +97,7 @@ function connect(c) {
  			window.localStorage.setItem(meData.store_id, JSON.stringify({'name':storeData.name,'user_ids':storeData.users_id + ',' + getUserData.userId,'chat_ids':storeData.chat_ids + ',' + otherUserData.peer_id}));
  			// カウント増やす
  			resCount++;
-			if (resCount == reqCount) {
+			if (resCount == reqCount - 1) {
 				// 取得完了。画面遷移
 				var meData = JSON.parse(window.localStorage.getItem('me'));
 				var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
