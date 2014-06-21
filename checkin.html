@@ -43,31 +43,12 @@
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCcrhdnh9RPdxkAzL40AnDm9_EkqX-14vg&sensor=true&language=jp&types=establishment"></script>
   <script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
+  <script src="./js/use_peer.js"></script>
   <script src="./js/libs/md5.min.js"></script>
   <script>
     var map;
     var infowindow;
     var storeList;
-    var peer = new Peer({
-      // Set API key for cloud server (you don't need this if you're running your
-      // own.
-      key: 'cc6f5bfa-ec91-11e3-8c36-09d78563cbeb',
-    // localhostは以下のキーを使用
-//      key: '6165842a-5c0d-11e3-b514-75d3313b9d05',
-
-      // Set highest debug level (log everything!).
-      debug: 3,
-
-      // Set a logging function:
-	  logFunction: function() {
-	    var copy = Array.prototype.slice.call(arguments).join(' ');
-	    console.log(copy);
-	  }
-    });
-    var connectedPeers = {};
-    var newCheckinPeers = {};
-    var reqCount = 0;
-    var resCount = 0;
     
     function getCurrentPosition() {
     	if (navigator.geolocation) {
@@ -285,57 +266,6 @@
  			}
  		}
  	}
- }
-
- // 他からの接続を検知
- peer.on('connection', connect);
- // 他との接続を検知したときに実行
- function connect(c) {
- 	if (c.label === 'checkin') {
-		c.on('open', function() {
-			c.close();
-		});
- 		c.on('data', function(data) {
- 			var getUserData = JSON.parse(data);
- 			// うけとったデータを保存する
- 			console.log(getUserData);
- 			// とりあず保存
- 			window.localStorage.setItem('user_' + getUserData.userId, JSON.stringify(getUserData.userData));
- 			var mDataList = getUserData.matrixDataList;
- 			for (key in mDataList) {
- 				// マトリクスはとりあえず全件保存しとく
- 				window.localStorage.setItem(key, JSON.stringify(mDataList[key]));
- 			}
- 			// ストアデータ更新
- 			var meData = JSON.parse(window.localStorage.getItem('me'));
- 			var storeData = JSON.parse(window.localStorage.getItem(meData.store_id));
- 			var otherUserData = getUserData.userData;
- 			window.localStorage.setItem(meData.store_id, JSON.stringify({'name':storeData.name,'user_ids':storeData.users_id + ',' + getUserData.userId,'chat_ids':storeData.chat_ids + ',' + otherUserData.peer_id}));
- 			// カウント増やす
- 			resCount++;
-			if (resCount == reqCount) {
-				// 取得完了。画面遷移
-				var meData = JSON.parse(window.localStorage.getItem('me'));
-				var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
-				if (meUserData.name) {
-					// チャットへ遷移
- 					location.href = "chat.html";
-				} else {
-					// プロフ登録へ遷移
- 					location.href = "new_profile.html";
-				}
-			}
- 		});
- 		c.on('close', function() {
- 			// 接続が切断されたことを検知
- 			console.log(c.peer + ' has left.');
- 			if ($('.connection').length === 0) {
- 				console.log(c.peer + ' no connection');
- 			}
- 			delete connectedPeers[c.peer];
- 		});
- 	}
- 	connectedPeers[c.peer] = 1;
  }
 
  function sendData(peerIdList) {
