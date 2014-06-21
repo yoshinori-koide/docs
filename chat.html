@@ -80,12 +80,6 @@
   			}
   		localStorage.setItem('store_' + meObj.store_id ,JSON.stringify(storeObj));
   	}
-  	
-  	// Show this peer's ID.
-  	peer.on('open', function(id){
-  		$('#pid').text(id);
-  		myId = id;
-  	});
   
   	// Await connections from others
   	peer.on('connection', connect);
@@ -94,28 +88,27 @@
   	function connect(c) {
   		// Handle a chat connection.
   		if (c.label === 'chat') {
-  			connectedPeers[c.metadata] = new dataConnection();
+  			/* connectedPeers[c.metadata] = new dataConnection();
   			connectedPeers[c.metadata] = c;
   			
-  			/*
-  			接続したUser情報をstoreに追加
-  			接続しました？ポップアップかチャットで出力
-  			*/
+  			var storeObj = JSON.parse(localStoreage.getItem(meObj.store_id));
+  			storeObj */  			
   
   			c.on('data', function(data) {
   				// チャットを追加する
   				addchat(data);
   				
   				var getMsgObj = JSON.parce(data);
+  				var userObj = JSON.parse(getMssgObj.user_id)
   			      	$('#chat-space')
   			        .append('<li class="field chat"><div class="user">' + 
-                        '<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
-                        '<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
-                        '</div>' +
-                        '<p class="msg">' +
-                        '<time>' + chatObj.date + '</time>' +
-                        chatObj.msg +
-                        '</p></li>')
+                        	'<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
+                        	'<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
+                        	'</div>' +
+                        	'<p class="msg">' +
+                        	'<time>' + getMsgObj.date + '</time>' +
+                        	getMsgObj.msg +
+                        	'</p></li>')
   			});
   
   			// ページ遷移でもこのイベントが発生するためすごく不便だと思うの
@@ -126,13 +119,7 @@
   					$('.filler').show();
   				}
   				
-  				// delete connectedPeers[c.peer];
-  				
-  				
-  				/*
-  				チェックアウト時に使おう
-  				離れたら再度チェックイン？（再接続する）用に実装する
-  				*/
+  				delete connectedPeers[c.peer];
   				
   				// var meObj = JSON.parse(localStorage.getItem("me")); いちいち作るの？
   				var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
@@ -150,48 +137,7 @@
   				alert("チェックアウトしました");
   				
   			});
-  		} else if (c.label === 'file') {
-  			c.on('data', function(data) {
-  				// If we're getting a file, create a URL for it.
-  				if (data.constructor === ArrayBuffer) {
-  					var dataView = new Uint8Array(data);
-  					var dataBlob = new Blob([dataView]);
-  					var url = window.URL.createObjectURL(dataBlob);
-  					$('#chat-space')
-  			        .append('<li class="field chat"><div class="user">' + 
-                        '<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
-                        '<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
-                        '</div>' +
-                        '<p class="msg">' +
-                        '<time>' + chatObj.date + '</time>' +
-                        chatObj.msg +
-                        '</p></li>'
-                );
-  				}
-			  });
-		  } else if(c.label === 'ask') {
-			  c.on('data', function(data) {
-				  var getObj = JSON.parse(data);
-				  if(getObj.type === 'sendUserData'){
-  					var userObj = localStorage.getItem('user_' + getObj.user_id);
-  					if(userObj !== null){
-  						localStorage.removeItem('user_' + getObj.user_id);
-  					}
-					
-					localStorage.setItem('user_' + getObj.user_id, getObj.user_Data);
-				  }
-			  });
-  			
-  			// var meObj = localStorage.getItem("me");
-  			var userObj = localStorage.getItem('user_' + meObj.user_id);
-  			var sendDataObj = {
-  					'type' : "sendUserData",
-  					'user_id': meObj.user_id,
-  					'user_Data': localStorage.getItem(meObj.user_id)
-  			};
-  				
-  			c.send(JSON.stringify(sendDataObj));
-  		}
+  		} 
   	}
   	
   	// ページ遷移時、peerIdが変更されてしまうため再接続
