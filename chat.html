@@ -64,6 +64,8 @@
   	
   	// ページ遷移時、peerIdが変更されてしまうため再接続
   	$(window).load(function(){
+	 	// ユーザデータ送信
+	 	getPeerIdList();
   		// チャット出力処理
   		if(storeObj.chat_ids !== null){
   			var chatArray = storeObj.chat_ids.split(",");
