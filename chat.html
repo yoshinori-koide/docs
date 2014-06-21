@@ -68,6 +68,7 @@
   		getPeerIdList();
 	 	// ユーザデータ送信
 	 	var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
+	 	$('#checkInStoreName').append(userObj.store_name);
   		// チャット出力処理
   		if(userObj.chat_ids.length > 0){
   			var chatArray = userObj.chat_ids.split(",");
@@ -248,7 +249,7 @@
   <!--{コンテンツ ここから}-->
   <div class="row page-header">
     <div class="twelve columns">
-      <h3><i class="icon-chat"></i> Eggs'n Things原宿店</h3>
+      <h3 id="checkInStoreName"><i class="icon-chat"></i></h3>
     </div>
   </div>
   <div class="row chat-timeline">
