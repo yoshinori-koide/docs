@@ -110,9 +110,8 @@
 						 	serialization: 'none',
 						 	metadata: meObj.store_id
 						 });
-						 c.on('connect' , function(){
-						 	chatConnectArray[c.peer] = 1;	
-						 });
+						 
+						 chatConnectArray[c.peer] = 1;
 						 
 						 c.on('error', function(err) {
 						 	alert(err);
