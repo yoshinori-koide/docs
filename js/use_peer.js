@@ -132,7 +132,6 @@ function connect(c) {
 	  	storeObj */  			
 	
 	  	c.on('data', function(data) {
-	  		chatConnectArray[c.peer] = 1;
 	  		alert("getData");
 	  		// チャットを追加する
 	  		addchat(data);
@@ -176,6 +175,7 @@ function connect(c) {
 	  		alert("チェックアウトしました");
 	  		
 	  	});
+	  	chatConnectArray[c.peer] = 1;
 	}
 }
 
