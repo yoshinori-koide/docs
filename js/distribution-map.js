@@ -1,6 +1,6 @@
 // *** メソッド *** //
-//var apiKey = "cc6f5bfa-ec91-11e3-8c36-09d78563cbeb";
-var apiKey = "6165842a-5c0d-11e3-b514-75d3313b9d05";
+var apiKey = "cc6f5bfa-ec91-11e3-8c36-09d78563cbeb";
+//var apiKey = "6165842a-5c0d-11e3-b514-75d3313b9d05";
 var peer = new Peer({
   key: apiKey,
   debug: 3,
