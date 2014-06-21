@@ -40,6 +40,7 @@
   <script type="text/javascript" src="https://skyway.io/dist/0.3/peer.js"></script>
   <script src="js/use_peer.js"></script>
   <script src="js/libs/modernizr-2.6.2.min.js"></script>
+  <script type="text/javascript" src="js/profile.js"></script>
 </head>
 
 <style>
@@ -53,7 +54,7 @@
   .ttip.example { float: left; background: #eee; border: 1px dotted #ccc; padding: 20px; }
 </style>
 
-<body>
+<body onload = "getShowProfile()">
 
   <!-- Grab Google CDN's jQuery, fall back to local if offline -->
   <!-- 2.0 for modern browsers, 1.10 for .oldie -->
