@@ -20,6 +20,21 @@ var newCheckinPeers = {};
 const CHECKIN = 'checkin';
 const CHAT = 'chat';
 
+//　チャット用更新処理
+function addchat(addData){
+  		var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
+  		while(1){
+  				var chatObj = localStorage.getItem('chat_' + msgCnt);
+  				if(chatObj === null){
+  					localStorage.setItem('chat_' + msgCnt, addData);
+  					userObj.chat_ids = userObj.chat_ids + "," + msgCnt;
+  					break;
+  				}
+  				msgCnt++;
+  			}
+  		localStorage.setItem('user_' + meObj.user_id ,JSON.stringify(userObj));
+  	}
+
 // peerIdリストを取得する
 function getPeerIdList () {
 	
