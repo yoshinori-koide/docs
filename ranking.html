@@ -223,7 +223,7 @@
     	        }
 	}
 
-	function getRanking(targetArray, viewId){
+	function getStateRanking(targetArray, viewId){
 		var rtnRankArray = new Array();
 		var rtnIdArray = new Array()
 		sort(targetArray, rtnRankArray, rtnIdArray);
@@ -237,7 +237,7 @@
 		
 	}
 	
-	    function getRanking(targetArray, targetNameArray, viewId){
+	    function getCheckInRanking(targetArray, targetNameArray, viewId){
 	    	var rtnRankArray = new Array();
 		var rtnIdArray = new Array()
 		sort(targetArray, rtnRankArray, rtnIdArray);
@@ -282,8 +282,8 @@
  	    stateList["1"] = 30;
  	    stateList["2"] = 48;
  	    
- 	    getRanking(storeList, storeNameList, '#chackInRank');
- 	    getRanking(stateList, '#stateRank')
+ 	    getCheckInRanking(storeList, storeNameList, '#chackInRank');
+ 	    getStateRanking(stateList, '#stateRank')
     });
     
   </script>
