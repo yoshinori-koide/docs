@@ -17,6 +17,161 @@ var peer = new Peer({
 var connectedPeers = {};
 var newCheckinPeers = {};
 
+
+// 他からの接続を検知
+peer.on('connection', connect);
+
+// 他との接続を検知したときに実行
+function connect(c) {
+	if (c.label === 'checkin') {
+		// チェックイン時接続
+		c.on('open', function() {
+		
+			var uId = c.metadata.userId;
+			var meData = JSON.parse(window.localStorage.getItem('me'));
+			if (c.peer !== peer.id) {
+				// ユーザ情報も上書き保存
+				window.localStorage.setItem('user_' + c.metadata.userId, JSON.stringify(c.metadata.userData));
+				var mDataList = [c.metadata.matrixDataList];
+				for (key in mDataList) {
+					// マトリクスはとりあえず全件保存しとく
+					window.localStorage.setItem(key, JSON.stringify(mDataList[key]));
+				}
+				
+				var sId = c.metadata.storeId;
+				// 自身がチェックイン中のお店と一致したら返信する
+				if (sId === meData.store_id) {
+					// 自身のデータ作成
+					// meデータを取得
+					meData = JSON.parse(window.localStorage.getItem('me'));
+					// 自身のユーザデータ取得
+					var myUserData = 'user_' + meData.user_id + ':' + window.localStorage.getItem('user_' + meData.user_id);
+					// localStrageのデータ全件からmatrix_log_を全件取得する
+					var matrixData = [];
+					for(var i = 0; i < window.localStorage.length; i++){  
+					   // キー名の取得  
+					   var k = window.localStorage.key(i);  
+					     // matrix_log_[user_id]_で始まるデータを判別する
+							var str = ' ' + k;
+							if (str.indexOf(' matrix_log_' + meData.user_id + '-') !== -1) {
+								var mData = window.localStorage.getItem(k);
+								matrixData.push(k + ':' + mData);
+							}
+					}
+					
+					// 自身の情報を送り返す
+					newCheckinPeers[c.peer] = 1;
+				    eachActiveConnection(function(c, $c) {
+					    console.log("c.label" + c.label);
+							if (c.label === 'checkin') {
+								// データ投げ返す
+								var myData = {userId:meData.user_id,userData:JSON.stringify(myUserData),matrixDataList:matrixData};
+								c.send(JSON.stringify(myData));
+								console.log(myData);
+							}
+				    });
+				    
+			    } else {
+			    	c.close();
+			    }
+			}
+		});
+		
+		c.on('data', function(data) {
+ 			var getUserData = JSON.parse(data);
+ 			// うけとったデータを保存する
+ 			console.log(getUserData);
+ 			// とりあず保存
+ 			window.localStorage.setItem('user_' + getUserData.userId, JSON.stringify(getUserData.userData));
+ 			var mDataList = getUserData.matrixDataList;
+ 			for (key in mDataList) {
+ 				// マトリクスはとりあえず全件保存しとく
+ 				window.localStorage.setItem(key, JSON.stringify(mDataList[key]));
+ 			}
+ 			// ストアデータ更新
+ 			var meData = JSON.parse(window.localStorage.getItem('me'));
+ 			var storeData = JSON.parse(window.localStorage.getItem(meData.store_id));
+ 			var otherUserData = getUserData.userData;
+ 			window.localStorage.setItem(meData.store_id, JSON.stringify({'name':storeData.name,'user_ids':storeData.users_id + ',' + getUserData.userId,'chat_ids':storeData.chat_ids + ',' + otherUserData.peer_id}));
+ 			// カウント増やす
+ 			resCount++;
+			if (resCount == reqCount) {
+				// 取得完了。画面遷移
+				var meData = JSON.parse(window.localStorage.getItem('me'));
+				var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
+				if (meUserData.name) {
+					// チャットへ遷移
+ 					location.href = "chat.html";
+				} else {
+					// プロフ登録へ遷移
+ 					location.href = "new_profile.html";
+				}
+			}
+ 		});
+ 		c.on('close', function() {
+ 			// 接続が切断されたことを検知
+ 			console.log(c.peer + ' has left.');
+ 			if ($('.connection').length === 0) {
+ 				console.log(c.peer + ' no connection');
+ 			}
+ 			delete connectedPeers[c.peer];
+ 		});
+ 		
+	 	connectedPeers[c.peer] = 1;
+
+	}else if(c.label === 'distribution-map') {
+        // 分布マップ時接続
+        c.on('open', function() {
+            var store_list = new Array();
+            var j = 0;
+            for(var i = 0; i < window.localStorage.length; i++){ 
+              // キー名の取得 
+              var k = window.localStorage.key(i); 
+              // store_で始まるデータを判別する
+              if (k.indexOf('store_') !== -1) {
+                  // キー名から緯度経度を取得
+                  var key_array = k.split('_');
+                  store_list[j] = new Array(4);
+                  store_list[j]['lat'] = key_array[2].replace('-', '.');
+                  store_list[j]['lng'] = key_array[1].replace('-', '.');
+                  // 店名
+                  var store_data = JSON.parse(window.localStorage.getItem(k));
+                  store_list[j]['name'] = store_data.name;
+                  // チェッックインユーザー数
+                  var user_ids = store_data.user_ids.split(',');
+                  store_list[j]['count'] = user_ids.length;
+                  createMarker(store_list[j]);
+                  j++;
+              }
+            }
+            console.log("c.label" + c.label);
+            if (c.label === 'distribution-map') {
+                // データ投げ返す
+                c.send(store_list);
+                console.log(store_list);
+            }
+        });
+	}
+}
+// Goes through each active peer and calls FN on its connections.
+function eachActiveConnection(fn) {
+	var actives = $('.active');
+	var checkedIds = {};
+	for(peerId in newCheckinPeers) {
+		if (!checkedIds[peerId]) {
+			var conns = peer.connections[peerId];
+			for (var i = 0, ii = conns.length; i < ii; i += 1) {
+				var conn = conns[i];
+				fn(conn, $(this));
+			}
+		}
+		checkedIds[peerId] = 1;
+	};
+}
+
+
+
+
 // 1桁の数字を0埋めで2桁にする
 var toDoubleDigits = function(num) {
 	num += "";
@@ -174,112 +329,4 @@ function __geoDistance(lat1, lng1, lat2, lng2, precision) {
     distance = Math.round(decimal_no * distance / 1) / decimal_no;   // kmに変換するときは(1000で割る)
   }
   return distance;
-}
-
-// 他からの接続を検知
-peer.on('connection', connect);
-
-// 他との接続を検知したときに実行
-function connect(c) {
-	if (c.label === 'checkin') {
-		// チェックイン時接続
-		c.on('open', function() {
-		
-			var uId = c.metadata.userId;
-			var meData = JSON.parse(window.localStorage.getItem('me'));
-			if (c.peer !== peer.id) {
-				// ユーザ情報も上書き保存
-				window.localStorage.setItem('user_' + c.metadata.userId, JSON.stringify(c.metadata.userData));
-				var mDataList = [c.metadata.matrixDataList];
-				for (key in mDataList) {
-					// マトリクスはとりあえず全件保存しとく
-					window.localStorage.setItem(key, JSON.stringify(mDataList[key]));
-				}
-				
-				var sId = c.metadata.storeId;
-				// 自身がチェックイン中のお店と一致したら返信する
-				if (sId === meData.store_id) {
-					// 自身のデータ作成
-					// meデータを取得
-					meData = JSON.parse(window.localStorage.getItem('me'));
-					// 自身のユーザデータ取得
-					var myUserData = 'user_' + meData.user_id + ':' + window.localStorage.getItem('user_' + meData.user_id);
-					// localStrageのデータ全件からmatrix_log_を全件取得する
-					var matrixData = [];
-					for(var i = 0; i < window.localStorage.length; i++){  
-					   // キー名の取得  
-					   var k = window.localStorage.key(i);  
-					     // matrix_log_[user_id]_で始まるデータを判別する
-							var str = ' ' + k;
-							if (str.indexOf(' matrix_log_' + meData.user_id + '-') !== -1) {
-								var mData = window.localStorage.getItem(k);
-								matrixData.push(k + ':' + mData);
-							}
-					}
-					
-					// 自身の情報を送り返す
-					newCheckinPeers[c.peer] = 1;
-				    eachActiveConnection(function(c, $c) {
-					    console.log("c.label" + c.label);
-							if (c.label === 'checkin') {
-								// データ投げ返す
-								var myData = {userId:meData.user_id,userData:JSON.stringify(myUserData),matrixDataList:matrixData};
-								c.send(JSON.stringify(myData));
-								console.log(myData);
-							}
-				    });
-				    
-			    } else {
-			    	c.close();
-			    }
-			}
-		});
-	}else if(c.label === 'distribution-map') {
-        // 分布マップ時接続
-        c.on('open', function() {
-            var store_list = new Array();
-            var j = 0;
-            for(var i = 0; i < window.localStorage.length; i++){ 
-              // キー名の取得 
-              var k = window.localStorage.key(i); 
-              // store_で始まるデータを判別する
-              if (k.indexOf('store_') !== -1) {
-                  // キー名から緯度経度を取得
-                  var key_array = k.split('_');
-                  store_list[j] = new Array(4);
-                  store_list[j]['lat'] = key_array[2].replace('-', '.');
-                  store_list[j]['lng'] = key_array[1].replace('-', '.');
-                  // 店名
-                  var store_data = JSON.parse(window.localStorage.getItem(k));
-                  store_list[j]['name'] = store_data.name;
-                  // チェッックインユーザー数
-                  var user_ids = store_data.user_ids.split(',');
-                  store_list[j]['count'] = user_ids.length;
-                  createMarker(store_list[j]);
-                  j++;
-              }
-            }
-            console.log("c.label" + c.label);
-            if (c.label === 'distribution-map') {
-                // データ投げ返す
-                c.send(store_list);
-                console.log(store_list);
-            }
-        });
-	}
-}
-// Goes through each active peer and calls FN on its connections.
-function eachActiveConnection(fn) {
-	var actives = $('.active');
-	var checkedIds = {};
-	for(peerId in newCheckinPeers) {
-		if (!checkedIds[peerId]) {
-			var conns = peer.connections[peerId];
-			for (var i = 0, ii = conns.length; i < ii; i += 1) {
-				var conn = conns[i];
-				fn(conn, $(this));
-			}
-		}
-		checkedIds[peerId] = 1;
-	};
 }
