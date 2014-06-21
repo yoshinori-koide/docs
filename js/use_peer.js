@@ -15,6 +15,7 @@ var peer = new Peer({
   }
 });
 var connectedPeers = {};
+var chatConnectArray = {};
 var newCheckinPeers = {};
 
 const CHECKIN = 'checkin';
@@ -131,6 +132,7 @@ function connect(c) {
 	  	storeObj */  			
 	
 	  	c.on('data', function(data) {
+	  		chatConnectArray[c.peer] = 1;
 	  		alert("getData");
 	  		// チャットを追加する
 	  		addchat(data);
@@ -150,7 +152,7 @@ function connect(c) {
 	
 	  	// ページ遷移でもこのイベントが発生するためすごく不便だと思うの
 	  	c.on('close', function() {
-	  		alert(c.peer + ' has left the chat.');
+	  		chatConnectArray[c.peer] = 0;
 	  		
 	  		if ($('.connection').length === 0) {
 	  			$('.filler').show();
