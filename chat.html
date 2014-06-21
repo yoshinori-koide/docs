@@ -167,7 +167,7 @@
 	 			}
 	 		);
 	 		
-	 		var subText = peerList.responseText.replace(/\[|\]|\"/g, '');
+	 		var subText = peerList.replace(/\[|\]|\"/g, '');
  			var peerIdList = subText.split(',');
  			if (peerIdList.length > 0) {
  				for(var i=0; i<peerIdList.length; i++) {
