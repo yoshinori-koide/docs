@@ -20,8 +20,8 @@ var reqCount = 0;
 var resCount = 0;
 
 // 送信専用
-function sendMyData(myData) {
-    var peer2 = new Peer({
+function sendMyData(myData,peerId) {
+    var peer = new Peer({
 	// Set API key for cloud server (you don't need this if you're running your
 	// own.
 	key: 'cc6f5bfa-ec91-11e3-8c36-09d78563cbeb',
@@ -39,18 +39,18 @@ function sendMyData(myData) {
     });
     
 	 // リクエスト
-	 var c2 = peer2.connect(requestedPeer, {
+	 var c = peer.connect(peerId, {
 	 	label: 'checkin',
 	 	serialization: 'none',
 	 	metadata: {myData:myData}
 	 });
-	 c2.on('open', function() {
-	 	connect(c2);
+	 c.on('open', function() {
+	 	connect(c);
 	 });
-	 c2.on('close', function() {
-	 	console.log(c2.peer + ' close.');
+	 c.on('close', function() {
+	 	console.log(c.peer + ' close.');
 	 });
-	 c2.on('error', function(err) {
+	 c.on('error', function(err) {
 	 	alert(err);
 	 });
 }
@@ -105,7 +105,7 @@ function connect(c) {
 								var myData = {userId:meData.user_id,userData:JSON.stringify(myUserData),matrixDataList:matrixData};
 								//c.send(JSON.stringify(myData));
 								console.log(myData);
-								sendMyData(myData);
+								sendMyData(myData,c.metadata.userData.peer_id);
 							}
 //				    });
 				    
