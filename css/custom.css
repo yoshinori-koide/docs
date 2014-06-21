@@ -263,4 +263,5 @@ a:hover {
 }
 .map-infowindow p {
   font-size: 12px;
+  margin: 0;
 }
