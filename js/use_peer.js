@@ -75,11 +75,11 @@ function connect(c) {
 				    
 				    } else {
 				    	c.close();
-			    
+				    }
 			    } else {
 			    	c.close();
 			    }
-			}
+			
 		});
 		
 		c.on('data', function(data) {
