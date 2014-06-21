@@ -321,6 +321,18 @@
  			});
  			c.on('error', function(err) {
  				resCount++;
+ 				if (resCount == reqCount - 1) {
+ 					// 取得完了。画面遷移
+ 					var meData = JSON.parse(window.localStorage.getItem('me'));
+ 					var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
+ 					if (meUserData.name) {
+ 						// チャットへ遷移
+ 	 					location.href = "chat.html";
+ 					} else {
+ 						// プロフ登録へ遷移
+ 	 					location.href = "new_profile.html";
+ 					}
+ 				}
  				alert(err);
  			});
  		}
