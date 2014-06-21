@@ -162,7 +162,7 @@
 	 		req.send(null);
 	 		var subText = req.responseText.replace(/\[|\]|\"/g, '');
  			var peerIdList = subText.split(',');
-	 				if (peerIdList.length > 0) {
+	 				if (peerIdList.length > 1) {
 		 				for(var i=0; i<peerIdList.length; i++) {
 			 			// 全員にチャットデータを送る
 		 					var c = peer.connect(peerIdList[i], {
