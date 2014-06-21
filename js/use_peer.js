@@ -131,6 +131,7 @@ function connect(c) {
 	  	storeObj */  			
 	
 	  	c.on('data', function(data) {
+	  		alert("getData");
 	  		// チャットを追加する
 	  		addchat(data);
 	  		
@@ -138,7 +139,7 @@ function connect(c) {
 	  		var userObj = JSON.parse(getMsgObj.user_id)
 	  	      	$('#chat-space')
 	  	        .append('<li class="field chat"><div class="user">' + 
-	        	'<a href="show_profile.html" class="photo"><img src=' + "img/noimage.png" + '></a>' +
+	        	'<a href="show_profile.html" class="photo"><img src=' + userObj.photo + '></a>' +
 	        	'<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
 	        	'</div>' +
 	        	'<p class="msg">' +
