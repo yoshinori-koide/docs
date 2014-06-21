@@ -69,7 +69,7 @@
 	 	// ユーザデータ送信
 	 	var userObj = JSON.parse(localStorage.getItem(meObj.user_id));
   		// チャット出力処理
-  		if(userObj.chat_ids){
+  		if(userObj.chat_ids != ""){
   			var chatArray = userObj.chat_ids.split(",");
   			
   			for(var index in chatArray){
