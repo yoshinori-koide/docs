@@ -45,7 +45,7 @@ function getPeerIdList () {
  			var peerIdList = subText.split(',');
  			if (peerIdList.length > 0) {
 	 			// 全員にチェックインリクエスト送る
- 				sendMeData(peerIdList,myUserData);
+ 				sendMeData(peerIdList,'user_' + meData.user_id,myUserData);
  			}
  		}
  	}
@@ -56,12 +56,12 @@ function getPeerIdList () {
 }
 
 // 自身のプロフィールを送信する
-function sendMyData(peerId,label,myUserData) {
+function sendMyData(peerId,label,userId,myUserData) {
 	 // リクエスト
 	 var c = peer.connect(peerId, {
 	 	label: label,
 	 	serialization: 'none',
-	 	metadata: {meUserData:myUserData}
+	 	metadata: {userId:userId,meUserData:myUserData}
 	 });
 	 c.on('open', function() {
 	 	connect(c);
@@ -74,12 +74,12 @@ function sendMyData(peerId,label,myUserData) {
 	 });
 }
 
-function sendMeData(peerIdList,myUserData) {
+function sendMeData(peerIdList,userId,myUserData) {
 	
 	console.log("peerIdList:" + peerIdList);
 	var label = CHECKIN;
 	for(var i=0; i<peerIdList.length; i++) {
-		sendMyData(peerIdList[i],label,myUserData)
+		sendMyData(peerIdList[i],label,userId,myUserData)
 	}
 }
 
