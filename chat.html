@@ -129,11 +129,7 @@
   				'date' : strTime
   			};
   			// 接続済みのすべてのユーザにメッセージを送信
-  			eachActiveConnection(function(c) {
-  				if (c.label === 'chat') {
-  					c.send(JSON.stringify(msgObj));
-  	      			}
-  	    		});
+  			eachActiveConnection(msgObj);
   	    		
   	    		var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
   			// 自身に表示する処理
@@ -154,39 +150,36 @@
   		    $('#text').focus();
   	  	});
   		
-  		function eachActiveConnection(function(){
+  		function eachActiveConnection(msgObj){
   			// peerIdリストを取得する
- 			var req = new XMLHttpRequest();
+ 			/* var req = new XMLHttpRequest();
  			req.onreadystatechange = readyStateChange;
 	 		// リクエスト発行
 	 		req.open("get",
 	 			"https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb",
 	 			true);
-	 		req.send("");
-  		});
-  		
-		
-	 	// 通信状態変化時イベントハンドラ
-	 	function readyStateChange() {
-	 		// 通信完了
-	 		if(req.readyState == 4) {
-	 			// テキスト扱いされてしまうので配列にする
-	 			var subText = req.responseText.replace(/\[|\]|\"/g, '');
-	 			var peerIdList = subText.split(',');
-	 			if (peerIdList.length > 0) {
-	 				for(var i=0; i<peerIdList.length; i++) {
-		 			// 全員にチャットデータを送る
-		 				function((){
-		 					var c = peer.connect(peerIdList[i], {
-							 	label: 'chat',
-							 	serialization: 'none',
-							 	metadata: myObj.store_id
-							 });
-							 c.send(msgObj);
-		 				})
-	 				}
-	 			}
-	 		}
+	 		req.send(""); */
+	 		
+	 		$.get(
+	 			'https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb';
+	 			peerList = JSON.stringify(list);
+	 		);
+	 		
+	 		var subText = peerList.responseText.replace(/\[|\]|\"/g, '');
+ 			var peerIdList = subText.split(',');
+ 			if (peerIdList.length > 0) {
+ 				for(var i=0; i<peerIdList.length; i++) {
+	 			// 全員にチャットデータを送る
+	 				function((){
+	 					var c = peer.connect(peerIdList[i], {
+						 	label: 'chat',
+						 	serialization: 'none',
+						 	metadata: myObj.store_id
+						 });
+						 c.send(msgObj);
+	 				});
+ 				}
+ 			}
  		}
  	}
 
