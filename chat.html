@@ -154,39 +154,36 @@
   		    $('#text').focus();
   	  	});
   		
-  		function eachActiveConnection(fn) {
-  			// var meObj = JSON.parse(localStorage.getItem("me"));
-  			// 自身のユーザデータ取得
-		var meData = JSON.parse(window.localStorage.getItem('me'));
-		var myUserData = window.localStorage.getItem('user_' + meData.user_id);
-	
-	 	// リクエストする
-	 	function loadText(path) {
-	 		req.onreadystatechange = readyStateChange;
+  		function eachActiveConnection(function(){
+  			// peerIdリストを取得する
+ 			var req = new XMLHttpRequest();
+ 			req.onreadystatechange = readyStateChange;
 	 		// リクエスト発行
-	 		req.open("get", path, true);
+	 		req.open("get",
+	 			"https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb",
+	 			true);
 	 		req.send("");
-	 	}
-	
-	 	// 通信状態変化時イベントハンドラ
-	 	function readyStateChange() {
-	 		// 通信完了
-	 		if(req.readyState == 4) {
-	 			// テキスト扱いされてしまうので配列にする
-	 			var subText = req.responseText.replace(/\[|\]|\"/g, '');
-	 			var peerIdList = subText.split(',');
-	 			if (peerIdList.length > 0) {
-		 			// 全員にチェックインリクエスト送る
-	 				function((){
-	 					var c = peer.connect(peerIdList[i], {
-						 	label: 'chat',
-						 	serialization: 'none',
-						 	metadata: myObj.store_id
-						 });
-						 c.send(msgObj);
-	 				})
-	 			}
- 		}
+  		
+		
+		 	// 通信状態変化時イベントハンドラ
+		 	function readyStateChange() {
+		 		// 通信完了
+		 		if(req.readyState == 4) {
+		 			// テキスト扱いされてしまうので配列にする
+		 			var subText = req.responseText.replace(/\[|\]|\"/g, '');
+		 			var peerIdList = subText.split(',');
+		 			if (peerIdList.length > 0) {
+			 			// 全員にチェックインリクエスト送る
+		 				function((){
+		 					var c = peer.connect(peerIdList[i], {
+							 	label: 'chat',
+							 	serialization: 'none',
+							 	metadata: myObj.store_id
+							 });
+							 c.send(msgObj);
+		 				})
+		 			}
+	 		}
  	}
 
  	// peerIdリストを取得する
