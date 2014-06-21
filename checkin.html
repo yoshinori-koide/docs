@@ -218,11 +218,10 @@
  	var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
  	if (meUserData) {
  		// 自身のユーザデータを更新する
-		window.localStorage.setItem('user_' + meData.user_id,JSON.stringify({'store_id':storeStorageKey,'store_name':checkinStore.name,'store_lat':checkinStore.geometry.location.lat(),'store_lng':checkinStore.geometry.location.lng(),'matrix_log_ids':matrixId,'chat_ids':''}));
-// 		window.localStorage.setItem('user_' + meData.user_id, JSON.stringify({'store_id':storeStorageKey,'store_name':checkinStore.name,'store_lat':checkinStore.geometry.location.lat(),'store_lng':checkinStore.geometry.location.lng(),'matrix_log_ids':matrixId,'chat_ids':'','name':meUserData.name,'sex':meUserData.sex,'state':meUserData.state,'age':meUserData.age,'comment':meUserData.comment,'photo': meUserData.photo,'matrix_log_ids':meUserData.matrix_log_ids + matrixId}));
+		window.localStorage.setItem('user_' + meData.user_id, JSON.stringify({'store_id':storeStorageKey,'store_name':checkinStore.name,'store_lat':checkinStore.geometry.location.lat(),'store_lng':checkinStore.geometry.location.lng(),'matrix_log_ids':matrixId,'chat_ids':'','name':meUserData.name,'sex':meUserData.sex,'state':meUserData.state,'age':meUserData.age,'comment':meUserData.comment,'photo': meUserData.photo,'matrix_log_ids':meUserData.matrix_log_ids + matrixId}));
  	} else {
  		// 自身のユーザデータ作成する
- 		window.localStorage.setItem('user_' + meData.user_id,JSON.stringify({'store_id':storeStorageKey,'store_name':checkinStore.name,'store_lat':checkinStore.geometry.location.lat(),'store_lng':checkinStore.geometry.location.lng(),'matrix_log_ids':matrixId,'chat_ids':''}));
+ 		window.localStorage.setItem('user_' + meData.user_id, JSON.stringify({'store_id':storeStorageKey,'store_name':checkinStore.name,'store_lat':checkinStore.geometry.location.lat(),'store_lng':checkinStore.geometry.location.lng(),'matrix_log_ids':matrixId,'chat_ids':''}));
  	}
  	
  	// ページ遷移
