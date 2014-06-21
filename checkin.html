@@ -213,7 +213,7 @@
  	var checkinTime = checkinDate + ' ' + toDoubleDigits(today.getHours()) + ':' + toDoubleDigits(today.getMinutes()) + ':' + toDoubleDigits(today.getSeconds());
  	var matrixId = 'matrix_log_' + meData.user_id + '-' + toDoubleDigits(today.getFullYear()) + toDoubleDigits(today.getMonth()+1) + toDoubleDigits(today.getDate()) + toDoubleDigits(today.getHours()) + toDoubleDigits(today.getMinutes()) + toDoubleDigits(today.getSeconds());
  	// matrixデータ登録（outは空にしておく）
- 	window.localStorage.setItem(matrixId,JSON.stringify({'store_id':storeStorageKey,'user_id':meData.user_id,'date':checkinDate,'in':checkinTime, 'out':''}));
+ 	window.localStorage.setItem(matrixId,JSON.stringify({'store_id':storeStorageKey,'name':checkinStore.name,'date':checkinDate,'in':checkinTime, 'out':''}));
  	
  	// (3)ユーザ自身のデータの確認と更新
  	var meUserData = JSON.parse(window.localStorage.getItem('user_' + meData.user_id));
