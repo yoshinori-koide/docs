@@ -21,7 +21,7 @@ var resCount = 0;
 
 // 送信専用
 function sendMyData(myData) {
-    var peer = new Peer({
+    var peer2 = new Peer({
 	// Set API key for cloud server (you don't need this if you're running your
 	// own.
 	key: 'cc6f5bfa-ec91-11e3-8c36-09d78563cbeb',
@@ -39,18 +39,18 @@ function sendMyData(myData) {
     });
     
 	 // リクエスト
-	 var c = peer.connect(requestedPeer, {
+	 var c2 = peer2.connect(requestedPeer, {
 	 	label: 'checkin',
 	 	serialization: 'none',
 	 	metadata: {myData:myData}
 	 });
-	 c.on('open', function() {
-	 	connect(c);
+	 c2.on('open', function() {
+	 	connect(c2);
 	 });
-	 c.on('close', function() {
-	 	console.log(c.peer + ' close.');
+	 c2.on('close', function() {
+	 	console.log(c2.peer + ' close.');
 	 });
-	 c.on('error', function(err) {
+	 c2.on('error', function(err) {
 	 	alert(err);
 	 });
 }
