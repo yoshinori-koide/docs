@@ -76,6 +76,8 @@ function sendMyData(peerId,label,myUserData) {
 }
 
 function sendMeData(peerIdList,myUserData) {
+	
+	console.log("peerIdList:" + peerIdList);
 	var label = CHECKINRES;
 	if (!myUserData.name) {
 		label = CHECKIN;
@@ -90,6 +92,8 @@ peer.on('connection', connect);
 
 // 他との接続を検知したときに実行
 function connect(c) {
+	
+	console.log("c.label:" + c.label);
 	if (c.label === CHECKIN || c.label === CHECKINRES) {
 		// 新規チェックイン者受信
 		c.on('open', function() {
@@ -99,6 +103,7 @@ function connect(c) {
 				// チェックインリクエスト受け取ったフラグをたてておく
 				checkinFlag = true;
 			}
+			console.log("c.metadata.meUserData:" + c.metadata.meUserData);
 		});
  		c.on('close', function() {
  			// 接続が切断されたことを検知
