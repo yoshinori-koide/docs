@@ -9,7 +9,7 @@ function isCheckedIn() {
 // チェックアウトさせる
 function checkOut() {
     meData = JSON.parse(window.localStorage.getItem('me'));
-    window.localStorage.setItem('me',JSON.stringify({'user_id':meData.user_id,'store_id':''}));
+    window.localStorage.setItem('me',JSON.stringify({"user_id":meData.user_id,"store_id":""}));
     location.href='checkout.html';
     return false;
 }
