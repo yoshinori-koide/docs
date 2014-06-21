@@ -167,29 +167,19 @@ function connect(c) {
 	else if(c.label === 'distribution-map') {
         // 分布マップ時接続
         c.on('open', function() {
+            var store_list = new Array()
             var store_list = new Array();
-            var j = 0;
             for(var i = 0; i < window.localStorage.length; i++){ 
               // キー名の取得 
               var k = window.localStorage.key(i); 
               // store_で始まるデータを判別する
               if (k.indexOf('store_') !== -1) {
-                  // キー名から緯度経度を取得
-                  var key_array = k.split('_');
-                  store_list[j] = new Array(4);
-                  store_list[j]['lat'] = key_array[2].replace('-', '.');
-                  store_list[j]['lng'] = key_array[1].replace('-', '.');
                   // 店名
-                  var store_data = JSON.parse(window.localStorage.getItem(k));
-                  store_list[j]['name'] = store_data.name;
-                  // チェッックインユーザー数
-                  var user_ids = store_data.user_ids.split(',');
-                  store_list[j]['count'] = user_ids.length;
-                  //createMarker(store_list[j]);
-                  j++;
+                  store_list[i]['key'] = k;
+                  store_list[i]['val'] = JSON.parse(window.localStorage.getItem(k));
               }
             }
-            console.log("c.label" + c.label);
+            console.log("### distribution-map store_list count: " + store_list.length);
             if (c.label === 'distribution-map') {
                 // データ投げ返す
                 c.send(store_list);
