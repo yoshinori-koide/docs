@@ -16,7 +16,6 @@ var peer = new Peer({
 });
 var connectedPeers = {};
 var newCheckinPeers = {};
-var checkinFlag = false;
 
 const CHECKIN = 'checkin';
 const CHAT = 'chat';
