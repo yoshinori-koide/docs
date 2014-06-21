@@ -66,10 +66,8 @@
         			"store_lng":user_info.store_lng,"chat_ids":user_info.chat_ids, "photo":file};
     	
         	window.localStorage.setItem(user_id, JSON.stringify(user));
-    		location.href = "http://2014camp-pro.github.io/docs/chat.html";
     	else{
     		window.alert(error);
-    		location.href = "http://2014camp-pro.github.io/docs/new_profile.html";
     	}
     	
     	
