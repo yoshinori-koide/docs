@@ -111,8 +111,9 @@
 						 	metadata: meObj.store_id
 						 });
 						 
-						 chatConnectArray[c.peer] = 1;
-						 
+						 if(peer.id != c.peer){
+						 	chatConnectArray[c.peer] = 1;
+						 }
 						 c.on('error', function(err) {
 						 	alert(err);
 						 });
