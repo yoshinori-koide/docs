@@ -175,7 +175,6 @@ function connect(c) {
 	  		alert("チェックアウトしました");
 	  		
 	  	});
-	  	chatConnectArray[c.peer] = 1;
 	}
 }
 
