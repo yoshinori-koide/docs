@@ -112,11 +112,13 @@
 						 	label: 'chat',
 						 	serialization: 'none',
 						 	metadata: meObj.store_id
-						 });
-						c.on('connection', function(){
+						});
+						c.on('open', function(){
 							connect(c)
 						});
-						c.on('error', function(err) { alert(err); });
+						c.on('error', function(err) { 
+							alert(err); 
+						});
 						chatConnectArray[peerIdList[i]] = 1;
  				}
  		}
