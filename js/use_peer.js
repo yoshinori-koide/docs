@@ -153,7 +153,7 @@ function connect(c) {
 		  	c.on('data', function(data) {
 		  		alert("getData");
 		  		
-		  		var getMsgObj = JSON.parse(data);
+		  		var getMsgObj = data;
 		  		var userObj = JSON.parse(localStorage.getItem(getMsgObj.user_id))
 		  	      	$('#chat-space')
 		  	        .append('<li class="field chat"><div class="user">' + 
@@ -166,7 +166,7 @@ function connect(c) {
 		        	'</p></li>')
 		        	
 		        	// チャットを追加する
-		  		addchat(data);
+		  		addchat(JSON.stringify(data));
 		  	});
 		
 		  	c.on('close', function() {
