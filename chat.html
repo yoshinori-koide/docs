@@ -121,7 +121,13 @@
   	function connectedAllPeer(msg){
   		for(var targetId in chatConnectArray){
   			var conns = peer.connections[targetId];
-  			conns.send(msg);
+  			if(conns.length > 0){
+  				for(i = 0; i < conns.length; i++){
+  					if(conns[i].label === 'chat'){
+  						conns[i].send(msg);	
+  					}
+  				}
+  			}
   		}
   	}
   
