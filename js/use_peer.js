@@ -155,7 +155,7 @@ function connect(c) {
 		  		addchat(data);
 		  		
 		  		var getMsgObj = JSON.parse(data);
-		  		var userObj = JSON.parse(getMsgObj.user_id)
+		  		var userObj = JSON.parse(localStorage.getItem(getMsgObj.user_id))
 		  	      	$('#chat-space')
 		  	        .append('<li class="field chat"><div class="user">' + 
 		        	'<a href="show_profile.html" class="photo"><img src=' + userObj.photo + '></a>' +
