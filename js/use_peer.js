@@ -153,8 +153,8 @@ function connect(c) {
 		  	c.on('data', function(data) {
 		  		alert("getData is:" + data);
 		  		
-		  		// var getMsgObj = data;
-		  		var userObj = JSON.parse(localStorage.getItem(data.user_id));
+		  		var getMsgObj = data;
+		  		var userObj = JSON.parse(localStorage.getItem(getMsgObj.user_id));
 		  		alert("get userTable success");
 		  		
 		  	      	$('#chat-space')
