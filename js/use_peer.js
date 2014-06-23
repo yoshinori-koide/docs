@@ -125,29 +125,34 @@ function connect(c) {
  		});
 	}
 	else if (c.label === CHAT) {
- 	  	chatConnectArray[c.peer] = 1;
- 	  	
-	  	c.on('data', function(data) {
-	  		alert("getData");
-	  		// チャットを追加する
-	  		addchat(data);
-	  		
-	  		var getMsgObj = JSON.parse(data);
-	  		var userObj = JSON.parse(getMsgObj.user_id)
-	  	      	$('#chat-space')
-	  	        .append('<li class="field chat"><div class="user">' + 
-	        	'<a href="show_profile.html" class="photo"><img src=' + userObj.photo + '></a>' +
-	        	'<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
-	        	'</div>' +
-	        	'<p class="msg">' +
-	        	'<time>' + getMsgObj.date + '</time>' +
-	        	getMsgObj.msg +
-	        	'</p></li>')
-	  	});
-	
-	  	c.on('close', function() {
-	  		delete chatConnectArray[c.peer];
-	  	});
+		var meObj = JSON.parse(localStorage.getItem('me'));
+		if(c.metadata === meObj.store_id){
+	 	  	chatConnectArray[c.peer] = 1;
+	 	  	
+		  	c.on('data', function(data) {
+		  		alert("getData");
+		  		// チャットを追加する
+		  		addchat(data);
+		  		
+		  		var getMsgObj = JSON.parse(data);
+		  		var userObj = JSON.parse(getMsgObj.user_id)
+		  	      	$('#chat-space')
+		  	        .append('<li class="field chat"><div class="user">' + 
+		        	'<a href="show_profile.html" class="photo"><img src=' + userObj.photo + '></a>' +
+		        	'<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
+		        	'</div>' +
+		        	'<p class="msg">' +
+		        	'<time>' + getMsgObj.date + '</time>' +
+		        	getMsgObj.msg +
+		        	'</p></li>')
+		  	});
+		
+		  	c.on('close', function() {
+		  		delete chatConnectArray[c.peer];
+		  	});
+		}else{
+			c.close();
+		}
 	}
 }
 
