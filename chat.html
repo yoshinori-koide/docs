@@ -115,9 +115,8 @@
 						 });
 						 
 						 c.on('connection', connect);
+						 chatConnectArray[peerIdList[i]] = 1;
  				}
- 				
- 				chatConnectArray[c.peer] = 1;
  		}
   	}
   	
