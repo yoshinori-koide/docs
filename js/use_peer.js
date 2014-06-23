@@ -145,6 +145,9 @@ function connect(c) {
 	else if (c.label === CHAT) {
 		if(c.metadata === meObj.store_id){
 	 	  	chatConnectArray[c.peer] = 1;
+	 	  	c.on('open', function(){
+	 	  		alert("connection start " + c.peer);
+	 	  	})
 	 	  	
 		  	c.on('data', function(data) {
 		  		alert("getData");
