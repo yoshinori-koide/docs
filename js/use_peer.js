@@ -44,33 +44,6 @@ function getPeerIdList () {
 	var meData = JSON.parse(window.localStorage.getItem('me'));
 	var myUserData = window.localStorage.getItem('user_' + meData.user_id);
 	
- 	/* // リクエストする
- 	function loadText(path) {
- 		req.onreadystatechange = readyStateChange;
- 		// リクエスト発行
- 		req.open("get", path, true);
- 		req.send("");
- 	}
-
- 	// 通信状態変化時イベントハンドラ
- 	function readyStateChange() {
- 		// 通信完了
- 		if(req.readyState == 4) {
- 			// テキスト扱いされてしまうので配列にする
- 			var subText = req.responseText.replace(/\[|\]|\"/g, '');
- 			var peerIdList = subText.split(',');
- 			if (peerIdList.length > 0) {
-	 			// 全員にチェックインリクエスト送る
- 				sendMeData(peerIdList,'user_' + meData.user_id,myUserData);
- 			}
- 		}
- 	}
-
- 	// peerIdリストを取得する
- 	var req = new XMLHttpRequest();
- 	loadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
- 	 */
- 	
  	// peerIdリストを取得する
  	var req = new XMLHttpRequest();
  	// リクエスト発行
@@ -152,11 +125,6 @@ function connect(c) {
 	else if (c.label === CHAT) {
 		if(c.metadata === meObj.store_id){
 	 	  	chatConnectArray[c.peer] = 1;
-	 	  	c.on('open', function(){
-	 	  		alert("新しいユーザがチェックインしました！！");
-	 	  		console.log("connection start " + c.peer);
-	 	  	})
-	 	  	
 		  	c.on('data', function(data) {
 		  		var getMsgObj = JSON.parse(data);
 		  		var userObj = JSON.parse(localStorage.getItem('user_' + getMsgObj.user_id));
