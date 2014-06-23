@@ -131,6 +131,7 @@ function connect(c) {
 			window.localStorage.setItem(c.metadata.userId,c.metadata.meUserData);
 			// データの取得に成功したため接続を閉じる
 			c.close();
+			getPeerIdList();
 		});
  		c.on('close', function() {
  			// 接続が切断されたことを検知
