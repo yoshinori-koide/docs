@@ -89,6 +89,8 @@
  				}
   			}
   		}
+  		
+  		connectAllPeer();
   	});
   	
   	function connectAllPeer(){
@@ -111,11 +113,16 @@
 						 	metadata: meObj.store_id
 						 });
 						 
-						 c.on('connect', function() {
-						 	c.send(msgObj);
-						 });
+						 c.on('connection', connect);
  				}
  		}
+  	}
+  	
+  	function connectedAllPeer(msg){
+  		for(var targetId in chatConnectArray){
+  			var conns = peer.connections[targetId];
+  			conns.send(msg);
+  		}
   	}
   
   	$(document).ready(function() {
@@ -144,7 +151,7 @@
   				'date' : strTime
   			};
   			// 接続済みのすべてのユーザにメッセージを送信
-  			connectAllPeer(msgObj);
+  			connectedAllPeer(msgObj);
   	    		
   	    		var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
   			// 自身に表示する処理
