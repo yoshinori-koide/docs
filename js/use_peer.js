@@ -128,6 +128,7 @@ function connect(c) {
 			// 保存
 			console.log("c.metadata.meUserData:" + c.metadata.meUserData);
 			window.localStorage.setItem(c.metadata.userId,c.metadata.meUserData);
+			c.close();
 		});
  		c.on('close', function() {
  			// 接続が切断されたことを検知
