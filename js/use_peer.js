@@ -79,12 +79,11 @@ function getPeerIdList () {
  	req.send(null);
  	var subText = req.responseText.replace(/\[|\]|\"/g, '');
  	var peerIdList = subText.split(',');
- 			if (peerIdList.length > 0) {
- 				for(var i=0; i<peerIdList.length; i++) {
-	 				// 全員にチャットデータを送る
- 					sendMeData(peerIdList,'user_' + meData.user_id,myUserData);
- 				}
- 			}
+ 	if (peerIdList.length > 0) {
+ 		for(var i=0; i<peerIdList.length; i++) {
+ 			// 全員にチャットデータを送る
+ 			sendMeData(peerIdList,'user_' + meData.user_id,myUserData);
+ 		}
  	}
 }
 
