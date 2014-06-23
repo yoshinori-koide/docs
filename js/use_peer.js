@@ -17,6 +17,7 @@ var peer = new Peer({
 var connectedPeers = {};
 var chatConnectArray = {};
 var newCheckinPeers = {};
+var meObj = JSON.parse(localStorage.getItem('me'));
 
 const CHECKIN = 'checkin';
 const CHAT = 'chat';
@@ -142,7 +143,6 @@ function connect(c) {
  		});
 	}
 	else if (c.label === CHAT) {
-		var meObj = JSON.parse(localStorage.getItem('me'));
 		if(c.metadata === meObj.store_id){
 	 	  	chatConnectArray[c.peer] = 1;
 	 	  	
