@@ -159,8 +159,6 @@ function connect(c) {
 	 	  	})
 	 	  	
 		  	c.on('data', function(data) {
-		  		alert("getData is:" + data);
-		  		
 		  		var getMsgObj = JSON.parse(data);
 		  		var userObj = JSON.parse(localStorage.getItem('user_' + getMsgObj.user_id));
 		  		
