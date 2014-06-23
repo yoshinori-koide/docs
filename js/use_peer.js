@@ -176,7 +176,7 @@ function connect(c) {
 		        	'</p></li>');
 		        	
 		        	// チャットを追加する
-		  		addchat(JSON.stringify(data));
+		  		addchat(data);
 		  	});
 		
 		  	c.on('close', function() {
