@@ -160,7 +160,7 @@
   				'date' : strTime
   			};
   			// 接続済みのすべてのユーザにメッセージを送信
-  			connectedAllPeer(msgObj);
+  			connectedAllPeer(JSON.stringify(msgObj));
   	    		
   	    		var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
   			// 自身に表示する処理
