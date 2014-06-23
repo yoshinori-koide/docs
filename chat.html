@@ -113,9 +113,11 @@
 						 	serialization: 'none',
 						 	metadata: meObj.store_id
 						 });
-						 
-						 c.on('connection', connect);
-						 chatConnectArray[peerIdList[i]] = 1;
+						c.on('connection', function(){
+							connect(c)
+						});
+						c.on('error', function(err) { alert(err); });
+						chatConnectArray[peerIdList[i]] = 1;
  				}
  		}
   	}
