@@ -43,7 +43,7 @@ function getPeerIdList () {
 	var meData = JSON.parse(window.localStorage.getItem('me'));
 	var myUserData = window.localStorage.getItem('user_' + meData.user_id);
 	
- 	// リクエストする
+ 	/* // リクエストする
  	function loadText(path) {
  		req.onreadystatechange = readyStateChange;
  		// リクエスト発行
@@ -68,6 +68,24 @@ function getPeerIdList () {
  	// peerIdリストを取得する
  	var req = new XMLHttpRequest();
  	loadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
+ 	 */
+ 	
+ 	// peerIdリストを取得する
+ 	var req = new XMLHttpRequest();
+ 	// リクエスト発行
+ 	req.open("get",
+ 		"https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb",
+ 		false);
+ 	req.send(null);
+ 	var subText = req.responseText.replace(/\[|\]|\"/g, '');
+ 	var peerIdList = subText.split(',');
+ 			if (peerIdList.length > 0) {
+ 				for(var i=0; i<peerIdList.length; i++) {
+	 				// 全員にチャットデータを送る
+ 					sendMeData(peerIdList,'user_' + meData.user_id,myUserData);
+ 				}
+ 			}
+ 	}
 }
 
 // 自身のプロフィールを送信する
