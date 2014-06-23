@@ -153,8 +153,10 @@ function connect(c) {
 		  	c.on('data', function(data) {
 		  		alert("getData");
 		  		
-		  		var getMsgObj = data;
-		  		var userObj = JSON.parse(localStorage.getItem(getMsgObj.user_id));
+		  		// var getMsgObj = data;
+		  		var userObj = JSON.parse(localStorage.getItem(data.user_id));
+		  		alert("get userTable success");
+		  		
 		  	      	$('#chat-space')
 		  	        .append('<li class="field chat"><div class="user">' + 
 		        	'<a href="show_profile.html" class="photo"><img src=' + userObj.photo + '></a>' +
@@ -163,7 +165,7 @@ function connect(c) {
 		        	'<p class="msg">' +
 		        	'<time>' + getMsgObj.date + '</time>' +
 		        	getMsgObj.msg +
-		        	'</p></li>')
+		        	'</p></li>');
 		        	
 		        	// チャットを追加する
 		  		addchat(JSON.stringify(data));
