@@ -147,6 +147,7 @@ function connect(c) {
 	 	  	chatConnectArray[c.peer] = 1;
 	 	  	c.on('open', function(){
 	 	  		alert("connection start " + c.peer);
+	 	  		console.log("connection start " + c.peer);
 	 	  	})
 	 	  	
 		  	c.on('data', function(data) {
