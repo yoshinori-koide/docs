@@ -229,7 +229,7 @@
 		sort(targetArray, rtnRankArray, rtnIdArray);
 		
 		for(no = 0; no < 5; no++){
-			if(rtnRankArray[i]){
+			if(rtnRankArray[no]){
     	        		$(viewId).append('<tr><td>' + (no + 1) + '</td>' + 
                                      '<td class="content-name">' + getState(rtnIdArray[no]) + '</td>' +
                                      '<td>' + rtnRankArray[no] + "人" + '</td></tr>');
