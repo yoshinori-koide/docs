@@ -155,7 +155,7 @@ function connect(c) {
 		  		
 		  		var getMsgObj = JSON.parse(data);
 		  		var userObj = JSON.parse(localStorage.getItem(getMsgObj.user_id));
-		  		alert("get userTable success");
+		  		alert("user table value:" * localStorage.getItem(getMsgObj.user_id));
 		  		
 		  	      	$('#chat-space')
 		  	        .append('<li class="field chat"><div class="user">' + 
