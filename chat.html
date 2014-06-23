@@ -51,6 +51,7 @@
   	
   	// ページ遷移時、peerIdが変更されてしまうため再接続
   	$(window).load(function(){
+  		alert(peer.id);
   		// ユーザデータの保存
   		getPeerIdList();
 	 	// ユーザデータ送信
