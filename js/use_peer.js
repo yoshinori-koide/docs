@@ -125,12 +125,8 @@ function connect(c) {
  		});
 	}
 	else if (c.label === CHAT) {
-	  	/* connectedPeers[c.metadata] = new dataConnection();
-	  	connectedPeers[c.metadata] = c;
-	  	
-	  	var storeObj = JSON.parse(localStoreage.getItem(meObj.store_id));
-	  	storeObj */  			
-	
+ 	  	chatConnectArray[c.peer] = 1;
+ 	  	
 	  	c.on('data', function(data) {
 	  		alert("getData");
 	  		// チャットを追加する
@@ -149,31 +145,8 @@ function connect(c) {
 	        	'</p></li>')
 	  	});
 	
-	  	// ページ遷移でもこのイベントが発生するためすごく不便だと思うの
 	  	c.on('close', function() {
 	  		delete chatConnectArray[c.peer];
-	  		
-	  		if ($('.connection').length === 0) {
-	  			$('.filler').show();
-	  		}
-	  		
-	  		delete connectedPeers[c.peer];
-	  		
-	  		// var meObj = JSON.parse(localStorage.getItem("me")); いちいち作るの？
-	  		var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
-	  		var userArray = storeObj.user_ids.split(",");
-	  		
-	  		for(var index in userArray){
-	  			var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
-	  			if(c.peer === userObj.peer_id){
-	  				userArray.split(index, 1);
-	  				break;
-	  			}
-	  		}
-	  		
-	  		//ログアウトしました
-	  		alert("チェックアウトしました");
-	  		
 	  	});
 	}
 }
