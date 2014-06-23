@@ -69,7 +69,7 @@
 					   if(chatObj.user_id == meObj.user_id){
 					   $('#chat-space').append('<li class="field chat me">' +
 					'<div class="user">' +
-					"<a href='show_profile.html?id="+meObj.user_id+"' class='photo'><img src=" + userObj.photo + "></a>" +
+					"<a href='show_profile.html?id="+chatObj.user_id+"' class='photo'><img src=" + userObj.photo + "></a>" +
 					'<a href="show_profile.html" class="name">' + userObj.name + '</a>' +
 					'</div>' +
 					'<p class="msg">' +
@@ -79,7 +79,7 @@
 					   }else{
 					$('#chat-space').append('<li class="field chat">' +
 					'<div class="user">' +
-					"<a href='show_profile.html?id="+userObj.user_id+"' class='photo'><img src=" + userObj.photo + "></a>" +
+					"<a href='show_profile.html?id="+chatObj.user_id+"' class='photo'><img src=" + userObj.photo + "></a>" +
 					'<a href="show_profile.html" class="name">' + userObj.name + '</a>' +
 					'</div>' +
 					'<p class="msg">' +
