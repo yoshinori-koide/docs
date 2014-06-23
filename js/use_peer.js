@@ -88,7 +88,6 @@ function getPeerIdList () {
 
 // 自身のプロフィールを送信する
 function sendMyData(peerId,label,userId,myUserData) {
-	alert("send peerId is:" + peerId);
 	 // リクエスト
 	 var c = peer.connect(peerId, {
 	 	label: label,
