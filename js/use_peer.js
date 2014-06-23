@@ -154,7 +154,7 @@ function connect(c) {
 		if(c.metadata === meObj.store_id){
 	 	  	chatConnectArray[c.peer] = 1;
 	 	  	c.on('open', function(){
-	 	  		alert("connection start " + c.peer);
+	 	  		alert("新しいユーザがチェックインしました！！");
 	 	  		console.log("connection start " + c.peer);
 	 	  	})
 	 	  	
