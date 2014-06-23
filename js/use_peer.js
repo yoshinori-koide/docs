@@ -152,8 +152,6 @@ function connect(c) {
 	 	  	
 		  	c.on('data', function(data) {
 		  		alert("getData");
-		  		// チャットを追加する
-		  		addchat(data);
 		  		
 		  		var getMsgObj = JSON.parse(data);
 		  		var userObj = JSON.parse(localStorage.getItem(getMsgObj.user_id))
@@ -166,6 +164,9 @@ function connect(c) {
 		        	'<time>' + getMsgObj.date + '</time>' +
 		        	getMsgObj.msg +
 		        	'</p></li>')
+		        	
+		        	// チャットを追加する
+		  		addchat(data);
 		  	});
 		
 		  	c.on('close', function() {
