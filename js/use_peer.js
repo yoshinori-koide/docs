@@ -90,7 +90,7 @@ function getPeerIdList () {
 
 // 自身のプロフィールを送信する
 function sendMyData(peerId,label,userId,myUserData) {
-	alert(peerId);
+	alert("send peerId is:" + peerId);
 	 // リクエスト
 	 var c = peer.connect(peerId, {
 	 	label: label,
@@ -129,10 +129,14 @@ function connect(c) {
 		c.on('open', function() {
 			// 保存
 			console.log("c.metadata.meUserData:" + c.metadata.meUserData);
-			window.localStorage.setItem(c.metadata.userId,c.metadata.meUserData);
+			var userObj = JSON.parse(localStorage.getItem(c.metadata.userId));
+			if(!userObj){
+				window.localStorage.setItem(c.metadata.userId,c.metadata.meUserData);
+				getPeerIdList();
+			}
 			// データの取得に成功したため接続を閉じる
 			c.close();
-			getPeerIdList();
+			
 		});
  		c.on('close', function() {
  			// 接続が切断されたことを検知
