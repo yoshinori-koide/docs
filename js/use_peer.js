@@ -131,9 +131,11 @@ function connect(c) {
 			console.log("c.metadata.meUserData:" + c.metadata.meUserData);
 			var userObj = JSON.parse(localStorage.getItem(c.metadata.userId));
 			if(!userObj){
-				window.localStorage.setItem(c.metadata.userId,c.metadata.meUserData);
 				getPeerIdList();
+			}else{
+				localStorage.removeItem(c.metadata.userId);
 			}
+			window.localStorage.setItem(c.metadata.userId,c.metadata.meUserData);
 			// データの取得に成功したため接続を閉じる
 			c.close();
 			
