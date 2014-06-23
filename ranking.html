@@ -264,7 +264,7 @@
 		
 		if((k.search('user_')) > -1){
 			// 値の取得
-			var v = localStorage.getItem(k);
+			var v = JSON.parse(localStorage.getItem(k));
 			if(storeList[v.store_id]){
 				storeList[v.store_id] ++;
 			}else{
