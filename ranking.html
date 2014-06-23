@@ -229,24 +229,32 @@
 		sort(targetArray, rtnRankArray, rtnIdArray);
 		
 		for(no = 0; no < 5; no++){
-    	        $(viewId).append('<tr><td>' + (no + 1) + '</td>' + 
-    	                                 '<td class="content-name">' + getState(rtnIdArray[no]) + '</td>' +
-    	                                 '<td>' + rtnRankArray[no] + "人" + '</td></tr>');
+			if(rtnRankArray[i]){
+    	        		$(viewId).append('<tr><td>' + (no + 1) + '</td>' + 
+                                     '<td class="content-name">' + getState(rtnIdArray[no]) + '</td>' +
+                                     '<td>' + rtnRankArray[no] + "人" + '</td></tr>');
+			}else{
+				brake;
+			}
     	      }
 		
 		
 	}
 	
 	function getCheckInRanking(targetArray, targetNameArray, viewId){
-	    var rtnRankArray = new Array();
-	var rtnIdArray = new Array()
-	sort(targetArray, rtnRankArray, rtnIdArray);
+		var rtnRankArray = new Array();
+		var rtnIdArray = new Array()
+		sort(targetArray, rtnRankArray, rtnIdArray);
 	  
-	  for(no = 0; no < 5; no++){
-	    $(viewId).append('<tr><td>' + (no + 1) + '</td>' + 
-	                             '<td class="content-name">' + targetNameArray[rtnIdArray[no]] + '</td>' +
-	                             '<td>' + rtnRankArray[no] + "人" + '</td></tr>');
-	  }
+		for(no = 0; no < 5; no++){
+			if(rtnRankArray[no]){
+				$(viewId).append('<tr><td>' + (no + 1) + '</td>' + 
+		                     '<td class="content-name">' + targetNameArray[rtnIdArray[no]] + '</td>' +
+		                     '<td>' + rtnRankArray[no] + "人" + '</td></tr>');
+			}else{
+				break;
+			}
+		}
 	}
   	
     $(window).load(function(){
