@@ -102,9 +102,9 @@
     }
 
  // 現在地の緯度経度をもとに近隣の店リストを取得
- function getStoreList(lat,lon) {
+ function getStoreList(lat,lng) {
 
- 	var pyrmont = new google.maps.LatLng(lat,lon);
+ 	var pyrmont = new google.maps.LatLng(lat,lng);
  	
  	map = new google.maps.Map(document.getElementById('map-canvas'), {
  		center: pyrmont,
@@ -126,7 +126,7 @@
  			var storeList2 = results;
  			storeList = storeList2;
  			for (var i = 0; i < storeList.length; i++) {
- 				storeListUl.append('<tr><td><a class="table-link">' + storeList[i].name + '</td></tr>');
+ 				storeListUl.append('<tr><td><a class="table-link">' + storeList[i].name + '</a></td></tr>');
  				createMarker(results[i]);
  			}
  		}
