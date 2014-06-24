@@ -59,9 +59,9 @@
     			maximumAge: 0                // キャッシュ有効期間（ミリ秒）
     		};
     		// 現在の位置情報を取得
-    		// navigator.geolocation.getCurrentPosition(successCallback,errorCallback,position_options);
+    		navigator.geolocation.getCurrentPosition(successCallback,errorCallback,position_options);
     		
-    		getStoreList(35.188623, 139.653483);
+    		//getStoreList(35.188623, 139.653483);
     	} else {
     		window.alert("本ブラウザではGeolocationが使えません");
     	}
@@ -73,8 +73,7 @@
     		var lon = position.coords.longitude ;
     		
     		// 近隣のお店を取得
-    		// getStoreList(lat,lon);
-    		getStoreList(35.188623, 139.653483);
+    		getStoreList(lat,lon);
     	}
 
     	// （2）位置情報の取得に失敗した場合
