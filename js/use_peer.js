@@ -112,7 +112,7 @@ function connect(c) {
 		});
  		c.on('close', function() {
  			// 接続が切断されたことを検知
- 			console.log(c.peer + ' has left.');
+ 			console.log(c.peer + ' has left. : label:check in');
  			if ($('.connection').length === 0) {
  				console.log(c.peer + ' no connection');
  			}
