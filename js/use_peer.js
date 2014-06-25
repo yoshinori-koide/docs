@@ -83,7 +83,7 @@ function sendMeData(peerIdList,userId,myUserData) {
 	console.log("peerIdList:" + peerIdList);
 	var label = CHECKIN;
 	for(var i=0; i<peerIdList.length; i++) {
-		sendMyData(peerIdList[i],label,userId,myUserData)
+		sendMyData(peerIdList[i],label,userId,myUserData);
 	}
 }
 
@@ -101,13 +101,14 @@ function connect(c) {
 			console.log("c.metadata.meUserData:" + c.metadata.meUserData);
 			var userObj = JSON.parse(localStorage.getItem(c.metadata.userId));
 			if(!userObj){
-				getPeerIdList();
+				var myUserData = window.localStorage.getItem('user_' + meObj.user_id);
+				sendMyData(c.peer,CHECKIN,meObj.userId,myUserData);
 			}else{
 				localStorage.removeItem(c.metadata.userId);
 			}
 			window.localStorage.setItem(c.metadata.userId,c.metadata.meUserData);
 			// データの取得に成功したため接続を閉じる
-			// c.close();
+			c.close();
 			
 		});
  		c.on('close', function() {
