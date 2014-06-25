@@ -112,7 +112,7 @@ function connect(c) {
 		});
  		c.on('close', function() {
  			// 接続が切断されたことを検知
- 			console.log(c.peer + ' has left. : label:check in');
+ 			console.log(c.peer + ' has left. : label:checkin');
  			if ($('.connection').length === 0) {
  				console.log(c.peer + ' no connection');
  			}
@@ -144,6 +144,11 @@ function connect(c) {
 		  	});
 		
 		  	c.on('close', function() {
+		  		// 接続が切断されたことを検知
+	 			console.log(c.peer + ' has left. : label:chat');
+	 			if ($('.connection').length === 0) {
+	 				console.log(c.peer + ' no connection');
+	 			}
 		  		delete chatConnectArray[c.peer];
 		  	});
 		}else{
