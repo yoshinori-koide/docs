@@ -17,6 +17,7 @@ var peer = new Peer({
 var connectedPeers = {};
 var chatConnectArray = {};
 var newCheckinPeers = {};
+var meObj = JSON.parse(localStorage.getItem('me'));
 
 const CHECKIN = 'checkin';
 const CHAT = 'chat';
@@ -43,31 +44,19 @@ function getPeerIdList () {
 	var meData = JSON.parse(window.localStorage.getItem('me'));
 	var myUserData = window.localStorage.getItem('user_' + meData.user_id);
 	
- 	// リクエストする
- 	function loadText(path) {
- 		req.onreadystatechange = readyStateChange;
- 		// リクエスト発行
- 		req.open("get", path, true);
- 		req.send("");
- 	}
-
- 	// 通信状態変化時イベントハンドラ
- 	function readyStateChange() {
- 		// 通信完了
- 		if(req.readyState == 4) {
- 			// テキスト扱いされてしまうので配列にする
- 			var subText = req.responseText.replace(/\[|\]|\"/g, '');
- 			var peerIdList = subText.split(',');
- 			if (peerIdList.length > 0) {
-	 			// 全員にチェックインリクエスト送る
- 				sendMeData(peerIdList,'user_' + meData.user_id,myUserData);
- 			}
- 		}
- 	}
-
  	// peerIdリストを取得する
  	var req = new XMLHttpRequest();
- 	loadText("https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb");
+ 	// リクエスト発行
+ 	req.open("get",
+ 		"https://skyway.io/active/list/cc6f5bfa-ec91-11e3-8c36-09d78563cbeb",
+ 		false);
+ 	req.send(null);
+ 	var subText = req.responseText.replace(/\[|\]|\"/g, '');
+ 	var peerIdList = subText.split(',');
+ 	if (peerIdList.length > 0) {
+ 		// 全員にチャットデータを送る
+ 		sendMeData(peerIdList,'user_' + meData.user_id,myUserData);
+ 	}
 }
 
 // 自身のプロフィールを送信する
@@ -94,7 +83,7 @@ function sendMeData(peerIdList,userId,myUserData) {
 	console.log("peerIdList:" + peerIdList);
 	var label = CHECKIN;
 	for(var i=0; i<peerIdList.length; i++) {
-		sendMyData(peerIdList[i],label,userId,myUserData)
+		sendMyData(peerIdList[i],label,userId,myUserData);
 	}
 }
 
@@ -110,11 +99,21 @@ function connect(c) {
 		c.on('open', function() {
 			// 保存
 			console.log("c.metadata.meUserData:" + c.metadata.meUserData);
+			var userObj = JSON.parse(localStorage.getItem(c.metadata.userId));
+			if(!userObj){
+				var myUserData = window.localStorage.getItem('user_' + meObj.user_id);
+				sendMyData(c.peer,CHECKIN,meObj.userId,myUserData);
+			}else{
+				localStorage.removeItem(c.metadata.userId);
+			}
 			window.localStorage.setItem(c.metadata.userId,c.metadata.meUserData);
+			// データの取得に成功したため接続を閉じる
+			c.close();
+			
 		});
  		c.on('close', function() {
  			// 接続が切断されたことを検知
- 			console.log(c.peer + ' has left.');
+ 			console.log(c.peer + ' has left. : label:checkin');
  			if ($('.connection').length === 0) {
  				console.log(c.peer + ' no connection');
  			}
@@ -125,56 +124,37 @@ function connect(c) {
  		});
 	}
 	else if (c.label === CHAT) {
-	  	/* connectedPeers[c.metadata] = new dataConnection();
-	  	connectedPeers[c.metadata] = c;
-	  	
-	  	var storeObj = JSON.parse(localStoreage.getItem(meObj.store_id));
-	  	storeObj */  			
-	
-	  	c.on('data', function(data) {
-	  		alert("getData");
-	  		// チャットを追加する
-	  		addchat(data);
-	  		
-	  		var getMsgObj = JSON.parse(data);
-	  		var userObj = JSON.parse(getMsgObj.user_id)
-	  	      	$('#chat-space')
-	  	        .append('<li class="field chat"><div class="user">' + 
-	        	'<a href="show_profile.html" class="photo"><img src=' + userObj.photo + '></a>' +
-	        	'<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
-	        	'</div>' +
-	        	'<p class="msg">' +
-	        	'<time>' + getMsgObj.date + '</time>' +
-	        	getMsgObj.msg +
-	        	'</p></li>')
-	  	});
-	
-	  	// ページ遷移でもこのイベントが発生するためすごく不便だと思うの
-	  	c.on('close', function() {
-	  		delete chatConnectArray[c.peer];
-	  		
-	  		if ($('.connection').length === 0) {
-	  			$('.filler').show();
-	  		}
-	  		
-	  		delete connectedPeers[c.peer];
-	  		
-	  		// var meObj = JSON.parse(localStorage.getItem("me")); いちいち作るの？
-	  		var storeObj = JSON.parse(localStorage.getItem('store_' + meObj.store_id));
-	  		var userArray = storeObj.user_ids.split(",");
-	  		
-	  		for(var index in userArray){
-	  			var userObj = JSON.parse(localStorage.getItem('user_' + userArray[index]));
-	  			if(c.peer === userObj.peer_id){
-	  				userArray.split(index, 1);
-	  				break;
-	  			}
-	  		}
-	  		
-	  		//ログアウトしました
-	  		alert("チェックアウトしました");
-	  		
-	  	});
+		if(c.metadata === meObj.store_id){
+	 	  	chatConnectArray[c.peer] = 1;
+		  	c.on('data', function(data) {
+		  		var getMsgObj = JSON.parse(data);
+		  		var userObj = JSON.parse(localStorage.getItem('user_' + getMsgObj.user_id));
+		  		
+		  	      	$('#chat-space')
+		  	        .append('<li class="field chat"><div class="user">' + 
+		        	'<a href="show_profile.html" class="photo"><img src=' + userObj.photo + '></a>' +
+		        	'<a href="show_profile.html" class="name">' + userObj.name + '</a>'  +
+		        	'</div>' +
+		        	'<p class="msg">' +
+		        	'<time>' + getMsgObj.date + '</time>' +
+		        	getMsgObj.msg +
+		        	'</p></li>');
+		        	
+		        	// チャットを追加する
+		  		addchat(data);
+		  	});
+		
+		  	c.on('close', function() {
+		  		// 接続が切断されたことを検知
+	 			console.log(c.peer + ' has left. : label:chat');
+	 			if ($('.connection').length === 0) {
+	 				console.log(c.peer + ' no connection');
+	 			}
+		  		delete chatConnectArray[c.peer];
+		  	});
+		}else{
+			c.close();
+		}
 	}
 }
 

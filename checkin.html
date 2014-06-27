@@ -59,9 +59,9 @@
     			maximumAge: 0                // キャッシュ有効期間（ミリ秒）
     		};
     		// 現在の位置情報を取得
-    		// navigator.geolocation.getCurrentPosition(successCallback,errorCallback,position_options);
+    		navigator.geolocation.getCurrentPosition(successCallback,errorCallback,position_options);
     		
-    		getStoreList(35.188623, 139.653483);
+    		//getStoreList(35.188623, 139.653483);
     	} else {
     		window.alert("本ブラウザではGeolocationが使えません");
     	}
@@ -73,8 +73,7 @@
     		var lon = position.coords.longitude ;
     		
     		// 近隣のお店を取得
-    		// getStoreList(lat,lon);
-    		getStoreList(35.188623, 139.653483);
+    		getStoreList(lat,lon);
     	}
 
     	// （2）位置情報の取得に失敗した場合
@@ -103,9 +102,9 @@
     }
 
  // 現在地の緯度経度をもとに近隣の店リストを取得
- function getStoreList(lat,lon) {
+ function getStoreList(lat,lng) {
 
- 	var pyrmont = new google.maps.LatLng(lat,lon);
+ 	var pyrmont = new google.maps.LatLng(lat,lng);
  	
  	map = new google.maps.Map(document.getElementById('map-canvas'), {
  		center: pyrmont,
@@ -127,7 +126,7 @@
  			var storeList2 = results;
  			storeList = storeList2;
  			for (var i = 0; i < storeList.length; i++) {
- 				storeListUl.append('<tr><td><a class="table-link">' + storeList[i].name + '</td></tr>');
+ 				storeListUl.append('<tr><td><a class="table-link">' + storeList[i].name + '</a></td></tr>');
  				createMarker(results[i]);
  			}
  		}

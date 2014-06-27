@@ -65,30 +65,34 @@
   				if(chatObj !== null){
   					// てきとーに表示、時系列並び替え必要かも
   					var userObj = JSON.parse(localStorage.getItem('user_' + chatObj.user_id));
-					   if(chatObj.user_id == meObj.user_id){
-					   $('#chat-space').append('<li class="field chat me">' +
-					'<div class="user">' +
-					"<a href='show_profile.html?id="+meObj.user_id+"' class='photo'><img src=" + userObj.photo + "></a>" +
-					'<a href="show_profile.html" class="name">' + userObj.name + '</a>' +
-					'</div>' +
-					'<p class="msg">' +
-					'<time>' + chatObj.date + '</time>' +
-					chatObj.msg +
-					'</p></li>');
-					   }else{
-					$('#chat-space').append('<li class="field chat">' +
-					'<div class="user">' +
-					"<a href='show_profile.html?id="+meObj.user_id+"' class='photo'><img src=" + userObj.photo + "></a>" +
-					'<a href="show_profile.html" class="name">' + userObj.name + '</a>' +
-					'</div>' +
-					'<p class="msg">' +
-					'<time>' + chatObj.date + '</time>' +
-					chatObj.msg +
-					'</p></li>');
-					   }
+  					if(chatObj.store_id === meObj.store_id){
+						   if(chatObj.user_id == meObj.user_id){
+						   $('#chat-space').append('<li class="field chat me">' +
+						'<div class="user">' +
+						"<a href='show_profile.html?id="+chatObj.user_id+"' class='photo'><img src=" + userObj.photo + "></a>" +
+						'<a href="show_profile.html" class="name">' + userObj.name + '</a>' +
+						'</div>' +
+						'<p class="msg">' +
+						'<time>' + chatObj.date + '</time>' +
+						chatObj.msg +
+						'</p></li>');
+						   }else{
+						$('#chat-space').append('<li class="field chat">' +
+						'<div class="user">' +
+						"<a href='show_profile.html?id="+chatObj.user_id+"' class='photo'><img src=" + userObj.photo + "></a>" +
+						'<a href="show_profile.html" class="name">' + userObj.name + '</a>' +
+						'</div>' +
+						'<p class="msg">' +
+						'<time>' + chatObj.date + '</time>' +
+						chatObj.msg +
+						'</p></li>');
+						   }
+  					}
  				}
   			}
   		}
+  		
+  		connectAllPeer();
   	});
   	
   	function connectAllPeer(){
@@ -109,13 +113,28 @@
 						 	label: 'chat',
 						 	serialization: 'none',
 						 	metadata: meObj.store_id
-						 });
-						 
-						 c.on('connect', function() {
-						 	c.send(msgObj);
-						 });
+						});
+						c.on('open', function(){
+							connect(c)
+						});
+						c.on('error', function(err) { 
+							alert(err); 
+						});
  				}
  		}
+  	}
+  	
+  	function connectedAllPeer(msg){
+  		for(var targetId in chatConnectArray){
+  			var conns = peer.connections[targetId];
+  			if(conns.length > 0){
+  				for(i = 0; i < conns.length; i++){
+  					if(conns[i].label === 'chat'){
+  						conns[i].send(msg);	
+  					}
+  				}
+  			}
+  		}
   	}
   
   	$(document).ready(function() {
@@ -127,6 +146,7 @@
   		
   		// Send a chat message to all active connections.
   		$('#send').submit(function(e) {
+  			//　これがないとリロードがかかる
   			e.preventDefault();
   			// For each active connection, send the message.
   			var nowTime = new Date();
@@ -144,7 +164,7 @@
   				'date' : strTime
   			};
   			// 接続済みのすべてのユーザにメッセージを送信
-  			connectAllPeer(msgObj);
+  			connectedAllPeer(JSON.stringify(msgObj));
   	    		
   	    		var userObj = JSON.parse(localStorage.getItem('user_' + meObj.user_id));
   			// 自身に表示する処理
