@@ -90,7 +90,7 @@ controls['selector'].activate();
                 '<h4>'+store['name']+'</h4>'+
                 '<p>並んでいる人数: '+store['count']+'人</p>'+
                 '</div>'},
-                {externalGraphic: '/img/pin.png', graphicHeight: 25, graphicWidth: 25, graphicXOffset:-15, graphicYOffset:-25  }
+                {externalGraphic: 'img/pin.png', graphicHeight: 25, graphicWidth: 25, graphicXOffset:-15, graphicYOffset:-25  }
             );
         return feature;
     }
